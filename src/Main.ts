@@ -106,7 +106,7 @@ class Main extends eui.UILayer {
     }
     private createScene() {
         if (this.isThemeLoadEnd && this.isResourceLoadEnd) {
-            this.startCreateScene();
+            this.startCreateSceneNew();
         }
     }
     /**
@@ -137,6 +137,12 @@ class Main extends eui.UILayer {
         }
     }
     private textfield: egret.TextField;
+    /**
+     *  创建场景界面
+     * Create scene interface
+     */
+    protected startCreateSceneNew(): void {
+    }
     /**
      * 创建场景界面
      * Create scene interface
