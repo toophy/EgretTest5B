@@ -1,0 +1,21 @@
+{
+    "citys": {
+        "city1": {
+            "id": 1,
+            "sort": 1,
+            "master": "player1",
+            "up2": {
+                "type": "image",
+                "data": {
+                    "shape": "rect",
+                    "color": 100,
+                    "res": "tree1_png",
+                    "width": 102,
+                    "height": 93,
+                    "x": 100,
+                    "y": 20
+                }
+            }
+        }
+    }
+}
