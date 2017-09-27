@@ -28,6 +28,9 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 class Main extends eui.UILayer {
+
+    private gameMapContainer: tgame.GameMapContainer;
+
     /**
      * 加载进度界面
      * loading process interface
@@ -142,6 +145,9 @@ class Main extends eui.UILayer {
      * Create scene interface
      */
     protected startCreateSceneNew(): void {
+        this.gameMapContainer = new tgame.GameMapContainer(this);
+        this.gameMapContainer.createScene();
+        this.addChild(this.gameMapContainer);
     }
     /**
      * 创建场景界面
