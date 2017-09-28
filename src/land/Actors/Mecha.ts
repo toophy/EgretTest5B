@@ -4,7 +4,7 @@ namespace tgame {
         private static NORMAL_ANIMATION_GROUP: string = "normal";
         private static AIM_ANIMATION_GROUP: string = "aim";
         private static ATTACK_ANIMATION_GROUP: string = "attack";
-        private static JUMP_SPEED: number = 20;
+        private static JUMP_SPEED: number = 15;
         private static NORMALIZE_MOVE_SPEED: number = 3.6;
         private static MAX_MOVE_SPEED_FRONT: number = Mecha.NORMALIZE_MOVE_SPEED * 1.4;
         private static MAX_MOVE_SPEED_BACK: number = Mecha.NORMALIZE_MOVE_SPEED * 1.0;
@@ -68,11 +68,21 @@ namespace tgame {
 
         public setParent(land: tgame.LandView, p: egret.Sprite, x: number, y: number) {
             if (this._parent != null) {
+                this._parent.removeChild(this._nameLabel);
+                this._parent.removeChild(this._sayLabel);
                 this._parent.removeChild(this._armatureDisplay);
             }
             this._land = land;
+
             this._parent = p
-            this._parent.addChild(this._armatureDisplay);
+            if (this._parent) {
+                if (this._armatureDisplay)
+                    this._parent.addChild(this._armatureDisplay);
+                if (this._nameLabel)
+                    this._parent.addChild(this._nameLabel);
+                if (this._sayLabel)
+                    this._parent.addChild(this._sayLabel);
+            }
             this._ground_y = y;
 
             this._armatureDisplay.x = x;
@@ -153,53 +163,73 @@ namespace tgame {
         }
 
         public setName(s: string) {
-            if (this._armatureDisplay) {
-                if (this._nameLabel == null) {
-                    this._nameLabel = new eui.Label();
-                    this._nameLabel.fontFamily = "宋体";
-                    this._nameLabel.size = 50;
-                    this._nameLabel.width = 350;//this._armatureDisplay.width;
-                    this._nameLabel.height = 60;
-                    this._nameLabel.x = -125;// - this._armatureDisplay.width;
-                    this._nameLabel.y = 0 - 250 - this._nameLabel.height - 20;//this._armatureDisplay.height - this._nameLabel.height - 10;
-                    this._nameLabel.textColor = 0x0000ff;
-                    this._nameLabel.textAlign = egret.HorizontalAlign.CENTER;
-                    this._nameLabel.verticalAlign = egret.VerticalAlign.MIDDLE;
-                    this._armatureDisplay.addChild(this._nameLabel);
-                }
-                if (this._nameLabel != null) {
-                    this._nameLabel.text = s;
-                    this._nameLabel.visible = true;
-                }
+            if (this._nameLabel == null) {
+                this._nameLabel = new eui.Label();
+                this._nameLabel.fontFamily = "宋体";
+                this._nameLabel.size = 20;
+                this._nameLabel.width = this._armatureDisplay.width*0.8;
+                this._nameLabel.height = 30;
+                this._nameLabel.anchorOffsetX = this._nameLabel.width/2;
+                this._nameLabel.anchorOffsetY = this._armatureDisplay.height/2 + 10;
+                this._nameLabel.x = this._armatureDisplay.x;
+                this._nameLabel.y = this._armatureDisplay.y;
+                this._nameLabel.textColor = 0x0000ff;
+                this._nameLabel.background = true;
+                this._nameLabel.backgroundColor = 0x999999;
+                this._nameLabel.textAlign = egret.HorizontalAlign.CENTER;
+                this._nameLabel.verticalAlign = egret.VerticalAlign.MIDDLE;
+                this._nameLabel.alpha = 0.7;
+                if (this._parent)
+                    this._parent.addChild(this._nameLabel);
+            }
+            if (this._nameLabel != null) {
+                this._nameLabel.text = s;
+                this._nameLabel.visible = true;
             }
         }
 
+        public _updateNameLablePos() {
+            if (this._nameLabel != null) {
+                this._nameLabel.x = this._armatureDisplay.x;
+                this._nameLabel.y = this._armatureDisplay.y;
+            }
+        }
+
+
         public saySome(s: string) {
-            if (this._armatureDisplay) {
-                if (this._sayLabel == null) {
-                    this._sayLabel = new eui.Label();
-                    this._sayLabel.fontFamily = "宋体";
-                    this._sayLabel.size = 50;
-                    this._sayLabel.width = 350;//this._armatureDisplay.width;
-                    this._sayLabel.height = 60;
-                    this._sayLabel.x = -125;// - this._armatureDisplay.width;
-                    this._sayLabel.y = 0 - 250 - this._sayLabel.height - 80;//this._armatureDisplay.height - this._sayLabel.height - 10;
-                    this._sayLabel.background = true;
-                    this._sayLabel.backgroundColor = 0xff0000;
-                    this._sayLabel.textAlign = egret.HorizontalAlign.CENTER;
-                    this._sayLabel.verticalAlign = egret.VerticalAlign.MIDDLE;
-                    this._armatureDisplay.addChild(this._sayLabel);
-                }
-                if (this._sayLabel != null) {
-                    this._sayLabel.text = s;
+            if (this._sayLabel == null) {
+                this._sayLabel = new eui.Label();
+                this._sayLabel.fontFamily = "宋体";
+                this._sayLabel.size = 20;
+                this._sayLabel.width = this._armatureDisplay.width*0.8;
+                this._sayLabel.height = 30;
+                this._sayLabel.anchorOffsetX = this._sayLabel.width/2;
+                this._sayLabel.anchorOffsetY = this._armatureDisplay.height/2 + 40;
+                this._sayLabel.x = this._armatureDisplay.x;
+                this._sayLabel.y = this._armatureDisplay.y;
+                this._sayLabel.background = true;
+                this._sayLabel.backgroundColor = 0xff0000;
+                this._sayLabel.textAlign = egret.HorizontalAlign.CENTER;
+                this._sayLabel.verticalAlign = egret.VerticalAlign.MIDDLE;
+                this._sayLabel.alpha = 0.7;
+                if (this._parent)
+                    this._parent.addChild(this._sayLabel);
+            }
+            if (this._sayLabel != null) {
+                this._sayLabel.text = s;
+                this._sayLabel.visible = true;
+            }
 
-                    this._sayLabel.visible = true;
-                }
+            var timer: egret.Timer = new egret.Timer(1500, 1);
+            timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.onsayOver, this);
+            timer.start();
+        }
 
 
-                var timer: egret.Timer = new egret.Timer(1500, 1);
-                timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.onsayOver, this);
-                timer.start();
+        public _updateSayLabalePos() {
+            if (this._sayLabel != null) {
+                this._sayLabel.x = this._armatureDisplay.x;
+                this._sayLabel.y = this._armatureDisplay.y;
             }
         }
 
@@ -219,6 +249,8 @@ namespace tgame {
             this._updatePosition();
             this._updateAim();
             this._updateAttack();
+            this._updateNameLablePos();
+            this._updateSayLabalePos();
         }
 
         private _animationEventHandler(event: dragonBones.EgretEvent): void {
