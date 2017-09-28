@@ -30,7 +30,9 @@ namespace tgame {
             // 子弹层
             s.addChild(this._bulletSprite);
 
-            this._netWork.AccountLogin("lady", "gaga");
+            let randName: Array<string> = ["lady", "gaga", "momo", "kaka", "hehe"];
+
+            this._netWork.AccountLogin( randName[Math.floor(Math.random()*randName.length)], "123456");
         }
 
         public AddActor(a: Mecha) {
@@ -39,6 +41,10 @@ namespace tgame {
             }
         }
 
+        public DelActor(a: Mecha) {
+            if (a) {
+            }
+        }
         public AddEasyAI(e: EasyAI) {
             if (e) {
                 this._easyActorAI.push(e);
@@ -88,40 +94,6 @@ namespace tgame {
             this._player._keyHandler(event);
         }
 
-
-        // private TouchNewActor(x: number, y: number) {
-        //     // 新建演员
-        //     // 属于谁?
-        //     let newPos: egret.Point = new egret.Point();
-        //     this.citySprite[2].globalToLocal(x, y, newPos)
-        //     let tmpActor: Mecha = new Mecha();
-        //     tmpActor.setParent(this, this.citySprite[2], newPos.x, 150 /*newPos.y*/);
-        //     tmpActor.setMoveRange(3 * 1136, 640);
-        //     this._actors.push(tmpActor);
-
-        //     let tmpActorAI: EasyAI = new EasyAI();
-        //     tmpActorAI.setActor(tmpActor);
-        //     this._easyActorAI.push(tmpActorAI);
-        // }
-
     }
-
-    // land 再次划分
-    // 分为 页, 行, 列
-    // 第一页 : 背景
-    //         上 中上 中 下 四行
-    // 第二页 : 建筑
-    //         上 中上 中 下 四行, 一般是由中上行存在建筑
-    // 第三页 : 角色
-    //         上 中上 中 下 四行, 一般是由中行存在角色
-    // 第四页 : 装饰
-    //         上 中上 中 下 四行, 一般是下行存在装饰
-    //
-    // Load 一个城市的配置, 分为不同页
-    //
-    // 依据上面的结论, 提前划分为不同的sprite, 按照显示顺序排排队
-    // 第一页 上, 第二页 上,...
-    // 第一页 中上, 第二页中上 ...
-
 }
 

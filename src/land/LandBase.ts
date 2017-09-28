@@ -23,6 +23,21 @@ namespace tgame {
             this.landView = l;
         }
 
+        public AddActor(name: string, x: number, y: number): EasyAI {
+
+            let tmpActor: Mecha = new Mecha();
+            tmpActor.setName(name);
+            tmpActor.setParent(this.landView, this.citySprite[2], x, y);
+            tmpActor.setMoveRange(3 * 1136, 640);
+            this.landView.AddActor(tmpActor);
+
+            let tmpActorAI: EasyAI = new EasyAI();
+            tmpActorAI.setActor(tmpActor);
+            this.landView.AddEasyAI(tmpActorAI);
+
+            return tmpActorAI;
+        }
+
         public SetTargetViewPos(p: egret.Point) {
             let distance: number = egret.Point.distance(this._targetViewPos, p);
             if (distance > 1.0) {

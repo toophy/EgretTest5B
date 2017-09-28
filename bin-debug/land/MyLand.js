@@ -25,11 +25,16 @@ var tgame;
             this._base.ShowLand(s);
             // 子弹层
             s.addChild(this._bulletSprite);
-            this._netWork.AccountLogin("lady", "gaga");
+            var randName = ["lady", "gaga", "momo", "kaka", "hehe"];
+            this._netWork.AccountLogin(randName[Math.floor(Math.random() * randName.length)], "123456");
         };
         LandView.prototype.AddActor = function (a) {
             if (a) {
                 this._actors.push(a);
+            }
+        };
+        LandView.prototype.DelActor = function (a) {
+            if (a) {
             }
         };
         LandView.prototype.AddEasyAI = function (e) {
@@ -74,21 +79,5 @@ var tgame;
     }());
     tgame.LandView = LandView;
     __reflect(LandView.prototype, "tgame.LandView");
-    // land 再次划分
-    // 分为 页, 行, 列
-    // 第一页 : 背景
-    //         上 中上 中 下 四行
-    // 第二页 : 建筑
-    //         上 中上 中 下 四行, 一般是由中上行存在建筑
-    // 第三页 : 角色
-    //         上 中上 中 下 四行, 一般是由中行存在角色
-    // 第四页 : 装饰
-    //         上 中上 中 下 四行, 一般是下行存在装饰
-    //
-    // Load 一个城市的配置, 分为不同页
-    //
-    // 依据上面的结论, 提前划分为不同的sprite, 按照显示顺序排排队
-    // 第一页 上, 第二页 上,...
-    // 第一页 中上, 第二页中上 ...
 })(tgame || (tgame = {}));
 //# sourceMappingURL=MyLand.js.map

@@ -18,6 +18,17 @@ var tgame;
             this._targetViewRun = false;
             this.landView = l;
         }
+        LandBase.prototype.AddActor = function (name, x, y) {
+            var tmpActor = new tgame.Mecha();
+            tmpActor.setName(name);
+            tmpActor.setParent(this.landView, this.citySprite[2], x, y);
+            tmpActor.setMoveRange(3 * 1136, 640);
+            this.landView.AddActor(tmpActor);
+            var tmpActorAI = new tgame.EasyAI();
+            tmpActorAI.setActor(tmpActor);
+            this.landView.AddEasyAI(tmpActorAI);
+            return tmpActorAI;
+        };
         LandBase.prototype.SetTargetViewPos = function (p) {
             var distance = egret.Point.distance(this._targetViewPos, p);
             if (distance > 1.0) {

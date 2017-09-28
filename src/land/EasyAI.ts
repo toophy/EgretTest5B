@@ -136,5 +136,38 @@ namespace tgame {
         public saySome(s: string) {
             this._actor.saySome(s);
         }
+
+        public moveLeft(isDown: boolean) {
+            this._left = isDown;
+            this._updateMove(-1);
+        }
+
+        public moveRight(isDown: boolean) {
+            this._right = isDown;
+            this._updateMove(1);
+        }
+
+        public jump(isDown: boolean) {
+            if (isDown) {
+                this._actor.jump();
+            }
+        }
+
+        public squat(isDown: boolean) {
+            this._actor.squat(isDown);
+        }
+
+        public switchWeaponR(isDown: boolean) {
+            if (isDown) {
+                this._actor.switchWeaponR();
+            }
+        }
+
+        public switchWeaponL(isDown: boolean) {
+            if (isDown) {
+                this._actor.switchWeaponL();
+            }
+        }
+
     }
 }

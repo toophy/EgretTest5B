@@ -126,6 +126,32 @@ var tgame;
         EasyAI.prototype.saySome = function (s) {
             this._actor.saySome(s);
         };
+        EasyAI.prototype.moveLeft = function (isDown) {
+            this._left = isDown;
+            this._updateMove(-1);
+        };
+        EasyAI.prototype.moveRight = function (isDown) {
+            this._right = isDown;
+            this._updateMove(1);
+        };
+        EasyAI.prototype.jump = function (isDown) {
+            if (isDown) {
+                this._actor.jump();
+            }
+        };
+        EasyAI.prototype.squat = function (isDown) {
+            this._actor.squat(isDown);
+        };
+        EasyAI.prototype.switchWeaponR = function (isDown) {
+            if (isDown) {
+                this._actor.switchWeaponR();
+            }
+        };
+        EasyAI.prototype.switchWeaponL = function (isDown) {
+            if (isDown) {
+                this._actor.switchWeaponL();
+            }
+        };
         EasyAI._says = ["呵呵呵", "哈哈哈", "嘿嘿嘿", "叽叽叽叽", "O(∩_∩)O哈哈哈~", "吼吼吼"];
         return EasyAI;
     }());
