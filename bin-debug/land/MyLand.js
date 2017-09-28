@@ -204,16 +204,22 @@ var tgame;
                 }
             }
         };
-        LandView.prototype.SetTargetViewPos = function (x, y, speed) {
-            this._targetViewRun = true;
-            this._targetViewPos.x = x;
-            this._targetViewPos.y = y;
-            this._targetViewPos.y = this._viewPos.y;
-            if (this._viewPos.x <= this._targetViewPos.x) {
-                this._targetViewSpeed = speed;
-            }
-            else {
-                this._targetViewSpeed = -speed;
+        LandView.prototype.SetTargetViewPos = function (p) {
+            var distance = egret.Point.distance(this._targetViewPos, p);
+            if (distance > 1.0) {
+                this._targetViewRun = true;
+                this._targetViewPos.x = p.x;
+                this._targetViewPos.y = p.y;
+                this._targetViewPos.y = this._viewPos.y;
+                var speed = 5;
+                if (distance > 30)
+                    speed = 100;
+                if (this._viewPos.x <= this._targetViewPos.x) {
+                    this._targetViewSpeed = speed;
+                }
+                else {
+                    this._targetViewSpeed = -speed;
+                }
             }
         };
         LandView.prototype.Update = function () {
@@ -229,6 +235,11 @@ var tgame;
                 if (bullet.update()) {
                     this._bullets.splice(i, 1);
                 }
+            }
+            if (this._player != null) {
+                var point = new egret.Point();
+                this._player.getPoint(point);
+                this.SetTargetViewPos(point);
             }
             //视口滚动
             this.ScrollLand();
@@ -251,9 +262,6 @@ var tgame;
                     this._playerAI = this._easyActorAI[nextPlayer];
                     this._player = this._playerAI.getActor();
                     this._playerAI.enablePlayer(true);
-                    var point = new egret.Point();
-                    this._player.getPoint(point);
-                    this.SetTargetViewPos(point.x, point.y, 100);
                 }
             }
         };
@@ -291,10 +299,6 @@ var tgame;
                     {
                         this._playerAI._left = isDown;
                         this._playerAI._updateMove(-1);
-                        var point = new egret.Point();
-                        this._player.getPoint(point);
-                        this.SetTargetViewPos(point.x, point.y, 5);
-                        egret.log("left walk");
                     }
                     break;
                 case 39:
@@ -302,29 +306,18 @@ var tgame;
                     {
                         this._playerAI._right = isDown;
                         this._playerAI._updateMove(1);
-                        var point = new egret.Point();
-                        this._player.getPoint(point);
-                        this.SetTargetViewPos(point.x, point.y, 5);
-                        egret.log("right walk");
                     }
                     break;
                 case 38:
                 case 87:
                     if (isDown) {
                         this._player.jump();
-                        var point = new egret.Point();
-                        this._player.getPoint(point);
-                        this.SetTargetViewPos(point.x, point.y, 5);
-                        egret.log("jump");
                     }
                     break;
                 case 83:
                 case 40:
                     {
                         this._player.squat(isDown);
-                        var point = new egret.Point();
-                        this._player.getPoint(point);
-                        this.SetTargetViewPos(point.x, point.y, 5);
                     }
                     break;
                 case 81:
