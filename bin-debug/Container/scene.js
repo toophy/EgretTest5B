@@ -40,6 +40,7 @@ var tgame;
             this._lands = new tgame.LandView();
             this._lands.LoadLand(data);
             this._lands.ShowLand(this);
+            this._lands.AccountLogin("lady", "gaga");
             this.touchEnabled = true;
             this.addEventListener(egret.Event.ENTER_FRAME, this.onUpdateFrame, this);
             this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touchHandler, this);
