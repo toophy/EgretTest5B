@@ -1,16 +1,9 @@
 // TypeScript file
 
 namespace tgame {
-
     export class LandView {
 
-        private up_height: number = 240;
-        private up2_height: number = 100;//66;
-        private middle_height: number = 200;//76;
-        private down_height: number = 100;//62;
-
-        private cnfs: CnfLand;
-        private citySprite: Array<egret.Sprite> = [];
+        private _base: LandBase = null;
 
         private _actors: Array<Mecha> = [];
         private _bullets: Array<Bullet> = [];
@@ -19,21 +12,39 @@ namespace tgame {
         private _player: Mecha = null;
         private _playerAI: EasyAI = null;
 
-        private _viewPos: egret.Point = new egret.Point();
-        private _targetViewPos: egret.Point = new egret.Point();
-        private _targetViewSpeed: number = 0.1;
-        private _targetViewRun: boolean = false;
-
         private _netWork: Network;
         private _account: string;
         private _pwd: string;
 
         public constructor() {
+            this._base = new LandBase(this);
             this._bulletSprite = new egret.Sprite();
             this._netWork = new Network();
             this._netWork.setConnectHandler(this.onNetConnected, this);
             this._netWork.setCloseHandler(this.onNetClose, this);
             this._netWork.setErrorHandler(this.onNetError, this);
+        }
+
+        public LoadLand(jsonData: any) {
+            this._base.LoadLand(jsonData);
+        }
+
+        public ShowLand(s: egret.Sprite) {
+            this._base.ShowLand(s);
+            // 子弹层
+            s.addChild(this._bulletSprite);
+        }
+
+        public AddActor(a: Mecha) {
+            if (a) {
+                this._actors.push(a);
+            }
+        }
+
+        public AddEasyAI(e: EasyAI) {
+            if (e) {
+                this._easyActorAI.push(e);
+            }
         }
 
         public AccountLogin(account: string, pwd: string) {
@@ -77,189 +88,6 @@ namespace tgame {
             }
         }
 
-        private loadCityUp() {
-            let cts: egret.Sprite = new egret.Sprite();
-            cts.x = 0;
-            cts.y = 0;
-            this.citySprite.push(cts);
-
-            let i: number = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.citys[p] != null) {
-                    this.LoadCityRow(cts, this.cnfs.citys[p].up, i * 1136, 0, 1136, this.up_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.builds[p] != null) {
-                    this.LoadCityBuild(cts, this.cnfs.builds[p].up, i * 1136, 0, 1136, this.up_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.actors[p] != null) {
-                    this.LoadCityActor(cts, this.cnfs.actors[p].up, i * 1136, 0, 1136, this.up_height);
-                }
-                ++i;
-            }
-        }
-
-        private loadCityUp2() {
-            let cts: egret.Sprite = new egret.Sprite();
-            cts.x = 0;
-            cts.y = this.up_height;
-            this.citySprite.push(cts);
-
-            let i: number = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.citys[p] != null) {
-                    this.LoadCityRow(cts, this.cnfs.citys[p].up2, i * 1136, 0, 1136, this.up2_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.builds[p] != null) {
-                    this.LoadCityBuild(cts, this.cnfs.builds[p].up2, i * 1136, 0, 1136, this.up2_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.actors[p] != null) {
-                    this.LoadCityActor(cts, this.cnfs.actors[p].up2, i * 1136, 0, 1136, this.up2_height);
-                }
-                ++i;
-            }
-        }
-
-        private loadCityMiddle() {
-            let cts: egret.Sprite = new egret.Sprite();
-            cts.x = 0;
-            cts.y = this.up_height + this.up2_height;
-            this.citySprite.push(cts);
-
-            let i: number = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.citys[p] != null) {
-                    this.LoadCityRow(cts, this.cnfs.citys[p].middle, i * 1136, 0, 1136, this.middle_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.builds[p] != null) {
-                    this.LoadCityBuild(cts, this.cnfs.builds[p].middle, i * 1136, 0, 1136, this.middle_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.actors[p] != null) {
-                    this.LoadCityActor(cts, this.cnfs.actors[p].middle, i * 1136, 0, 1136, this.middle_height);
-                }
-                ++i;
-            }
-        }
-
-        private loadCityDown() {
-            let cts: egret.Sprite = new egret.Sprite();
-            cts.x = 0;
-            cts.y = this.up_height + this.up2_height + this.middle_height;
-            this.citySprite.push(cts);
-
-            let i: number = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.citys[p] != null) {
-                    this.LoadCityRow(cts, this.cnfs.citys[p].down, i * 1136, 0, 1136, this.down_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.builds[p] != null) {
-                    this.LoadCityBuild(cts, this.cnfs.builds[p].down, i * 1136, 0, 1136, this.down_height);
-                }
-                ++i;
-            }
-
-            i = 0;
-            for (let p in this.cnfs.citys) {
-                if (this.cnfs.actors[p] != null) {
-                    this.LoadCityActor(cts, this.cnfs.actors[p].down, i * 1136, 0, 1136, this.down_height);
-                }
-                ++i;
-            }
-        }
-
-        public LoadLand(jsonData: any) {
-            this.cnfs = <CnfLand>jsonData;
-            this.loadCityUp();
-            this.loadCityUp2();
-            this.loadCityMiddle();
-            this.loadCityDown();
-
-            this._viewPos.setTo(1136 / 2, 640 / 2);
-        }
-
-        public ShowLand(s: egret.Sprite) {
-            for (let i = 0; i < this.citySprite.length; ++i) {
-                s.addChild(this.citySprite[i]);
-            }
-
-            // 子弹层
-            s.addChild(this._bulletSprite);
-        }
-
-        public ScrollLand() {
-            if (!this._targetViewRun) {
-                return;
-            }
-
-            if (egret.Point.distance(this._targetViewPos, this._viewPos) > Math.abs(this._targetViewSpeed)) {
-                let oldx: number = this._viewPos.x;
-                this._viewPos.x = oldx + this._targetViewSpeed;
-                for (let i = 0; i < this.citySprite.length; ++i) {
-                    this.citySprite[i].x += (oldx - this._viewPos.x);
-                }
-            } else {
-                this._targetViewRun = false;
-                let oldx: number = this._viewPos.x;
-                this._viewPos.x = this._targetViewPos.x;
-                for (let i = 0; i < this.citySprite.length; ++i) {
-                    this.citySprite[i].x += (oldx - this._viewPos.x);
-                }
-            }
-        }
-
-        public SetTargetViewPos(p: egret.Point) {
-            let distance:number = egret.Point.distance(this._targetViewPos, p);
-            if (distance > 1.0) {
-                this._targetViewRun = true;
-                this._targetViewPos.x = p.x;
-                this._targetViewPos.y = p.y;
-                this._targetViewPos.y = this._viewPos.y;
-                let speed:number = 5;
-                if ( distance>30 )
-                    speed = 100;
-                if (this._viewPos.x <= this._targetViewPos.x) {
-                    this._targetViewSpeed = speed;
-                } else {
-                    this._targetViewSpeed = -speed;
-                }
-            }
-
-        }
-
         public Update() {
 
             for (let i in this._easyActorAI) {
@@ -280,11 +108,11 @@ namespace tgame {
             if (this._player != null) {
                 let point: egret.Point = new egret.Point();
                 this._player.getPoint(point);
-                this.SetTargetViewPos(point);
+                this._base.SetTargetViewPos(point);
             }
 
             //视口滚动
-            this.ScrollLand();
+            this._base.ScrollLand();
         }
 
         public addBullet(bullet: Bullet): void {
@@ -328,7 +156,7 @@ namespace tgame {
                     this._player.attack(false);
                 }
 
-                this.TouchNewActor(event.stageX, event.stageY);
+                //this.TouchNewActor(event.stageX, event.stageY);
             }
         }
 
@@ -398,110 +226,21 @@ namespace tgame {
             }
         }
 
-        private TouchNewActor(x: number, y: number) {
-            // 新建演员
-            // 属于谁?
-            let newPos: egret.Point = new egret.Point();
-            this.citySprite[2].globalToLocal(x, y, newPos)
-            let tmpActor: Mecha = new Mecha();
-            tmpActor.setParent(this, this.citySprite[2], newPos.x, 150 /*newPos.y*/);
-            tmpActor.setMoveRange(3 * 1136, 640);
-            this._actors.push(tmpActor);
+        // private TouchNewActor(x: number, y: number) {
+        //     // 新建演员
+        //     // 属于谁?
+        //     let newPos: egret.Point = new egret.Point();
+        //     this.citySprite[2].globalToLocal(x, y, newPos)
+        //     let tmpActor: Mecha = new Mecha();
+        //     tmpActor.setParent(this, this.citySprite[2], newPos.x, 150 /*newPos.y*/);
+        //     tmpActor.setMoveRange(3 * 1136, 640);
+        //     this._actors.push(tmpActor);
 
-            let tmpActorAI: EasyAI = new EasyAI();
-            tmpActorAI.setActor(tmpActor);
-            this._easyActorAI.push(tmpActorAI);
-        }
+        //     let tmpActorAI: EasyAI = new EasyAI();
+        //     tmpActorAI.setActor(tmpActor);
+        //     this._easyActorAI.push(tmpActorAI);
+        // }
 
-        private LoadCityRow(cts: egret.Sprite, ctr: CnfCityRow, x: number, y: number, w: number, h: number) {
-            if (ctr == null || cts == null) {
-                return;
-            }
-
-            if (ctr.type == "shape") {
-                let bg: egret.Shape = new egret.Shape();
-                bg.graphics.beginFill(ctr.data.color, 100);
-                bg.graphics.drawRect(0, 0, ctr.data.width, ctr.data.height);
-                bg.graphics.endFill();
-                bg.width = w;
-                bg.height = h;
-                bg.x = x;
-                bg.y = y;
-                cts.addChild(bg);
-            } else if (ctr.type == "image") {
-                let bg4: egret.Bitmap = new egret.Bitmap(RES.getRes(ctr.data.res));
-                bg4.width = w;
-                bg4.height = h;
-                bg4.x = x;
-                bg4.y = y;
-                cts.addChild(bg4);
-            }
-        }
-
-        private LoadCityBuild(cts: egret.Sprite, ctr: Array<CnfBuildRow>, x: number, y: number, w: number, h: number) {
-            if (ctr == null || cts == null) {
-                return;
-            }
-
-            for (let i in ctr) {
-                let lc = ctr[i]
-
-                if (lc.type == "shape") {
-                    let bg: egret.Shape = new egret.Shape();
-                    bg.graphics.beginFill(lc.data.color, 100);
-                    bg.graphics.drawRect(0, 0, lc.data.width, lc.data.height);
-                    bg.graphics.endFill();
-                    bg.x = x + lc.data.x;
-                    bg.y = y + lc.data.y;
-                    cts.addChild(bg);
-                } else if (lc.type == "image") {
-                    let bg4: egret.Bitmap = new egret.Bitmap(RES.getRes(lc.data.res));
-                    bg4.x = x + lc.data.x;
-                    bg4.y = y + lc.data.y;
-                    cts.addChild(bg4);
-                } else if (lc.type == "animation") {
-                    let tmpActor: Mecha = new Mecha();
-                    tmpActor.setParent(this, cts, x + lc.data.x, y + lc.data.y);
-                    tmpActor.setMoveRange(3 * 1136, 640);
-                    this._actors.push(tmpActor);
-                }
-            }
-        }
-
-        private LoadCityActor(cts: egret.Sprite, ctr: Array<CnfActorRow>, x: number, y: number, w: number, h: number) {
-            if (ctr == null || cts == null) {
-                return;
-            }
-
-            for (let i in ctr) {
-                let lc = ctr[i]
-
-                if (lc.type == "shape") {
-                    let bg: egret.Shape = new egret.Shape();
-                    bg.graphics.beginFill(lc.data.color, 100);
-                    bg.graphics.drawRect(0, 0, lc.data.width, lc.data.height);
-                    bg.graphics.endFill();
-                    bg.x = x + lc.data.x;
-                    bg.y = y + lc.data.y;
-                    cts.addChild(bg);
-                } else if (lc.type == "image") {
-                    let bg4: egret.Bitmap = new egret.Bitmap(RES.getRes(lc.data.res));
-                    bg4.x = x + lc.data.x;
-                    bg4.y = y + lc.data.y;
-                    cts.addChild(bg4);
-                } else if (lc.type == "animation") {
-                    let tmpActor: Mecha = new Mecha();
-                    tmpActor.setName(lc.data.name);
-                    tmpActor.setParent(this, cts, x + lc.data.x, y + lc.data.y);
-                    tmpActor.setMoveRange(3 * 1136, 640);
-                    this._actors.push(tmpActor);
-
-                    let tmpActorAI: EasyAI = new EasyAI();
-                    tmpActorAI.setActor(tmpActor);
-                    this._easyActorAI.push(tmpActorAI);
-                }
-            }
-        }
     }
 
     // land 再次划分
