@@ -3,26 +3,22 @@
 namespace tgame {
     export class LandView {
 
-        private _base: LandBase = null;
+        public _base: LandBase = null;
+        public _player: LandPlayer = null;
+        public _netWork: LandNetwork = null;
 
         private _actors: Array<Mecha> = [];
         private _bullets: Array<Bullet> = [];
-        private _easyActorAI: Array<EasyAI> = [];
+        public _easyActorAI: Array<EasyAI> = [];
         private _bulletSprite: egret.Sprite = null;
-        private _player: Mecha = null;
-        private _playerAI: EasyAI = null;
-
-        private _netWork: Network;
-        private _account: string;
-        private _pwd: string;
 
         public constructor() {
             this._base = new LandBase(this);
+            this._player = new LandPlayer(this);
+            this._netWork = new LandNetwork(this);
+
             this._bulletSprite = new egret.Sprite();
-            this._netWork = new Network();
-            this._netWork.setConnectHandler(this.onNetConnected, this);
-            this._netWork.setCloseHandler(this.onNetClose, this);
-            this._netWork.setErrorHandler(this.onNetError, this);
+
         }
 
         public LoadLand(jsonData: any) {
@@ -33,6 +29,8 @@ namespace tgame {
             this._base.ShowLand(s);
             // 子弹层
             s.addChild(this._bulletSprite);
+
+            this._netWork.AccountLogin("lady", "gaga");
         }
 
         public AddActor(a: Mecha) {
@@ -44,47 +42,6 @@ namespace tgame {
         public AddEasyAI(e: EasyAI) {
             if (e) {
                 this._easyActorAI.push(e);
-            }
-        }
-
-        public AccountLogin(account: string, pwd: string) {
-            this._account = account;
-            this._pwd = pwd;
-            this._netWork.connect("localhost", "echo", 8080);
-        }
-
-        private onNetConnected() {
-            if (this._netWork) {
-                this._netWork.bind("Index.Login", this.onLogin, this);
-                this._netWork.bind("Scene.Skill", this.onSkill, this);
-
-                this._netWork.send("Index", "Login", { "name": this._account, "pwd": this._pwd });
-            }
-        }
-
-        private onNetError() {
-        }
-
-        private onNetClose() {
-        }
-
-        private onLogin(data: any) {
-            console.log("onLogin %s:%s:%s", data["name"], data["pwd"], data["ret"]);
-        }
-
-        private onSkill(data: any) {
-            // 技能名称
-            // 技能目标
-            // 
-            // data["account"]
-            // 某一个帐号
-            switch (data["name"]) {
-                case "move_left":
-                    break;
-                case "move_right":
-                    break;
-                case "jump":
-                    break;
             }
         }
 
@@ -105,11 +62,7 @@ namespace tgame {
                 }
             }
 
-            if (this._player != null) {
-                let point: egret.Point = new egret.Point();
-                this._player.getPoint(point);
-                this._base.SetTargetViewPos(point);
-            }
+            this._player.update();
 
             //视口滚动
             this._base.ScrollLand();
@@ -123,108 +76,18 @@ namespace tgame {
             return this._bulletSprite;
         }
 
-        private randomPlayer() {
-            if (this._easyActorAI.length > 0) {
-                if (this._playerAI != null) {
-                    this._playerAI.enablePlayer(false);
-                    this._player = null;
-                    this._playerAI = null;
-                }
-
-                let nextPlayer: number = Math.floor(Math.random() * this._easyActorAI.length);
-                if (nextPlayer < this._easyActorAI.length) {
-                    this._playerAI = this._easyActorAI[nextPlayer];
-                    this._player = this._playerAI.getActor();
-                    this._playerAI.enablePlayer(true);
-                }
-            }
-        }
-
         public _touchMove(x: number, y: number) {
-            if (this._player != null) {
-                this._player.aim(x, y);
-            }
+            this._player._touchMove(x, y);
         }
 
         public _touchHandler(event: egret.TouchEvent): void {
-            if (this._player != null) {
-                this._player.aim(event.stageX, event.stageY);
-
-                if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
-                    this._player.attack(true);
-                } else {
-                    this._player.attack(false);
-                }
-
-                //this.TouchNewActor(event.stageX, event.stageY);
-            }
+            this._player._touchHandler(event);
         }
 
         public _keyHandler(event: KeyboardEvent): void {
-
-            const isDown: boolean = event.type == "keydown";
-            if (event.keyCode == 13) {
-                if (!isDown) {
-                    this.randomPlayer();
-                }
-                return;
-            }
-
-            if (this._player == null) {
-                return;
-            }
-
-            switch (event.keyCode) {
-                case 37:
-                case 65:
-                    {
-                        this._playerAI._left = isDown;
-                        this._playerAI._updateMove(-1);
-                    }
-                    break;
-
-                case 39:
-                case 68:
-                    {
-                        this._playerAI._right = isDown;
-                        this._playerAI._updateMove(1);
-                    }
-                    break;
-
-                case 38:
-                case 87:
-                    if (isDown) {
-                        this._player.jump();
-                    }
-                    break;
-
-                case 83:
-                case 40:
-                    {
-                        this._player.squat(isDown);
-                    }
-                    break;
-
-                case 81:
-                    if (isDown) {
-                        this._player.switchWeaponR();
-                    }
-                    break;
-
-                case 69:
-                    if (isDown) {
-                        this._player.switchWeaponL();
-                    }
-                    break;
-
-                case 32:
-                    if (isDown) {
-                        this._player.switchWeaponR();
-                        this._player.switchWeaponL();
-                    }
-                    break;
-            }
+            this._player._keyHandler(event);
         }
+
 
         // private TouchNewActor(x: number, y: number) {
         //     // 新建演员

@@ -7,18 +7,16 @@ var tgame;
     var LandView = (function () {
         function LandView() {
             this._base = null;
+            this._player = null;
+            this._netWork = null;
             this._actors = [];
             this._bullets = [];
             this._easyActorAI = [];
             this._bulletSprite = null;
-            this._player = null;
-            this._playerAI = null;
             this._base = new tgame.LandBase(this);
+            this._player = new tgame.LandPlayer(this);
+            this._netWork = new tgame.LandNetwork(this);
             this._bulletSprite = new egret.Sprite();
-            this._netWork = new Network();
-            this._netWork.setConnectHandler(this.onNetConnected, this);
-            this._netWork.setCloseHandler(this.onNetClose, this);
-            this._netWork.setErrorHandler(this.onNetError, this);
         }
         LandView.prototype.LoadLand = function (jsonData) {
             this._base.LoadLand(jsonData);
@@ -27,6 +25,7 @@ var tgame;
             this._base.ShowLand(s);
             // 子弹层
             s.addChild(this._bulletSprite);
+            this._netWork.AccountLogin("lady", "gaga");
         };
         LandView.prototype.AddActor = function (a) {
             if (a) {
@@ -36,40 +35,6 @@ var tgame;
         LandView.prototype.AddEasyAI = function (e) {
             if (e) {
                 this._easyActorAI.push(e);
-            }
-        };
-        LandView.prototype.AccountLogin = function (account, pwd) {
-            this._account = account;
-            this._pwd = pwd;
-            this._netWork.connect("localhost", "echo", 8080);
-        };
-        LandView.prototype.onNetConnected = function () {
-            if (this._netWork) {
-                this._netWork.bind("Index.Login", this.onLogin, this);
-                this._netWork.bind("Scene.Skill", this.onSkill, this);
-                this._netWork.send("Index", "Login", { "name": this._account, "pwd": this._pwd });
-            }
-        };
-        LandView.prototype.onNetError = function () {
-        };
-        LandView.prototype.onNetClose = function () {
-        };
-        LandView.prototype.onLogin = function (data) {
-            console.log("onLogin %s:%s:%s", data["name"], data["pwd"], data["ret"]);
-        };
-        LandView.prototype.onSkill = function (data) {
-            // 技能名称
-            // 技能目标
-            // 
-            // data["account"]
-            // 某一个帐号
-            switch (data["name"]) {
-                case "move_left":
-                    break;
-                case "move_right":
-                    break;
-                case "jump":
-                    break;
             }
         };
         LandView.prototype.Update = function () {
@@ -86,11 +51,7 @@ var tgame;
                     this._bullets.splice(i, 1);
                 }
             }
-            if (this._player != null) {
-                var point = new egret.Point();
-                this._player.getPoint(point);
-                this._base.SetTargetViewPos(point);
-            }
+            this._player.update();
             //视口滚动
             this._base.ScrollLand();
         };
@@ -100,93 +61,14 @@ var tgame;
         LandView.prototype.getBulletLayer = function () {
             return this._bulletSprite;
         };
-        LandView.prototype.randomPlayer = function () {
-            if (this._easyActorAI.length > 0) {
-                if (this._playerAI != null) {
-                    this._playerAI.enablePlayer(false);
-                    this._player = null;
-                    this._playerAI = null;
-                }
-                var nextPlayer = Math.floor(Math.random() * this._easyActorAI.length);
-                if (nextPlayer < this._easyActorAI.length) {
-                    this._playerAI = this._easyActorAI[nextPlayer];
-                    this._player = this._playerAI.getActor();
-                    this._playerAI.enablePlayer(true);
-                }
-            }
-        };
         LandView.prototype._touchMove = function (x, y) {
-            if (this._player != null) {
-                this._player.aim(x, y);
-            }
+            this._player._touchMove(x, y);
         };
         LandView.prototype._touchHandler = function (event) {
-            if (this._player != null) {
-                this._player.aim(event.stageX, event.stageY);
-                if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
-                    this._player.attack(true);
-                }
-                else {
-                    this._player.attack(false);
-                }
-                //this.TouchNewActor(event.stageX, event.stageY);
-            }
+            this._player._touchHandler(event);
         };
         LandView.prototype._keyHandler = function (event) {
-            var isDown = event.type == "keydown";
-            if (event.keyCode == 13) {
-                if (!isDown) {
-                    this.randomPlayer();
-                }
-                return;
-            }
-            if (this._player == null) {
-                return;
-            }
-            switch (event.keyCode) {
-                case 37:
-                case 65:
-                    {
-                        this._playerAI._left = isDown;
-                        this._playerAI._updateMove(-1);
-                    }
-                    break;
-                case 39:
-                case 68:
-                    {
-                        this._playerAI._right = isDown;
-                        this._playerAI._updateMove(1);
-                    }
-                    break;
-                case 38:
-                case 87:
-                    if (isDown) {
-                        this._player.jump();
-                    }
-                    break;
-                case 83:
-                case 40:
-                    {
-                        this._player.squat(isDown);
-                    }
-                    break;
-                case 81:
-                    if (isDown) {
-                        this._player.switchWeaponR();
-                    }
-                    break;
-                case 69:
-                    if (isDown) {
-                        this._player.switchWeaponL();
-                    }
-                    break;
-                case 32:
-                    if (isDown) {
-                        this._player.switchWeaponR();
-                        this._player.switchWeaponL();
-                    }
-                    break;
-            }
+            this._player._keyHandler(event);
         };
         return LandView;
     }());
