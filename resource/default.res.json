@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,CoreElement_json,CoreElement_texture_1_json,CoreElement_texture_1_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,CoreElement_json,CoreElement_texture_1_json,CoreElement_texture_1_png,account_json,bg1_jpg,bg2_jpg,bg3_jpg,bg4_jpg,citys_json,city_lays_json,land_json,lands_json,land_build_json,land_toophy_json,roles_json,tree1_png",
 			"name": "preload"
 		}
 	],
@@ -150,6 +150,71 @@
 			"name": "CoreElement_texture_1_png",
 			"type": "image",
 			"url": "assets/Actors/Mecha/CoreElement_texture_1.png"
+		},
+		{
+			"name": "account_json",
+			"type": "json",
+			"url": "assets/land/account.json"
+		},
+		{
+			"name": "bg1_jpg",
+			"type": "image",
+			"url": "assets/land/bg1.jpg"
+		},
+		{
+			"name": "bg2_jpg",
+			"type": "image",
+			"url": "assets/land/bg2.jpg"
+		},
+		{
+			"name": "bg3_jpg",
+			"type": "image",
+			"url": "assets/land/bg3.jpg"
+		},
+		{
+			"name": "bg4_jpg",
+			"type": "image",
+			"url": "assets/land/bg4.jpg"
+		},
+		{
+			"name": "citys_json",
+			"type": "json",
+			"url": "assets/land/citys.json"
+		},
+		{
+			"name": "city_lays_json",
+			"type": "json",
+			"url": "assets/land/city_lays.json"
+		},
+		{
+			"name": "land_json",
+			"type": "json",
+			"url": "assets/land/land.json"
+		},
+		{
+			"name": "lands_json",
+			"type": "json",
+			"url": "assets/land/lands.json"
+		},
+		{
+			"name": "land_build_json",
+			"type": "json",
+			"url": "assets/land/land_build.json"
+		},
+		{
+			"name": "land_toophy_json",
+			"type": "json",
+			"url": "assets/land/land_toophy.json"
+		},
+		{
+			"name": "roles_json",
+			"type": "json",
+			"url": "assets/land/roles.json"
+		},
+		{
+			"name": "tree1_png",
+			"type": "image",
+			"url": "assets/land/tree1.png"
 		}
 	]
 }

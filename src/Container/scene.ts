@@ -28,8 +28,8 @@ namespace tgame {
 
 
             GameMapContainer.GROUND = this.rootContainer.stage.stageHeight - 150;
-            this.factory.parseDragonBonesData(RES.getRes("dragonBonesData"));
-            this.factory.parseTextureAtlasData(RES.getRes("textureDataA"), RES.getRes("textureA"));
+            this.factory.parseDragonBonesData(RES.getRes("CoreElement_json"));
+            this.factory.parseTextureAtlasData(RES.getRes("CoreElement_texture_1_json"), RES.getRes("CoreElement_texture_1_png"));
             // mouse move        
             let onTouchMove = egret.sys.TouchHandler.prototype.onTouchMove;
             egret.sys.TouchHandler.prototype.onTouchMove = function (x: number, y: number, touchPointID: number): void {

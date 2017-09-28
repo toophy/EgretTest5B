@@ -113,7 +113,7 @@ var Main = (function (_super) {
     };
     Main.prototype.createScene = function () {
         if (this.isThemeLoadEnd && this.isResourceLoadEnd) {
-            this.startCreateScene();
+            this.startCreateSceneNew();
         }
     };
     /**
@@ -142,6 +142,15 @@ var Main = (function (_super) {
         if (event.groupName == "preload") {
             this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
         }
+    };
+    /**
+     *  创建场景界面
+     * Create scene interface
+     */
+    Main.prototype.startCreateSceneNew = function () {
+        this.gameMapContainer = new tgame.GameMapContainer(this);
+        this.gameMapContainer.createScene();
+        this.addChild(this.gameMapContainer);
     };
     /**
      * 创建场景界面

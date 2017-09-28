@@ -21,13 +21,13 @@ namespace tgame {
             this._armatureDisplay = <dragonBones.EgretArmatureDisplay>this._armature.display;
             this._armatureDisplay.x = position.x;
             this._armatureDisplay.y = position.y;
-            this._armatureDisplay.rotation = radian * dragonBones.DragonBones.RADIAN_TO_ANGLE;
+            this._armatureDisplay.rotation = radian * 180 / Math.PI;// dragonBones.DragonBones.RADIAN_TO_ANGLE;
             this._armature.animation.play("idle");
 
             if (effectArmatureName) {
                 this._effect = GameMapContainer.instance.factory.buildArmature(effectArmatureName);
                 const effectDisplay = <dragonBones.EgretArmatureDisplay>this._effect.display;
-                effectDisplay.rotation = radian * dragonBones.DragonBones.RADIAN_TO_ANGLE;
+                effectDisplay.rotation = radian * 180 / Math.PI;// dragonBones.DragonBones.RADIAN_TO_ANGLE;
                 effectDisplay.x = position.x;
                 effectDisplay.y = position.y;
                 effectDisplay.scaleX = 1 + Math.random() * 1;
