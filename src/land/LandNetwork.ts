@@ -81,20 +81,12 @@ namespace tgame {
         }
 
         private onSkill(data: any) {
-            // 技能名称
-            // 技能目标
-            // 
-            // data["account"]
-            // 某一个帐号
-            // 找到帐号的 EasyAI, 进行操作
-
             if (data["account"] == this._account)
                 return;
 
             if (this._accountEasyAIs.has(data["account"])) {
                 let acc = this._accountEasyAIs.get(data["account"]);
                 if (acc != null) {
-                    //acc.getActor()
                     switch (data["name"]) {
                         case "move_left":
                             acc.moveLeft(data["isDown"]);
