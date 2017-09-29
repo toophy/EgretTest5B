@@ -34,6 +34,7 @@ namespace tgame {
             if (this._netWork) {
                 this._netWork.bind("Index.Login", this.onLogin, this);
                 this._netWork.bind("Scene.PlayerEnter", this.onPlayerEnter, this);
+                this._netWork.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
                 this._netWork.bind("Scene.Skill", this.onSkill, this);
 
                 this.send("Index", "Login", { "account": this._account, "pwd": this._pwd, "pos_x": 0, "pos_y": 0 });
@@ -51,10 +52,10 @@ namespace tgame {
 
             if (data["account"] == this._account) {
                 if (!this._accountEasyAIs.has(data["account"])) {
-                    let easyAI = this.landView._base.AddActor(data["account"], data["pos_x"], data["pos_y"]);
+                    let easyAI = this.landView._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
+                    easyAI.enablePlayer(true);
                     this._accountEasyAIs.add(data["account"], easyAI);
                     this.landView._player.setAccount(this._account, easyAI);
-                    easyAI.enablePlayer(true);
                 }
             }
         }
@@ -63,7 +64,8 @@ namespace tgame {
             if (data["account"] == this._account)
                 return;
             if (!this._accountEasyAIs.has(data["account"])) {
-                let easyAI = this.landView._base.AddActor(data["account"], data["pos_x"], data["pos_y"]);
+                let easyAI = this.landView._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
+                easyAI.enablePlayer(true);
                 this._accountEasyAIs.add(data["account"], easyAI);
             }
         }
@@ -72,7 +74,7 @@ namespace tgame {
             if (this._accountEasyAIs.has(data["account"])) {
                 let acc = this._accountEasyAIs.get(data["account"]);
                 if (acc != null) {
-                    this.landView.DelActor(acc.getActor());
+                    this.landView.DelRole(data["account"]);
                     this._accountEasyAIs.del(data["account"]);
                 }
             }

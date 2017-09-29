@@ -52,12 +52,12 @@ var Main = (function (_super) {
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
         });
-        egret.lifecycle.onPause = function () {
-            egret.ticker.pause();
-        };
-        egret.lifecycle.onResume = function () {
-            egret.ticker.resume();
-        };
+        // egret.lifecycle.onPause = () => {
+        //     egret.ticker.pause();
+        // }
+        // egret.lifecycle.onResume = () => {
+        //     egret.ticker.resume();
+        // }
         //inject the custom material parser
         //注入自定义的素材解析器
         var assetAdapter = new AssetAdapter();

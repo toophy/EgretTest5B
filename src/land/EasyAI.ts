@@ -118,10 +118,6 @@ namespace tgame {
         }
 
         public _updateMove(dir: number): void {
-            if (this._player) {
-                egret.log("updateMove");
-            }
-
             if (this._left && this._right) {
                 this._actor.move(dir);
             } else if (this._left) {

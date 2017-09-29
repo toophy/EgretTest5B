@@ -7,7 +7,8 @@ namespace tgame {
         public _player: LandPlayer = null;
         public _netWork: LandNetwork = null;
 
-        private _actors: Array<Mecha> = [];
+        private _roles: MapStr<Mecha>;
+        private _actions: Array<Mecha> = [];
         private _bullets: Array<Bullet> = [];
         public _easyActorAI: Array<EasyAI> = [];
         private _bulletSprite: egret.Sprite = null;
@@ -16,9 +17,9 @@ namespace tgame {
             this._base = new LandBase(this);
             this._player = new LandPlayer(this);
             this._netWork = new LandNetwork(this);
+            this._roles = new MapStr<Mecha>();
 
             this._bulletSprite = new egret.Sprite();
-
         }
 
         public LoadLand(jsonData: any) {
@@ -30,21 +31,36 @@ namespace tgame {
             // 子弹层
             s.addChild(this._bulletSprite);
 
-            let randName: Array<string> = ["lady", "gaga", "momo", "kaka", "hehe"];
+            let randName: Array<string> = ["lady", "gaga", "momo", "kaka", "hehe", "你妹啊", "找找找", "咚咚咚"];
 
-            this._netWork.AccountLogin( randName[Math.floor(Math.random()*randName.length)], "123456");
+            let t: number = new Date().getTime() + 1000;
+
+            let idx: number = randomInt(t, 0, randName.length);
+
+            this._netWork.AccountLogin(randName[idx], "123456");
         }
 
-        public AddActor(a: Mecha) {
-            if (a) {
-                this._actors.push(a);
+        public AddRole(name: string, a: Mecha) {
+            if (name.length > 0 && a) {
+                this._roles.add(name, a);
             }
         }
 
-        public DelActor(a: Mecha) {
-            if (a) {
+        public DelRole(name:string) {
+            if (name.length>0) {
+                this._roles.del(name);
             }
         }
+
+        public AddAction(a: Mecha) {
+            if (a) {
+                this._actions.push(a);
+            }
+        }
+
+        public DelAction(a) {
+        }
+
         public AddEasyAI(e: EasyAI) {
             if (e) {
                 this._easyActorAI.push(e);
@@ -56,8 +72,11 @@ namespace tgame {
             for (let i in this._easyActorAI) {
                 this._easyActorAI[i].update();
             }
-            for (let i in this._actors) {
-                this._actors[i].update();
+            for (let key in this._roles.items) {
+                this._roles.items[key].update();
+            }
+            for (let i in this._actions) {
+                this._actions[i].update();
             }
 
             let i = this._bullets.length;

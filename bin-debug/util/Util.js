@@ -146,4 +146,36 @@ var MapNum = (function () {
     return MapNum;
 }());
 __reflect(MapNum.prototype, "MapNum");
+function randomInt(seed, min, max) {
+    max = max || 0;
+    min = min || 0;
+    seed = (seed * 9301 + 49297) % 233280;
+    return Math.floor(min + (seed / 233280) * (max - min));
+}
+function randomDouble(seed, min, max) {
+    max = max || 0;
+    min = min || 0;
+    seed = (seed * 9301 + 49297) % 233280;
+    return min + (seed / 233280) * (max - min);
+}
+var RNG = (function () {
+    function RNG(seed) {
+        this.seed = seed;
+    }
+    RNG.prototype.next = function (min, max) {
+        return randomDouble(this.seed, min, max);
+    };
+    // http://indiegamr.com/generate-repeatable-random-numbers-in-js/
+    RNG.prototype.nextInt = function (min, max) {
+        return Math.round(this.next(min, max));
+    };
+    RNG.prototype.nextDouble = function () {
+        return this.next(0, 1);
+    };
+    RNG.prototype.pick = function (collection) {
+        return collection[this.nextInt(0, collection.length - 1)];
+    };
+    return RNG;
+}());
+__reflect(RNG.prototype, "RNG");
 //# sourceMappingURL=Util.js.map

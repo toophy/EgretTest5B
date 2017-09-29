@@ -107,9 +107,6 @@ var tgame;
             }
         };
         EasyAI.prototype._updateMove = function (dir) {
-            if (this._player) {
-                egret.log("updateMove");
-            }
             if (this._left && this._right) {
                 this._actor.move(dir);
             }

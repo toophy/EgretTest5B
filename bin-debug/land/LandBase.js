@@ -10,6 +10,8 @@ var tgame;
             this.up2_height = 100;
             this.middle_height = 200;
             this.down_height = 100;
+            this.stage_width = 1136;
+            this.stage_height = 640;
             this.citySprite = [];
             this.landView = null;
             this._viewPos = new egret.Point();
@@ -17,13 +19,15 @@ var tgame;
             this._targetViewSpeed = 0.1;
             this._targetViewRun = false;
             this.landView = l;
+            this._targetViewPos.x = this.stage_width / 2;
+            this._targetViewPos.y = this.stage_height / 2;
         }
-        LandBase.prototype.AddActor = function (name, x, y) {
+        LandBase.prototype.AddRole = function (name, x, y) {
             var tmpActor = new tgame.Mecha();
             tmpActor.setName(name);
             tmpActor.setParent(this.landView, this.citySprite[2], x, y);
-            tmpActor.setMoveRange(3 * 1136, 640);
-            this.landView.AddActor(tmpActor);
+            tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+            this.landView.AddRole(name, tmpActor);
             var tmpActorAI = new tgame.EasyAI();
             tmpActorAI.setActor(tmpActor);
             this.landView.AddEasyAI(tmpActorAI);
@@ -91,7 +95,7 @@ var tgame;
                             break;
                     }
                     if (cityRow != null)
-                        this.LoadCityRow(cts, cityRow, i * 1136, 0, 1136, height);
+                        this.LoadCityRow(cts, cityRow, i * this.stage_width, 0, this.stage_width, height);
                 }
                 ++i;
             }
@@ -114,7 +118,7 @@ var tgame;
                             break;
                     }
                     if (cityRow != null)
-                        this.LoadCityBuild(cts, cityRow, i * 1136, 0, 1136, height);
+                        this.LoadCityBuild(cts, cityRow, i * this.stage_width, 0, this.stage_width, height);
                 }
                 ++i;
             }
@@ -137,7 +141,7 @@ var tgame;
                             break;
                     }
                     if (cityRow != null)
-                        this.LoadCityActor(cts, cityRow, i * 1136, 0, 1136, height);
+                        this.LoadCityActor(cts, cityRow, i * this.stage_width, 0, this.stage_width, height);
                 }
                 ++i;
             }
@@ -148,7 +152,7 @@ var tgame;
             this.loadCityEx(1, this.up_height, this.up2_height);
             this.loadCityEx(2, this.up_height + this.up2_height, this.middle_height);
             this.loadCityEx(3, this.up_height + this.up2_height + this.middle_height, this.down_height);
-            this._viewPos.setTo(1136 / 2, 640 / 2);
+            this._viewPos.setTo(this.stage_width / 2, this.stage_height / 2);
         };
         LandBase.prototype.ShowLand = function (s) {
             for (var i = 0; i < this.citySprite.length; ++i) {
@@ -203,8 +207,8 @@ var tgame;
                 else if (lc.type == "animation") {
                     var tmpActor = new tgame.Mecha();
                     tmpActor.setParent(this.landView, cts, x + lc.data.x, y + lc.data.y);
-                    tmpActor.setMoveRange(3 * 1136, 640);
-                    this.landView.AddActor(tmpActor);
+                    tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+                    this.landView.AddAction(tmpActor);
                 }
             }
         };
@@ -233,8 +237,8 @@ var tgame;
                     var tmpActor = new tgame.Mecha();
                     tmpActor.setName(lc.data.name);
                     tmpActor.setParent(this.landView, cts, x + lc.data.x, y + lc.data.y);
-                    tmpActor.setMoveRange(3 * 1136, 640);
-                    this.landView.AddActor(tmpActor);
+                    tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+                    this.landView.AddRole(lc.data.name, tmpActor);
                     var tmpActorAI = new tgame.EasyAI();
                     tmpActorAI.setActor(tmpActor);
                     this.landView.AddEasyAI(tmpActorAI);

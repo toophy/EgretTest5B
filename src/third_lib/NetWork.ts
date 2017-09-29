@@ -72,7 +72,7 @@ class Network {
             "m": m,
             "data": data
         };
-        console.log("send -->", JSON.stringify(obj))
+        // console.log("send -->", JSON.stringify(obj))
         this.socket.writeUTF(JSON.stringify(obj));
     }
 
@@ -110,7 +110,7 @@ class Network {
 
     private onSocketData(e: egret.ProgressEvent): void {
         var bytes: string = this.socket.readUTF();
-        console.log("recv -->", bytes);
+        // console.log("recv -->", bytes);
         var packet: Object = JSON.parse(bytes);
         this.dispatch(packet);
     }

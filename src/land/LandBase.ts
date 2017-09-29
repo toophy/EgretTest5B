@@ -8,6 +8,8 @@ namespace tgame {
         private up2_height: number = 100;
         private middle_height: number = 200;
         private down_height: number = 100;
+        private stage_width:number = 1136;
+        private stage_height:number = 640;
 
         private cnfs: CnfLand;
         private citySprite: Array<egret.Sprite> = [];
@@ -21,15 +23,17 @@ namespace tgame {
 
         public constructor(l: LandView) {
             this.landView = l;
+            this._targetViewPos.x = this.stage_width / 2;
+            this._targetViewPos.y = this.stage_height / 2;
         }
 
-        public AddActor(name: string, x: number, y: number): EasyAI {
+        public AddRole(name: string, x: number, y: number): EasyAI {
 
             let tmpActor: Mecha = new Mecha();
             tmpActor.setName(name);
             tmpActor.setParent(this.landView, this.citySprite[2], x, y);
-            tmpActor.setMoveRange(3 * 1136, 640);
-            this.landView.AddActor(tmpActor);
+            tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+            this.landView.AddRole(name, tmpActor);
 
             let tmpActorAI: EasyAI = new EasyAI();
             tmpActorAI.setActor(tmpActor);
@@ -102,7 +106,7 @@ namespace tgame {
                             break;
                     }
                     if (cityRow != null)
-                        this.LoadCityRow(cts, cityRow, i * 1136, 0, 1136, height);
+                        this.LoadCityRow(cts, cityRow, i * this.stage_width, 0, this.stage_width, height);
                 }
                 ++i;
             }
@@ -126,7 +130,7 @@ namespace tgame {
                             break;
                     }
                     if (cityRow != null)
-                        this.LoadCityBuild(cts, cityRow, i * 1136, 0, 1136, height);
+                        this.LoadCityBuild(cts, cityRow, i * this.stage_width, 0, this.stage_width, height);
                 }
                 ++i;
             }
@@ -150,7 +154,7 @@ namespace tgame {
                             break;
                     }
                     if (cityRow != null)
-                        this.LoadCityActor(cts, cityRow, i * 1136, 0, 1136, height);
+                        this.LoadCityActor(cts, cityRow, i * this.stage_width, 0, this.stage_width, height);
                 }
                 ++i;
             }
@@ -163,7 +167,7 @@ namespace tgame {
             this.loadCityEx(2, this.up_height + this.up2_height, this.middle_height);
             this.loadCityEx(3, this.up_height + this.up2_height + this.middle_height, this.down_height);
 
-            this._viewPos.setTo(1136 / 2, 640 / 2);
+            this._viewPos.setTo(this.stage_width / 2, this.stage_height / 2);
         }
 
         public ShowLand(s: egret.Sprite) {
@@ -222,8 +226,8 @@ namespace tgame {
                 } else if (lc.type == "animation") {
                     let tmpActor: Mecha = new Mecha();
                     tmpActor.setParent(this.landView, cts, x + lc.data.x, y + lc.data.y);
-                    tmpActor.setMoveRange(3 * 1136, 640);
-                    this.landView.AddActor(tmpActor);
+                    tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+                    this.landView.AddAction(tmpActor);
                 }
             }
         }
@@ -253,8 +257,8 @@ namespace tgame {
                     let tmpActor: Mecha = new Mecha();
                     tmpActor.setName(lc.data.name);
                     tmpActor.setParent(this.landView, cts, x + lc.data.x, y + lc.data.y);
-                    tmpActor.setMoveRange(3 * 1136, 640);
-                    this.landView.AddActor(tmpActor);
+                    tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+                    this.landView.AddRole(lc.data.name, tmpActor);
 
                     let tmpActorAI: EasyAI = new EasyAI();
                     tmpActorAI.setActor(tmpActor);

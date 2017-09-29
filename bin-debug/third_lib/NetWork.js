@@ -60,7 +60,7 @@ var Network = (function () {
             "m": m,
             "data": data
         };
-        console.log("send -->", JSON.stringify(obj));
+        // console.log("send -->", JSON.stringify(obj))
         this.socket.writeUTF(JSON.stringify(obj));
     };
     Network.prototype.isConnected = function () {
@@ -93,7 +93,7 @@ var Network = (function () {
     };
     Network.prototype.onSocketData = function (e) {
         var bytes = this.socket.readUTF();
-        console.log("recv -->", bytes);
+        // console.log("recv -->", bytes);
         var packet = JSON.parse(bytes);
         this.dispatch(packet);
     };
