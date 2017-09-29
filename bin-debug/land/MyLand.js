@@ -37,7 +37,8 @@ var tgame;
             }
         };
         LandView.prototype.DelRole = function (name) {
-            if (name.length > 0) {
+            if (name.length > 0 && this._roles.has(name)) {
+                this._roles.get(name).leaveParent();
                 this._roles.del(name);
             }
         };
@@ -47,6 +48,19 @@ var tgame;
             }
         };
         LandView.prototype.DelAction = function (a) {
+            if (a) {
+                a.leaveParent();
+                for (var _i = 0, _a = this._actions; _i < _a.length; _i++) {
+                    var i = _a[_i];
+                    if (i == a) {
+                        var index = this._actions.indexOf(i, 0);
+                        if (index > -1) {
+                            this._actions.splice(index, 1);
+                        }
+                        break;
+                    }
+                }
+            }
         };
         LandView.prototype.AddEasyAI = function (e) {
             if (e) {

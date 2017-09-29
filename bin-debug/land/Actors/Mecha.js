@@ -55,9 +55,12 @@ var tgame;
         }
         Mecha.prototype.setParent = function (land, p, x, y) {
             if (this._parent != null) {
-                this._parent.removeChild(this._nameLabel);
-                this._parent.removeChild(this._sayLabel);
-                this._parent.removeChild(this._armatureDisplay);
+                if (this._nameLabel)
+                    this._parent.removeChild(this._nameLabel);
+                if (this._sayLabel)
+                    this._parent.removeChild(this._sayLabel);
+                if (this._armatureDisplay)
+                    this._parent.removeChild(this._armatureDisplay);
             }
             this._land = land;
             this._parent = p;
@@ -72,6 +75,16 @@ var tgame;
             this._ground_y = y;
             this._armatureDisplay.x = x;
             this._armatureDisplay.y = this._ground_y;
+        };
+        Mecha.prototype.leaveParent = function () {
+            if (this._parent != null) {
+                if (this._nameLabel)
+                    this._parent.removeChild(this._nameLabel);
+                if (this._sayLabel)
+                    this._parent.removeChild(this._sayLabel);
+                if (this._armatureDisplay)
+                    this._parent.removeChild(this._armatureDisplay);
+            }
         };
         Mecha.prototype.setMoveRange = function (w, h) {
             this._moveRangeWidth = w;

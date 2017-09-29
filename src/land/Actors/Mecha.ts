@@ -68,9 +68,12 @@ namespace tgame {
 
         public setParent(land: tgame.LandView, p: egret.Sprite, x: number, y: number) {
             if (this._parent != null) {
-                this._parent.removeChild(this._nameLabel);
-                this._parent.removeChild(this._sayLabel);
-                this._parent.removeChild(this._armatureDisplay);
+                 if (this._nameLabel)
+                    this._parent.removeChild(this._nameLabel);
+                if (this._sayLabel)
+                    this._parent.removeChild(this._sayLabel);
+                if (this._armatureDisplay)
+                    this._parent.removeChild(this._armatureDisplay);
             }
             this._land = land;
 
@@ -87,6 +90,17 @@ namespace tgame {
 
             this._armatureDisplay.x = x;
             this._armatureDisplay.y = this._ground_y;
+        }
+
+        public leaveParent() {
+            if (this._parent != null) {
+                if (this._nameLabel)
+                    this._parent.removeChild(this._nameLabel);
+                if (this._sayLabel)
+                    this._parent.removeChild(this._sayLabel);
+                if (this._armatureDisplay)
+                    this._parent.removeChild(this._armatureDisplay);
+            }
         }
 
         public setMoveRange(w: number, h: number) {
@@ -167,10 +181,10 @@ namespace tgame {
                 this._nameLabel = new eui.Label();
                 this._nameLabel.fontFamily = "宋体";
                 this._nameLabel.size = 20;
-                this._nameLabel.width = this._armatureDisplay.width*0.8;
+                this._nameLabel.width = this._armatureDisplay.width * 0.8;
                 this._nameLabel.height = 30;
-                this._nameLabel.anchorOffsetX = this._nameLabel.width/2;
-                this._nameLabel.anchorOffsetY = this._armatureDisplay.height/2 + 10;
+                this._nameLabel.anchorOffsetX = this._nameLabel.width / 2;
+                this._nameLabel.anchorOffsetY = this._armatureDisplay.height / 2 + 10;
                 this._nameLabel.x = this._armatureDisplay.x;
                 this._nameLabel.y = this._armatureDisplay.y;
                 this._nameLabel.textColor = 0x0000ff;
@@ -201,10 +215,10 @@ namespace tgame {
                 this._sayLabel = new eui.Label();
                 this._sayLabel.fontFamily = "宋体";
                 this._sayLabel.size = 20;
-                this._sayLabel.width = this._armatureDisplay.width*0.8;
+                this._sayLabel.width = this._armatureDisplay.width * 0.8;
                 this._sayLabel.height = 30;
-                this._sayLabel.anchorOffsetX = this._sayLabel.width/2;
-                this._sayLabel.anchorOffsetY = this._armatureDisplay.height/2 + 40;
+                this._sayLabel.anchorOffsetX = this._sayLabel.width / 2;
+                this._sayLabel.anchorOffsetY = this._armatureDisplay.height / 2 + 40;
                 this._sayLabel.x = this._armatureDisplay.x;
                 this._sayLabel.y = this._armatureDisplay.y;
                 this._sayLabel.background = true;

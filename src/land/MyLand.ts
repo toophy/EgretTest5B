@@ -46,8 +46,9 @@ namespace tgame {
             }
         }
 
-        public DelRole(name:string) {
-            if (name.length>0) {
+        public DelRole(name: string) {
+            if (name.length > 0 && this._roles.has(name)) {
+                this._roles.get(name).leaveParent();
                 this._roles.del(name);
             }
         }
@@ -58,7 +59,19 @@ namespace tgame {
             }
         }
 
-        public DelAction(a) {
+        public DelAction(a: Mecha) {
+            if (a) {
+                a.leaveParent();
+                for (let i of this._actions) {
+                    if (i == a) {
+                        var index = this._actions.indexOf(i, 0);
+                        if (index > -1) {
+                            this._actions.splice(index, 1);
+                        }
+                        break;
+                    }
+                }
+            }
         }
 
         public AddEasyAI(e: EasyAI) {
