@@ -123,7 +123,7 @@ class Network {
         if (cb) {
             var obj: Object = cb[0];
             var func: Function = cb[1];
-            func.call(obj, msg["data"]);
+            func.call(obj, msg["data"], msg["ret"], msg["msg"]);
         } else {
             console.log("not found handler --> " + name)
         }

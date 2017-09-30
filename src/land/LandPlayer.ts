@@ -45,17 +45,21 @@ namespace tgame {
 
         public _touchMove(x: number, y: number) {
             if (this._player != null) {
+                this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": x, "y": y });
                 this._player.aim(x, y);
             }
         }
 
         public _touchHandler(event: egret.TouchEvent): void {
             if (this._player != null) {
+                this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
                 this._player.aim(event.stageX, event.stageY);
 
                 if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
+                    this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
                     this._player.attack(true);
                 } else {
+                    this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": false });
                     this._player.attack(false);
                 }
 

@@ -47,8 +47,8 @@ namespace tgame {
         private onNetClose() {
         }
 
-        private onLogin(data: any) {
-            console.log("onLogin %s:%s:%s", data["account"], data["pwd"], data["ret"]);
+        private onLogin(data: any, ret: string, msg: string) {
+            console.log("onLogin %s:%s:%s", data["account"], data["pwd"], ret);
 
             if (data["account"] == this._account) {
                 if (!this._accountEasyAIs.has(data["account"])) {
@@ -60,7 +60,7 @@ namespace tgame {
             }
         }
 
-        private onPlayerEnter(data: any) {
+        private onPlayerEnter(data: any, ret: string, msg: string) {
             if (data["account"] == this._account)
                 return;
             if (!this._accountEasyAIs.has(data["account"])) {
@@ -70,7 +70,7 @@ namespace tgame {
             }
         }
 
-        private onPlayerLeave(data: any) {
+        private onPlayerLeave(data: any, ret: string, msg: string) {
             if (this._accountEasyAIs.has(data["account"])) {
                 let acc = this._accountEasyAIs.get(data["account"]);
                 if (acc != null) {
@@ -80,7 +80,7 @@ namespace tgame {
             }
         }
 
-        private onSkill(data: any) {
+        private onSkill(data: any, ret: string, msg: string) {
             if (data["account"] == this._account)
                 return;
 
