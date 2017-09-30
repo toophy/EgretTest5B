@@ -2,7 +2,6 @@
 
 namespace tgame {
     export class GameMapContainer extends egret.Sprite {
-
         //
         public static GROUND: number = 100;
         public static G: number = 0.6;

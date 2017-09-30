@@ -29,7 +29,6 @@
 
 class Main extends eui.UILayer {
 
-    private gameMapContainer: tgame.GameMapContainer;
 
     /**
      * 加载进度界面
@@ -109,7 +108,8 @@ class Main extends eui.UILayer {
     }
     private createScene() {
         if (this.isThemeLoadEnd && this.isResourceLoadEnd) {
-            this.startCreateSceneNew();
+            // this.startCreateSceneNew();
+            this.startLoginDlg();
         }
     }
     /**
@@ -144,11 +144,11 @@ class Main extends eui.UILayer {
      *  创建场景界面
      * Create scene interface
      */
-    protected startCreateSceneNew(): void {
-        this.gameMapContainer = new tgame.GameMapContainer(this);
-        this.gameMapContainer.createScene();
-        this.addChild(this.gameMapContainer);
+    protected startLoginDlg(): void {
+        let loginDlg: LoginDlg = new LoginDlg();
+        this.addChild(loginDlg);
     }
+    
     /**
      * 创建场景界面
      * Create scene interface
