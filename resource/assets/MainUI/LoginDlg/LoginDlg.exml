@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="LoginDlg" width="400" height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Label text="欢迎来到乱斗场" x="95" y="0"/>
+	<e:Label text="帐号" x="31" y="80"/>
+	<e:Label text="密码" x="31" y="135"/>
+	<e:TextInput id="Lgn_AccountID" width="232" height="30" x="126" y="80" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:TextInput id="Lgn_AccountPwdID" width="232" height="30" x="126" y="135" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Button id="Lgn_EnterID" label="登录" x="31" y="219"/>
+	<e:Button id="Lgn_LeaveID" label="离开" x="258" y="219"/>
+</e:Skin>
