@@ -106,6 +106,12 @@ namespace tgame {
                         case "switchWeaponL":
                             acc.switchWeaponL(data["isDown"]);
                             break;
+                        case "aim":
+                            acc.getActor().aim(data["x"], data["y"])
+                            break;
+                        case "attack":
+                            acc.getActor().attack(data["begin"]);
+                            break;
                     }
                 }
             }
