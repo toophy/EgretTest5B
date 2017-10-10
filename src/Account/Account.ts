@@ -25,7 +25,7 @@ namespace tgame {
         // 大陆场景
         private _lands: tgame.LandView;
         //
-        public static G: number = 0.6;
+        public G: number = 0.6;
 
 
         // 构造函数
@@ -120,10 +120,10 @@ namespace tgame {
          */
         public OnCreated(account: string, pwd: string) {
 
-            // let data = RES.getRes("land_json");
-            // this._lands = new tgame.LandView();
-            // this._lands.LoadLand(data);
-            // this._lands.ShowLand(this);
+            let data = RES.getRes("land_json");
+            this._lands = new tgame.LandView(this);
+            this._lands.LoadLand(data);
+            this._lands.ShowLand(this.rootDisplay);
         }
 
         /**

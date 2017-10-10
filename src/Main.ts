@@ -53,7 +53,7 @@ class Main extends eui.UILayer {
             this.currAccountEnv.OnDisActive();
             this.currAccountEnv = null;
         }
-        this.tmpAccountEnv = new tgame.AccountEnv();
+        this.tmpAccountEnv = new tgame.AccountEnv(this);
         this.currAccountEnv = this.tmpAccountEnv;
         this.currAccountEnv.OnInited();
         this.currAccountEnv.OnActive();

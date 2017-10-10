@@ -11,6 +11,7 @@ namespace tgame {
         private static WEAPON_R_LIST: Array<string> = ["weapon_1502b_r", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d", "weapon_1005e"];
         private static WEAPON_L_LIST: Array<string> = ["weapon_1502b_l", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d"];
 
+        private _accountEnv: tgame.AccountEnv;
         private _isJumpingA: boolean = false;
         private _isJumpingB: boolean = false;
         private _isSquating: boolean = false;
@@ -41,10 +42,11 @@ namespace tgame {
         private _sayLabel: eui.Label = null;
         private _nameLabel: eui.Label = null;
 
-        public constructor() {
-            this._armature = GameMapContainer.instance.factory.buildArmature("mecha_1502b");
+        public constructor(accountEnv: tgame.AccountEnv) {
+            this._accountEnv = accountEnv;
+            this._armature = this._accountEnv.factory.buildArmature("mecha_1502b");
             this._armatureDisplay = <dragonBones.EgretArmatureDisplay>this._armature.display;
-            // this._armatureDisplay.x = GameMapContainer.instance.rootContainer.stage.stageWidth * 0.5;
+            // this._armatureDisplay.x = this._accountEnv.rootContainer.stage.stageWidth * 0.5;
             // this._armatureDisplay.y = GameMapContainer.GROUND;
             this._armatureDisplay.scaleX = this._armatureDisplay.scaleY = 0.4;
             this._armatureDisplay.addEventListener(dragonBones.EventObject.FADE_IN_COMPLETE, this._animationEventHandler, this);
@@ -62,13 +64,13 @@ namespace tgame {
 
             this._updateAnimation();
 
-            // GameMapContainer.instance.addChild(this._armatureDisplay);
+            // this._accountEnv.addChild(this._armatureDisplay);
             dragonBones.WorldClock.clock.add(this._armature);
         }
 
         public setParent(land: tgame.LandView, p: egret.Sprite, x: number, y: number) {
             if (this._parent != null) {
-                 if (this._nameLabel)
+                if (this._nameLabel)
                     this._parent.removeChild(this._nameLabel);
                 if (this._sayLabel)
                     this._parent.removeChild(this._sayLabel);
@@ -157,7 +159,7 @@ namespace tgame {
             this._weaponR.removeEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
 
             const weaponName = Mecha.WEAPON_R_LIST[this._weaponRIndex];
-            this._weaponR = GameMapContainer.instance.factory.buildArmature(weaponName);
+            this._weaponR = this._accountEnv.factory.buildArmature(weaponName);
             this._armature.getSlot("weapon_r").childArmature = this._weaponR;
             this._weaponR.addEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
         }
@@ -171,7 +173,7 @@ namespace tgame {
             this._weaponL.removeEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
 
             const weaponName = Mecha.WEAPON_L_LIST[this._weaponLIndex];
-            this._weaponL = GameMapContainer.instance.factory.buildArmature(weaponName);
+            this._weaponL = this._accountEnv.factory.buildArmature(weaponName);
             this._armature.getSlot("weapon_l").childArmature = this._weaponL;
             this._weaponL.addEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
         }
@@ -303,7 +305,7 @@ namespace tgame {
             firePoint.y += Math.random() * 2 - 1;
 
             const radian = this._faceDir < 0 ? Math.PI - this._aimRadian : this._aimRadian;
-            const bullet = new Bullet(this._land.getBulletLayer(), "bullet_01", "fireEffect_01", radian + Math.random() * 0.02 - 0.01, 40, firePoint);
+            const bullet = new Bullet(this._accountEnv, this._land.getBulletLayer(), "bullet_01", "fireEffect_01", radian + Math.random() * 0.02 - 0.01, 40, firePoint);
             bullet.setMaxRange(this._moveRangeWidth, this._moveRangeHeight);
 
             this._land.addBullet(bullet);
@@ -355,11 +357,11 @@ namespace tgame {
             }
 
             if (this._speedY != 0) {
-                if (this._speedY < 5 && this._speedY + GameMapContainer.G >= 5) {
+                if (this._speedY < 5 && this._speedY + this._accountEnv.G >= 5) {
                     this._armature.animation.fadeIn("jump_3", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
                 }
 
-                this._speedY += GameMapContainer.G;
+                this._speedY += this._accountEnv.G;
 
                 this._armatureDisplay.y += this._speedY;
                 if (this._armatureDisplay.y > this._ground_y) {

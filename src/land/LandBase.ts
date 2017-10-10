@@ -4,12 +4,14 @@ namespace tgame {
 
     export class LandBase {
 
+        private _accountEnv: tgame.AccountEnv;
+
         private up_height: number = 240;
         private up2_height: number = 100;
         private middle_height: number = 200;
         private down_height: number = 100;
-        private stage_width:number = 1136;
-        private stage_height:number = 640;
+        private stage_width: number = 1136;
+        private stage_height: number = 640;
 
         private cnfs: CnfLand;
         private citySprite: Array<egret.Sprite> = [];
@@ -21,7 +23,8 @@ namespace tgame {
         private _targetViewSpeed: number = 0.1;
         private _targetViewRun: boolean = false;
 
-        public constructor(l: LandView) {
+        public constructor(accountEnv: tgame.AccountEnv,l: LandView) {
+            this._accountEnv = accountEnv;
             this.landView = l;
             this._targetViewPos.x = this.stage_width / 2;
             this._targetViewPos.y = this.stage_height / 2;
@@ -29,7 +32,7 @@ namespace tgame {
 
         public AddRole(name: string, x: number, y: number): EasyAI {
 
-            let tmpActor: Mecha = new Mecha();
+            let tmpActor: Mecha = new Mecha(this._accountEnv);
             tmpActor.setName(name);
             tmpActor.setParent(this.landView, this.citySprite[2], x, y);
             tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
@@ -170,7 +173,7 @@ namespace tgame {
             this._viewPos.setTo(this.stage_width / 2, this.stage_height / 2);
         }
 
-        public ShowLand(s: egret.Sprite) {
+        public ShowLand(s: egret.DisplayObjectContainer) {
             for (let i = 0; i < this.citySprite.length; ++i) {
                 s.addChild(this.citySprite[i]);
             }
@@ -224,7 +227,7 @@ namespace tgame {
                     bg4.y = y + lc.data.y;
                     cts.addChild(bg4);
                 } else if (lc.type == "animation") {
-                    let tmpActor: Mecha = new Mecha();
+                    let tmpActor: Mecha = new Mecha(this._accountEnv);
                     tmpActor.setParent(this.landView, cts, x + lc.data.x, y + lc.data.y);
                     tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
                     this.landView.AddAction(tmpActor);
@@ -254,7 +257,7 @@ namespace tgame {
                     bg4.y = y + lc.data.y;
                     cts.addChild(bg4);
                 } else if (lc.type == "animation") {
-                    let tmpActor: Mecha = new Mecha();
+                    let tmpActor: Mecha = new Mecha(this._accountEnv);
                     tmpActor.setName(lc.data.name);
                     tmpActor.setParent(this.landView, cts, x + lc.data.x, y + lc.data.y);
                     tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);

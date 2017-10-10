@@ -3,6 +3,8 @@
 namespace tgame {
     export class LandView {
 
+        private _accountEnv: tgame.AccountEnv;
+
         public _base: LandBase = null;
         public _player: LandPlayer = null;
         public _netWork: LandNetwork = null;
@@ -13,8 +15,9 @@ namespace tgame {
         public _easyActorAI: Array<EasyAI> = [];
         private _bulletSprite: egret.Sprite = null;
 
-        public constructor() {
-            this._base = new LandBase(this);
+        public constructor(accountEnv: tgame.AccountEnv) {
+            this._accountEnv = accountEnv;
+            this._base = new LandBase(accountEnv, this);
             this._player = new LandPlayer(this);
             this._netWork = new LandNetwork(this);
             this._roles = new MapStr<Mecha>();
@@ -26,7 +29,7 @@ namespace tgame {
             this._base.LoadLand(jsonData);
         }
 
-        public ShowLand(s: egret.Sprite) {
+        public ShowLand(s: egret.DisplayObjectContainer) {
             this._base.ShowLand(s);
             // 子弹层
             s.addChild(this._bulletSprite);
