@@ -3,11 +3,10 @@
 namespace tgame {
     export class LandView {
 
-        private _accountEnv: tgame.AccountEnv;
+        public _accountEnv: tgame.AccountEnv;
 
         public _base: LandBase = null;
         public _player: LandPlayer = null;
-        public _netWork: LandNetwork = null;
 
         private _roles: MapStr<Mecha>;
         private _actions: Array<Mecha> = [];
@@ -15,14 +14,25 @@ namespace tgame {
         public _easyActorAI: Array<EasyAI> = [];
         private _bulletSprite: egret.Sprite = null;
 
+        public _accountEasyAIs: MapStr<EasyAI>;
+
         public constructor(accountEnv: tgame.AccountEnv) {
             this._accountEnv = accountEnv;
             this._base = new LandBase(accountEnv, this);
             this._player = new LandPlayer(this);
-            this._netWork = new LandNetwork(this);
             this._roles = new MapStr<Mecha>();
 
             this._bulletSprite = new egret.Sprite();
+
+            this._accountEasyAIs = new MapStr<EasyAI>();
+        }
+
+        public InitNetWorkProc() {
+            if (this._accountEnv && this._accountEnv.sceneConn) {
+                this._accountEnv.sceneConn.bind("Scene.PlayerEnter", this.onPlayerEnter, this);
+                this._accountEnv.sceneConn.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
+                this._accountEnv.sceneConn.bind("Scene.Skill", this.onSkill, this);
+            }
         }
 
         public LoadLand(jsonData: any) {
@@ -34,13 +44,10 @@ namespace tgame {
             // 子弹层
             s.addChild(this._bulletSprite);
 
-            let randName: Array<string> = ["lady", "gaga", "momo", "kaka", "hehe", "你妹啊", "找找找", "咚咚咚"];
-
-            let t: number = new Date().getTime() + 1000;
-
-            let idx: number = randomInt(t, 0, randName.length);
-
-            this._netWork.AccountLogin(randName[idx], "123456");
+            // let randName: Array<string> = ["lady", "gaga", "momo", "kaka", "hehe", "你妹啊", "找找找", "咚咚咚"];
+            // let t: number = new Date().getTime() + 1000;
+            // let idx: number = randomInt(t, 0, randName.length);
+            // this._netWork.AccountLogin(randName[idx], "123456");
         }
 
         public AddRole(name: string, a: Mecha) {
@@ -129,6 +136,65 @@ namespace tgame {
             this._player._keyHandler(event);
         }
 
+        /**
+         * 网络消息处理
+         */
+        private onPlayerEnter(data: any, ret: string, msg: string) {
+            if (data["account"] == this._accountEnv.name)
+                return;
+            if (!this._accountEasyAIs.has(data["account"])) {
+                let easyAI = this._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
+                easyAI.enablePlayer(true);
+                this._accountEasyAIs.add(data["account"], easyAI);
+            }
+        }
+
+        private onPlayerLeave(data: any, ret: string, msg: string) {
+            if (this._accountEasyAIs.has(data["account"])) {
+                let acc = this._accountEasyAIs.get(data["account"]);
+                if (acc != null) {
+                    this.DelRole(data["account"]);
+                    this._accountEasyAIs.del(data["account"]);
+                }
+            }
+        }
+
+        private onSkill(data: any, ret: string, msg: string) {
+            if (data["account"] == this._accountEnv.name)
+                return;
+
+            if (this._accountEasyAIs.has(data["account"])) {
+                let acc = this._accountEasyAIs.get(data["account"]);
+                if (acc != null) {
+                    switch (data["name"]) {
+                        case "move_left":
+                            acc.moveLeft(data["isDown"]);
+                            break;
+                        case "move_right":
+                            acc.moveRight(data["isDown"]);
+                            break;
+                        case "jump":
+                            acc.jump(data["isDown"]);
+                            break;
+                        case "squat":
+                            acc.squat(data["isDown"]);
+                            break;
+                        case "switchWeaponR":
+                            acc.switchWeaponR(data["isDown"]);
+                            break;
+                        case "switchWeaponL":
+                            acc.switchWeaponL(data["isDown"]);
+                            break;
+                        case "aim":
+                            acc.getActor().aim(data["x"], data["y"])
+                            break;
+                        case "attack":
+                            acc.getActor().attack(data["begin"]);
+                            break;
+                    }
+                }
+            }
+        }
     }
 }
 

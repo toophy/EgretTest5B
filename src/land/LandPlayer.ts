@@ -45,21 +45,21 @@ namespace tgame {
 
         public _touchMove(x: number, y: number) {
             if (this._player != null) {
-                this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": x, "y": y });
+                this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": x, "y": y });
                 this._player.aim(x, y);
             }
         }
 
         public _touchHandler(event: egret.TouchEvent): void {
             if (this._player != null) {
-                this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
+                this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
                 this._player.aim(event.stageX, event.stageY);
 
                 if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
-                    this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+                    this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
                     this._player.attack(true);
                 } else {
-                    this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": false });
+                    this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": false });
                     this._player.attack(false);
                 }
 
@@ -100,20 +100,20 @@ namespace tgame {
             switch (event.keyCode) {
                 case 37:
                 case 65:
-                    this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": isDown });
+                    this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": isDown });
                     this._playerAI.moveLeft(isDown);
                     break;
 
                 case 39:
                 case 68:
-                    this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": isDown });
+                    this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": isDown });
                     this._playerAI.moveRight(isDown);
                     break;
 
                 case 38:
                 case 87:
                     if (isDown) {
-                        this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "jump", "isDown": isDown });
+                        this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "jump", "isDown": isDown });
                         this._playerAI.jump(isDown);
                     }
                     break;
@@ -121,29 +121,29 @@ namespace tgame {
                 case 83:
                 case 40:
                     {
-                        this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "squat", "isDown": isDown });
+                        this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "squat", "isDown": isDown });
                         this._playerAI.squat(isDown);
                     }
                     break;
 
                 case 81:
                     if (isDown) {
-                        this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
+                        this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
                         this._playerAI.switchWeaponR(isDown);
                     }
                     break;
 
                 case 69:
                     if (isDown) {
-                        this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
+                        this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
                         this._playerAI.switchWeaponL(isDown);
                     }
                     break;
 
                 case 32:
                     if (isDown) {
-                        this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
-                        this.landView._netWork.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
+                        this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
+                        this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
                         this._playerAI.switchWeaponR(isDown);
                         this._playerAI.switchWeaponL(isDown);
                     }

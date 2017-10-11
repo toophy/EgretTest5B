@@ -23,7 +23,7 @@ namespace tgame {
         public loginDlg: tui.LoginDlg;// 登录窗口
 
         // 大陆场景
-        private _lands: tgame.LandView;
+        public _lands: tgame.LandView;
         //
         public G: number = 0.6;
 
@@ -32,6 +32,11 @@ namespace tgame {
         constructor(rootDisplay: eui.UILayer) {
             this.rootDisplay = rootDisplay;
             this.state = "初始化";
+
+            this.sceneConn = new Network();
+            this.sceneConn.setConnectHandler(this.onSceneNetConnected, this);
+            this.sceneConn.setCloseHandler(this.onSceneNetClose, this);
+            this.sceneConn.setErrorHandler(this.onSceneNetError, this);
         }
 
         // 获取主显示对象
@@ -51,10 +56,26 @@ namespace tgame {
           */
         public ChangeState(state: string, data: any): void {
             switch (state) {
-                case "帐号登录":
-                    if (this.doAccountLogin(state, data)) {
+                case "帐号网络连接":
+                    // this.sceneConn.connect("localhost", "echo", 8080);
+                    if (!this.sceneConn.isConnected()) {
+                        this.sceneConn.connect(data["demain"], data["api"], data["port"]);
                         this.state = state;
                         this.stateData = data;
+                    } else {
+                        this.state = state;
+                        this.stateData = data;
+                        this.ChangeState("帐号登录", data);
+                    }
+                    break;
+                case "帐号登录":
+                    if (this.sceneConn.isConnected()) {
+                        if (this.doAccountLogin(state, data)) {
+                            this.state = state;
+                            this.stateData = data;
+                        }
+                    } else {
+                        this.ChangeState("帐号网络连接", data);
                     }
                     break;
                 case "游戏场景登录":
@@ -62,18 +83,22 @@ namespace tgame {
             }
         }
 
+        public IsSceneState(state: string) {
+            return this.state == state;
+        }
+
         private doAccountLogin(state: string, data: any): boolean {
             // 当前呢
             let ret: boolean = false;
             switch (this.state) {
                 case "初始化":
-                    {
-                        this.name = data["name"];
-                        this.pwd = data["pwd"]
-                        // 打开登录连接 发送登录消息
-                        //
-                        ret = true;
+                    this.name = data["name"];
+                    this.pwd = data["pwd"]
+                    // 打开登录连接 发送登录消息
+                    if (this.sceneConn) {
+                        this.sceneConn.send("Index", "Login", data);
                     }
+                    ret = true;
                     break;
                 case "游戏场景登录":
                     break;
@@ -146,5 +171,31 @@ namespace tgame {
         public OnDestroy() {
 
         }
+
+        /**
+         * 网络状态处理
+         */
+        private onSceneNetConnected() {
+            if (this.IsSceneState("帐号网络连接")) {
+                this.ChangeState("帐号登录", this.stateData);
+            }
+        }
+
+        private onSceneNetError() {
+            if (this.IsSceneState("帐号网络连接")) {
+                console.log("[W] 网络连接失败,[%s]失败",this.state);
+            } else {
+                console.log("[W] 网络连接失败,[%s]失败",this.state);
+            }
+        }
+
+        private onSceneNetClose() {
+          if (this.IsSceneState("帐号网络连接")) {
+                console.log("[W] 网络连接关闭,[%s]失败",this.state);
+            } else {
+                console.log("[W] 网络连接关闭,[%s]失败",this.state);
+            }
+        }
+
     }
 }

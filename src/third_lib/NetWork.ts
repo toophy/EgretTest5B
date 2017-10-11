@@ -67,6 +67,9 @@ class Network {
     }
 
     public send(c: string, m: string, data: any) {
+        if (!this.isConnected())
+            return;
+
         var obj: Object = {
             "c": c,
             "m": m,

@@ -13,8 +13,8 @@
 		"promise/bin/promise.js"
 	],
 	"game": [
+		"bin-debug/land/LandNetwork.js",
 		"bin-debug/AssetAdapter.js",
-		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/Account/Account.js",
@@ -22,7 +22,7 @@
 		"bin-debug/land/EasyAI.js",
 		"bin-debug/land/LandBase.js",
 		"bin-debug/land/LandCnf.js",
-		"bin-debug/land/LandNetwork.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/land/LandPlayer.js",
 		"bin-debug/land/MyLand.js",
 		"bin-debug/land/Actors/Bullet.js",
