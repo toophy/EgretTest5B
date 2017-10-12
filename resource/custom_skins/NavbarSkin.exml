@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="NavbarSkin" width="480" height="800" xmlns:e="http://ns.egret.com/eui">
+	<e:Group width="456" height="85" x="12" y="715">
+		<e:ToggleButton id="btnPlayer" label="按钮" x="0" y="0" height="83" width="110">
+			<e:Skin states="up,down,disabled" xmlns:w="http://ns.egret.com/wing">
+			<e:Image width="100%" height="100%" source="mbtn_Bg_png" source.down="mbtn_BgFc_png"/>
+			<e:Label id="labelDisplay0" horizontalCenter="0" verticalCenter="0"/>
+			<e:Image source="mbtnPlayer_png" x="0" y="-3" height="86"/>
+			</e:Skin>
+		</e:ToggleButton>
+		<e:ToggleButton id="btnHeros" label="按钮" x="115" y="0" height="83" width="110">
+			<e:Skin states="up,down,disabled">
+			<e:Image width="100%" height="100%" source="mbtn_Bg_png" source.down="mbtn_BgFc_png"/>
+			<e:Label id="labelDisplay1" horizontalCenter="0" verticalCenter="0"/>
+			<e:Image source="mbtnHero_png" x="4" y="-1"/>
+			</e:Skin>
+		</e:ToggleButton>
+		<e:ToggleButton id="btnItems" label="按钮" x="230" y="0" height="83" width="110">
+			<e:Skin states="up,down,disabled">
+			<e:Image width="100%" height="100%" source="mbtn_Bg_png" source.down="mbtn_BgFc_png"/>
+			<e:Label id="labelDisplay2" horizontalCenter="0" verticalCenter="0"/>
+			<e:Image source="mbtnGoods_png" x="1" y="-3"/>
+			</e:Skin>
+		</e:ToggleButton>
+		<e:ToggleButton id="btnAbout" label="按钮" x="345" y="0" height="83" width="110">
+			<e:Skin states="up,down,disabled">
+			<e:Image width="100%" height="100%" source="mbtn_Bg_png" source.down="mbtn_BgFc_png"/>
+			<e:Label id="labelDisplay3" horizontalCenter="0" verticalCenter="0"/>
+			<e:Image source="mbtnAbout_png" x="-3"/>
+			</e:Skin>
+		</e:ToggleButton>
+	</e:Group>
+</e:Skin>

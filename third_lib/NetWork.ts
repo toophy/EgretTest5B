@@ -85,16 +85,17 @@ class Network {
 
     private onSocketOpen(): void {
         console.log("websocket connected");
+        this.state = 1;
         if (this.cbConnect.length > 0) {
             var obj: Object = this.cbConnect[0];
             var func: Function = this.cbConnect[1];
             func.call(obj);
         }
-        this.state = 1;
     }
 
     private onSocketClose(): void {
         console.log("websocket closed");
+        this.state = 0;
         if (this.cbClose.length > 0) {
             var obj: Object = this.cbClose[0];
             var func: Function = this.cbClose[1];
@@ -104,6 +105,7 @@ class Network {
 
     private onSocketError(): void {
         console.log("websocket error");
+        this.state = 0;
         if (this.cbError.length > 0) {
             var obj: Object = this.cbError[0];
             var func: Function = this.cbError[1];

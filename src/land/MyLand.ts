@@ -110,7 +110,7 @@ namespace tgame {
                 }
             }
 
-            this._player.update();
+            // this._player.update();
 
             //视口滚动
             this._base.ScrollLand();
@@ -140,7 +140,7 @@ namespace tgame {
          * 网络消息处理
          */
         private onPlayerEnter(data: any, ret: string, msg: string) {
-            if (data["account"] == this._accountEnv.name)
+            if (data["account"] == this._accountEnv.account)
                 return;
             if (!this._accountEasyAIs.has(data["account"])) {
                 let easyAI = this._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
@@ -160,7 +160,7 @@ namespace tgame {
         }
 
         private onSkill(data: any, ret: string, msg: string) {
-            if (data["account"] == this._accountEnv.name)
+            if (data["account"] == this._accountEnv.account)
                 return;
 
             if (this._accountEasyAIs.has(data["account"])) {

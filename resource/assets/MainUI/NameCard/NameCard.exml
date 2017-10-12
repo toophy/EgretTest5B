@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="NameCard" width="400" height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="NameCard" width="1136" height="640" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<w:Config id="15ea3a79267"/>
+	<e:List id="Btl_ListID" width="250" height="640" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Label text="dfghd" x="250" y="0" anchorOffsetX="0" width="885" anchorOffsetY="0" height="41" backgroundColor="0x910404" borderColor="0xc11111" alpha="1" background="true"/>
+	<e:Label text="Label" x="250" y="41" anchorOffsetX="0" width="885" anchorOffsetY="0" height="221" background="true" backgroundColor="0x165bba"/>
+	<e:List id="Btl_PlayerList" width="651" height="376" x="250" y="262" anchorOffsetX="0" anchorOffsetY="0">
+	</e:List>
+	<e:Button label="加入" x="970" y="566"/>
 </e:Skin>

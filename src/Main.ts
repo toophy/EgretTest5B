@@ -59,7 +59,7 @@ class Main extends eui.UILayer {
         this.currAccountEnv.OnActive();
     }
 
-    // 当然的临时账号转换为正式账号
+    // 当前的临时账号转换为正式账号
     public AddAccount(account: string, pwd: string) {
         if (!this.accountEnvs.has(account)) {
             if (this.tmpAccountEnv == null) {

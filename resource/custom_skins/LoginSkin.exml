@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="LoginSkin" width="480" height="480" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="about-bg_png" x="0" y="0" width="100%" height="100%"/>
+	<e:Label text="用户登陆" x="180" y="105"/>
+	<e:Label text="帐号" x="51" y="213"/>
+	<e:Label text="密码" x="51" y="276"/>
+	<e:EditableText id="edt_account" width="238" height="30" text="" x="132.5" y="213" prompt="输入帐号" bold="false" border="false"/>
+	<e:EditableText id="edt_pwd" width="238" height="30" text="" x="137" y="276" inputType="password" prompt="输入密码"/>
+	<e:Button id="btn_Login" label="登录" x="80" y="350"/>
+	<e:Button id="btn_Regist" label="注册" x="300" y="350"/>
+</e:Skin>

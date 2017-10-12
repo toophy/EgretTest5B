@@ -8,9 +8,10 @@ namespace tui {
 		private Lgn_EnterID: eui.Button;
 		private Lgn_LeaveID: eui.Button;
 
-		constructor() {
+		constructor(accountEnv:tgame.AccountEnv) {
 			super();
 			this.skinName = "resource/assets/MainUI/LoginDlg/LoginDlg.exml";
+			this.accountEnv = accountEnv;
 			this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
 		}
 
@@ -52,12 +53,12 @@ namespace tui {
 		private onLogin(data: any, ret: string, msg: string) {
 			console.log("onLogin %s:%s:%s", data["account"], data["pwd"], ret);
 
-			if (data["account"] == this.accountEnv.name) {
+			if (data["account"] == this.accountEnv.account) {
 				if (!this.accountEnv._lands._accountEasyAIs.has(data["account"])) {
 					let easyAI = this.accountEnv._lands._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
 					easyAI.enablePlayer(true);
 					this.accountEnv._lands._accountEasyAIs.add(data["account"], easyAI);
-					this.accountEnv._lands._player.setAccount(this.accountEnv.name, easyAI);
+					this.accountEnv._lands._player.setAccount(this.accountEnv.account, easyAI);
 				}
 				
 				this.visible = false;

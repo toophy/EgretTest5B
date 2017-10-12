@@ -7,7 +7,7 @@ namespace tgame {
         private rootDisplay: eui.UILayer;
 
         // 基本配置
-        public name: string; // 名称
+        public account: string; // 名称
         public pwd: string; // 密码
         public state: string; // 当前运行状态
         public stateData: any;// 当前运行状态附带数据
@@ -46,6 +46,10 @@ namespace tgame {
 
         // 状态机
         public Update() {
+            if (this._lands) {
+                this._lands.Update();
+            }
+            dragonBones.WorldClock.clock.advanceTime(-1);
         }
 
         /**
@@ -59,7 +63,7 @@ namespace tgame {
                 case "帐号网络连接":
                     // this.sceneConn.connect("localhost", "echo", 8080);
                     if (!this.sceneConn.isConnected()) {
-                        this.sceneConn.connect(data["demain"], data["api"], data["port"]);
+                        this.sceneConn.connect(data["domain"], data["api"], data["port"]);
                         this.state = state;
                         this.stateData = data;
                     } else {
@@ -91,12 +95,15 @@ namespace tgame {
             // 当前呢
             let ret: boolean = false;
             switch (this.state) {
+                case "帐号网络连接":
                 case "初始化":
-                    this.name = data["name"];
+                    this.account = data["account"];
                     this.pwd = data["pwd"]
                     // 打开登录连接 发送登录消息
                     if (this.sceneConn) {
                         this.sceneConn.send("Index", "Login", data);
+                        Main.instance.AddAccount(this.account, this.pwd);
+                        Main.instance.SetCurrAccount(this.account);
                     }
                     ret = true;
                     break;
@@ -109,25 +116,28 @@ namespace tgame {
 
         // 加载龙骨动画到工厂
         public loadDragon(conf_json: string, texture_json: string, textur_img: string) {
-            // "CoreElement_json"
-            // "CoreElement_texture_1_json"
-            // "CoreElement_texture_1_png"
             this.factory.parseDragonBonesData(RES.getRes(conf_json));
             this.factory.parseTextureAtlasData(RES.getRes(texture_json), RES.getRes(textur_img));
         }
 
         public OnTouchMove(x: number, y: number) {
+            if (this._lands) {
+                this._lands._touchMove(x, y);
+            }
         }
 
         public OnTouchHandler(event: egret.TouchEvent): void {
+            if (this._lands) {
+                this._lands._touchHandler(event);
+            }
         }
 
         public OnKeyHandler(event: KeyboardEvent): void {
+            if (this._lands) {
+                this._lands._keyHandler(event);
+            }
         }
 
-        public OnUpdateFrame(evt: egret.Event) {
-            dragonBones.WorldClock.clock.advanceTime(-1);
-        }
 
         /**
          * 临时账号环境初始化
@@ -135,7 +145,8 @@ namespace tgame {
         public OnInited() {
             // 显示登录窗口
             if (this.loginDlg == null) {
-                this.loginDlg = new tui.LoginDlg();
+                this.loginDlg = new tui.LoginDlg(this);
+                this.loginDlg.InitNetworkProc();
                 this.rootDisplay.addChild(this.loginDlg);
             }
         }
@@ -144,9 +155,11 @@ namespace tgame {
          * 正式账号创建完成
          */
         public OnCreated(account: string, pwd: string) {
+            this.loadDragon("CoreElement_json", "CoreElement_texture_1_json", "CoreElement_texture_1_png")
 
             let data = RES.getRes("land_json");
             this._lands = new tgame.LandView(this);
+            this._lands.InitNetWorkProc();
             this._lands.LoadLand(data);
             this._lands.ShowLand(this.rootDisplay);
         }
@@ -183,17 +196,17 @@ namespace tgame {
 
         private onSceneNetError() {
             if (this.IsSceneState("帐号网络连接")) {
-                console.log("[W] 网络连接失败,[%s]失败",this.state);
+                console.log("[W] 网络连接失败,[%s]失败", this.state);
             } else {
-                console.log("[W] 网络连接失败,[%s]失败",this.state);
+                console.log("[W] 网络连接失败,[%s]失败", this.state);
             }
         }
 
         private onSceneNetClose() {
-          if (this.IsSceneState("帐号网络连接")) {
-                console.log("[W] 网络连接关闭,[%s]失败",this.state);
+            if (this.IsSceneState("帐号网络连接")) {
+                console.log("[W] 网络连接关闭,[%s]失败", this.state);
             } else {
-                console.log("[W] 网络连接关闭,[%s]失败",this.state);
+                console.log("[W] 网络连接关闭,[%s]失败", this.state);
             }
         }
 

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,CoreElement_json,CoreElement_texture_1_json,CoreElement_texture_1_png,account_json,bg1_jpg,bg2_jpg,bg3_jpg,bg4_jpg,citys_json,city_lays_json,land_json,lands_json,land_build_json,land_toophy_json,roles_json,tree1_png",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,CoreElement_json,CoreElement_texture_1_json,CoreElement_texture_1_png,account_json,bg1_jpg,bg2_jpg,bg3_jpg,bg4_jpg,citys_json,city_lays_json,land_json,lands_json,land_build_json,land_toophy_json,roles_json,tree1_png,about-bg_png,about_png,close_png,bgListPage_jpg,btnOK_png,checked_png,checkNo_png,goods01_png,goods02_png,goods03_png,goods04_png,goods05_png,goods06_png,goods07_png,goodsTitle_png,heros01_png,heros02_png,heros03_png,heros04_png,heros05_png,heros06_png,heros07_png,herosTitle_png,hScrollBar01_png,hScrollBar02_png,listItemBkgd_png,commonBg_jpg,homeBg_jpg,loading_jpg,loading2_png,toast-bg_png,btnEquip_png,btnReturn_png,btnStrengthen_png,mbtnAbout_png,mbtnGoods_png,mbtnHero_png,mbtnPlayer_png,mbtn_Bg_png,mbtn_BgFc_png,profileContent_png,profileTitle_png,skillBg_png,skillIcon01_png,skillIcon02_png,skillIcon03_png,skillIcon04_png,skillIcon05_png,skillIcon06_png,skillIcon07_png,skillItemFrame_png",
 			"name": "preload"
 		}
 	],
@@ -132,89 +132,344 @@
 			"name": "egret_icon_png"
 		},
 		{
-			"name": "description_json",
+			"url": "config/description.json",
 			"type": "json",
-			"url": "config/description.json"
+			"name": "description_json"
 		},
 		{
-			"name": "CoreElement_json",
+			"url": "assets/Actors/Mecha/CoreElement.json",
 			"type": "json",
-			"url": "assets/Actors/Mecha/CoreElement.json"
+			"name": "CoreElement_json"
 		},
 		{
-			"name": "CoreElement_texture_1_json",
+			"url": "assets/Actors/Mecha/CoreElement_texture_1.json",
 			"type": "json",
-			"url": "assets/Actors/Mecha/CoreElement_texture_1.json"
+			"name": "CoreElement_texture_1_json"
 		},
 		{
-			"name": "CoreElement_texture_1_png",
+			"url": "assets/Actors/Mecha/CoreElement_texture_1.png",
 			"type": "image",
-			"url": "assets/Actors/Mecha/CoreElement_texture_1.png"
+			"name": "CoreElement_texture_1_png"
 		},
 		{
-			"name": "account_json",
+			"url": "assets/land/account.json",
 			"type": "json",
-			"url": "assets/land/account.json"
+			"name": "account_json"
 		},
 		{
-			"name": "bg1_jpg",
+			"url": "assets/land/bg1.jpg",
 			"type": "image",
-			"url": "assets/land/bg1.jpg"
+			"name": "bg1_jpg"
 		},
 		{
-			"name": "bg2_jpg",
+			"url": "assets/land/bg2.jpg",
 			"type": "image",
-			"url": "assets/land/bg2.jpg"
+			"name": "bg2_jpg"
 		},
 		{
-			"name": "bg3_jpg",
+			"url": "assets/land/bg3.jpg",
 			"type": "image",
-			"url": "assets/land/bg3.jpg"
+			"name": "bg3_jpg"
 		},
 		{
-			"name": "bg4_jpg",
+			"url": "assets/land/bg4.jpg",
 			"type": "image",
-			"url": "assets/land/bg4.jpg"
+			"name": "bg4_jpg"
 		},
 		{
-			"name": "citys_json",
+			"url": "assets/land/citys.json",
 			"type": "json",
-			"url": "assets/land/citys.json"
+			"name": "citys_json"
 		},
 		{
-			"name": "city_lays_json",
+			"url": "assets/land/city_lays.json",
 			"type": "json",
-			"url": "assets/land/city_lays.json"
+			"name": "city_lays_json"
 		},
 		{
-			"name": "land_json",
+			"url": "assets/land/land.json",
 			"type": "json",
-			"url": "assets/land/land.json"
+			"name": "land_json"
 		},
 		{
-			"name": "lands_json",
+			"url": "assets/land/lands.json",
 			"type": "json",
-			"url": "assets/land/lands.json"
+			"name": "lands_json"
 		},
 		{
-			"name": "land_build_json",
+			"url": "assets/land/land_build.json",
 			"type": "json",
-			"url": "assets/land/land_build.json"
+			"name": "land_build_json"
 		},
 		{
-			"name": "land_toophy_json",
+			"url": "assets/land/land_toophy.json",
 			"type": "json",
-			"url": "assets/land/land_toophy.json"
+			"name": "land_toophy_json"
 		},
 		{
-			"name": "roles_json",
+			"url": "assets/land/roles.json",
 			"type": "json",
-			"url": "assets/land/roles.json"
+			"name": "roles_json"
 		},
 		{
-			"name": "tree1_png",
+			"url": "assets/land/tree1.png",
 			"type": "image",
-			"url": "assets/land/tree1.png"
+			"name": "tree1_png"
+		},
+		{
+			"url": "art/about/about-bg.png",
+			"type": "image",
+			"name": "about-bg_png"
+		},
+		{
+			"url": "art/about/about.png",
+			"type": "image",
+			"name": "about_png"
+		},
+		{
+			"url": "art/about/close.png",
+			"type": "image",
+			"name": "close_png"
+		},
+		{
+			"url": "art/heros_goods/bgListPage.jpg",
+			"type": "image",
+			"name": "bgListPage_jpg"
+		},
+		{
+			"url": "art/heros_goods/btnOK.png",
+			"type": "image",
+			"name": "btnOK_png"
+		},
+		{
+			"url": "art/heros_goods/checked.png",
+			"type": "image",
+			"name": "checked_png"
+		},
+		{
+			"url": "art/heros_goods/checkNo.png",
+			"type": "image",
+			"name": "checkNo_png"
+		},
+		{
+			"url": "art/heros_goods/goods01.png",
+			"type": "image",
+			"name": "goods01_png"
+		},
+		{
+			"url": "art/heros_goods/goods02.png",
+			"type": "image",
+			"name": "goods02_png"
+		},
+		{
+			"url": "art/heros_goods/goods03.png",
+			"type": "image",
+			"name": "goods03_png"
+		},
+		{
+			"url": "art/heros_goods/goods04.png",
+			"type": "image",
+			"name": "goods04_png"
+		},
+		{
+			"url": "art/heros_goods/goods05.png",
+			"type": "image",
+			"name": "goods05_png"
+		},
+		{
+			"url": "art/heros_goods/goods06.png",
+			"type": "image",
+			"name": "goods06_png"
+		},
+		{
+			"url": "art/heros_goods/goods07.png",
+			"type": "image",
+			"name": "goods07_png"
+		},
+		{
+			"url": "art/heros_goods/goodsTitle.png",
+			"type": "image",
+			"name": "goodsTitle_png"
+		},
+		{
+			"url": "art/heros_goods/heros01.png",
+			"type": "image",
+			"name": "heros01_png"
+		},
+		{
+			"url": "art/heros_goods/heros02.png",
+			"type": "image",
+			"name": "heros02_png"
+		},
+		{
+			"url": "art/heros_goods/heros03.png",
+			"type": "image",
+			"name": "heros03_png"
+		},
+		{
+			"url": "art/heros_goods/heros04.png",
+			"type": "image",
+			"name": "heros04_png"
+		},
+		{
+			"url": "art/heros_goods/heros05.png",
+			"type": "image",
+			"name": "heros05_png"
+		},
+		{
+			"url": "art/heros_goods/heros06.png",
+			"type": "image",
+			"name": "heros06_png"
+		},
+		{
+			"url": "art/heros_goods/heros07.png",
+			"type": "image",
+			"name": "heros07_png"
+		},
+		{
+			"url": "art/heros_goods/herosTitle.png",
+			"type": "image",
+			"name": "herosTitle_png"
+		},
+		{
+			"url": "art/heros_goods/hScrollBar01.png",
+			"type": "image",
+			"name": "hScrollBar01_png"
+		},
+		{
+			"url": "art/heros_goods/hScrollBar02.png",
+			"type": "image",
+			"name": "hScrollBar02_png"
+		},
+		{
+			"url": "art/heros_goods/listItemBkgd.png",
+			"type": "image",
+			"name": "listItemBkgd_png"
+		},
+		{
+			"url": "art/home/commonBg.jpg",
+			"type": "image",
+			"name": "commonBg_jpg"
+		},
+		{
+			"url": "art/home/homeBg.jpg",
+			"type": "image",
+			"name": "homeBg_jpg"
+		},
+		{
+			"url": "art/loading/loading.jpg",
+			"type": "image",
+			"name": "loading_jpg"
+		},
+		{
+			"url": "art/loading/loading2.png",
+			"type": "image",
+			"name": "loading2_png"
+		},
+		{
+			"url": "art/loading/toast-bg.png",
+			"type": "image",
+			"name": "toast-bg_png"
+		},
+		{
+			"url": "art/profile/btnEquip.png",
+			"type": "image",
+			"name": "btnEquip_png"
+		},
+		{
+			"url": "art/profile/btnReturn.png",
+			"type": "image",
+			"name": "btnReturn_png"
+		},
+		{
+			"url": "art/profile/btnStrengthen.png",
+			"type": "image",
+			"name": "btnStrengthen_png"
+		},
+		{
+			"url": "art/profile/mbtnAbout.png",
+			"type": "image",
+			"name": "mbtnAbout_png"
+		},
+		{
+			"url": "art/profile/mbtnGoods.png",
+			"type": "image",
+			"name": "mbtnGoods_png"
+		},
+		{
+			"url": "art/profile/mbtnHero.png",
+			"type": "image",
+			"name": "mbtnHero_png"
+		},
+		{
+			"url": "art/profile/mbtnPlayer.png",
+			"type": "image",
+			"name": "mbtnPlayer_png"
+		},
+		{
+			"url": "art/profile/mbtn_Bg.png",
+			"type": "image",
+			"name": "mbtn_Bg_png"
+		},
+		{
+			"url": "art/profile/mbtn_BgFc.png",
+			"type": "image",
+			"name": "mbtn_BgFc_png"
+		},
+		{
+			"url": "art/profile/profileContent.png",
+			"type": "image",
+			"name": "profileContent_png"
+		},
+		{
+			"url": "art/profile/profileTitle.png",
+			"type": "image",
+			"name": "profileTitle_png"
+		},
+		{
+			"url": "art/profile/skillBg.png",
+			"type": "image",
+			"name": "skillBg_png"
+		},
+		{
+			"url": "art/profile/skillIcon01.png",
+			"type": "image",
+			"name": "skillIcon01_png"
+		},
+		{
+			"url": "art/profile/skillIcon02.png",
+			"type": "image",
+			"name": "skillIcon02_png"
+		},
+		{
+			"url": "art/profile/skillIcon03.png",
+			"type": "image",
+			"name": "skillIcon03_png"
+		},
+		{
+			"url": "art/profile/skillIcon04.png",
+			"type": "image",
+			"name": "skillIcon04_png"
+		},
+		{
+			"url": "art/profile/skillIcon05.png",
+			"type": "image",
+			"name": "skillIcon05_png"
+		},
+		{
+			"url": "art/profile/skillIcon06.png",
+			"type": "image",
+			"name": "skillIcon06_png"
+		},
+		{
+			"url": "art/profile/skillIcon07.png",
+			"type": "image",
+			"name": "skillIcon07_png"
+		},
+		{
+			"url": "art/profile/skillItemFrame.png",
+			"type": "image",
+			"name": "skillItemFrame_png"
 		}
 	]
 }
