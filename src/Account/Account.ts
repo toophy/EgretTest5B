@@ -61,7 +61,6 @@ namespace tgame {
         public ChangeState(state: string, data: any): void {
             switch (state) {
                 case "帐号网络连接":
-                    // this.sceneConn.connect("localhost", "echo", 8080);
                     if (!this.sceneConn.isConnected()) {
                         this.sceneConn.connect(data["domain"], data["api"], data["port"]);
                         this.state = state;
@@ -82,7 +81,11 @@ namespace tgame {
                         this.ChangeState("帐号网络连接", data);
                     }
                     break;
+                case "进入大厅":
+                    this.ChangeState("游戏场景登录", data);
+                    break;
                 case "游戏场景登录":
+                    this.OnCreated();
                     break;
             }
         }
@@ -154,7 +157,7 @@ namespace tgame {
         /**
          * 正式账号创建完成
          */
-        public OnCreated(account: string, pwd: string) {
+        public OnCreated() {
             this.loadDragon("CoreElement_json", "CoreElement_texture_1_json", "CoreElement_texture_1_png")
 
             let data = RES.getRes("land_json");
