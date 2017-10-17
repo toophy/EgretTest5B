@@ -14,9 +14,16 @@ namespace tgame {
         public currAccountEnv: tgame.AccountEnv = null;
         private tmpAccountEnv: tgame.AccountEnv = null;
         private rootDisplay: eui.UILayer = null;
+        private horizScreen: boolean;
 
         constructor() {
             AccountManage.instance = this;
+            this.horizScreen = false;
+        }
+
+        // 是否横屏
+        public IsHorizScreen(): boolean {
+            return this.horizScreen;
         }
 
         // 设置根显示对象
@@ -40,7 +47,7 @@ namespace tgame {
         }
 
         // 制作临时登录环境(登录窗口)
-        public MakeTmpAccountEnv() {
+        public MakeTmpAccountEnv(): void {
             if (this.tmpAccountEnv != null) {
                 return;
             }
@@ -57,7 +64,7 @@ namespace tgame {
         }
 
         // 当前的临时账号转换为正式账号
-        public AddAccount(account: string, pwd: string) {
+        public AddAccount(account: string, pwd: string): void {
             if (!this.accountEnvs.has(account)) {
                 if (this.tmpAccountEnv == null) {
                     return;
@@ -71,7 +78,7 @@ namespace tgame {
             }
         }
 
-        public DelAccount(account: string) {
+        public DelAccount(account: string): void {
             if (this.accountEnvs.has(account)) {
                 let tmpAccount = this.accountEnvs.get(account);
                 tmpAccount.OnDisActive();
@@ -93,7 +100,7 @@ namespace tgame {
             }
         }
 
-        public SetCurrAccount(account: string) {
+        public SetCurrAccount(account: string): void {
             if (this.accountEnvs.has(account)) {
                 if (this.currAccountEnv) {
                     this.currAccountEnv.OnDisActive();
@@ -107,7 +114,7 @@ namespace tgame {
 
 
         // 状态机
-        public Update() {
+        public Update(): void {
             for (let i in this.accountEnvs.items) {
                 this.accountEnvs.items[i].Update()
             }
@@ -115,7 +122,7 @@ namespace tgame {
             dragonBones.WorldClock.clock.advanceTime(-1);
         }
 
-        public OnTouchMove(x: number, y: number) {
+        public OnTouchMove(x: number, y: number): void {
             if (this.currAccountEnv) {
                 this.currAccountEnv.OnTouchMove(x, y);
             }
@@ -133,5 +140,17 @@ namespace tgame {
             }
         }
 
+        public OnMotion(event: egret.MotionEvent): void {
+            if (this.currAccountEnv) {
+                this.currAccountEnv.OnMotion(event);
+            }
+        }
+
+        public OnOrientationChange(horiz: boolean): void {
+            this.horizScreen = horiz;
+            if (this.currAccountEnv) {
+                this.currAccountEnv.OnOrientationChange(horiz);
+            }
+        }
     }
 }

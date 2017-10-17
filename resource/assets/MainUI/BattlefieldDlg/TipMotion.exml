@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="NewFile" width="313" height="239" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Label text="x" x="23" y="11"/>
+	<e:Label text="y" x="23" y="64"/>
+	<e:Label text="z" x="23" y="122"/>
+	<e:Label id="Tip_MotionX" text="0" x="72" y="11" anchorOffsetX="0" width="106"/>
+	<e:Label id="Tip_MotionY" text="0" x="72" y="64" anchorOffsetX="0" width="106"/>
+	<e:Label id="Tip_MotionZ" text="0" x="72" y="122" anchorOffsetX="0" width="106"/>
+</e:Skin>

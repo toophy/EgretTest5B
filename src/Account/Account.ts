@@ -21,6 +21,7 @@ namespace tgame {
 
         // 窗口
         public loginDlg: tui.LoginDlg;// 登录窗口
+        public tipMotoinDlg: tui.TipMotion;// 重力感应提示窗口
 
         // 大陆场景
         public _lands: tgame.LandView;
@@ -140,6 +141,18 @@ namespace tgame {
             }
         }
 
+        public OnMotion(event: egret.MotionEvent): void {
+            if (this.tipMotoinDlg) {
+                this.tipMotoinDlg.setMotion(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z);
+            }
+            if (this._lands) {
+                this._lands.OnMotion(event);
+            }
+        }
+
+        public OnOrientationChange(horiz: boolean): void {
+            
+        }
 
         /**
          * 临时账号环境初始化
@@ -150,6 +163,14 @@ namespace tgame {
                 this.loginDlg = new tui.LoginDlg(this);
                 this.loginDlg.InitNetworkProc();
                 this.rootDisplay.addChild(this.loginDlg);
+            }
+
+            if (this.tipMotoinDlg == null) {
+                this.tipMotoinDlg = new tui.TipMotion(this);
+                this.tipMotoinDlg.x = 0;
+                this.tipMotoinDlg.y = 0;
+                this.tipMotoinDlg.visible = false;
+                this.tipMotoinDlg.InitNetworkProc();
             }
         }
 
@@ -164,6 +185,11 @@ namespace tgame {
             this._lands.InitNetWorkProc();
             this._lands.LoadLand(data);
             this._lands.ShowLand(this.rootDisplay);
+
+            if (this.tipMotoinDlg) {
+                this.tipMotoinDlg.visible = true;
+                this.rootDisplay.addChild(this.tipMotoinDlg);
+            }
         }
 
         /**

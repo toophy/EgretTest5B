@@ -110,7 +110,7 @@ namespace tgame {
                 }
             }
 
-            // this._player.update();
+            this._player.update();
 
             //视口滚动
             this._base.ScrollLand();
@@ -125,16 +125,29 @@ namespace tgame {
         }
 
         public _touchMove(x: number, y: number) {
-            this._player._touchMove(x, y);
+            if (this._player) {
+                this._player._touchMove(x, y);
+            }
         }
 
         public _touchHandler(event: egret.TouchEvent): void {
-            this._player._touchHandler(event);
+            if (this._player) {
+                this._player._touchHandler(event);
+            }
         }
 
         public _keyHandler(event: KeyboardEvent): void {
-            this._player._keyHandler(event);
+            if (this._player) {
+                this._player._keyHandler(event);
+            }
         }
+
+        public OnMotion(event: egret.MotionEvent): void {
+            if (this._player) {
+                this._player.OnMotion(event);
+            }
+        }
+
 
         /**
          * 网络消息处理

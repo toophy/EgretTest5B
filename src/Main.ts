@@ -49,6 +49,10 @@ class Main extends eui.UILayer {
 				tgame.GetAccountManage().OnTouchMove(x, y);
 			}
 
+			var motion = new egret.Motion();
+			motion.addEventListener(egret.Event.CHANGE, this.onMotion, this);
+			motion.start();
+
 			this.touchEnabled = true;
 			this.addEventListener(egret.Event.ENTER_FRAME, this.onUpdateFrame, this);
 			this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this._touchHandler, this);
@@ -56,6 +60,8 @@ class Main extends eui.UILayer {
 
 			document.addEventListener("keydown", this._keyHandler);
 			document.addEventListener("keyup", this._keyHandler);
+
+			window.addEventListener("orientationchange", this._orientationchange);
 
 			// 临时账号--账号登录窗口
 			tgame.GetAccountManage().SetRootDisplay(this);
@@ -73,6 +79,19 @@ class Main extends eui.UILayer {
 
 	private onUpdateFrame(evt: egret.Event): void {
 		tgame.GetAccountManage().Update();
+	}
+
+	private onMotion(e: egret.MotionEvent): void {
+		tgame.GetAccountManage().OnMotion(e);
+	}
+
+	private _orientationchange(e: Event): void {
+		if (window.orientation == 180 || window.orientation == 0) {
+			tgame.GetAccountManage().OnOrientationChange(false);
+		}
+		if (window.orientation == 90 || window.orientation == -90) {
+			tgame.GetAccountManage().OnOrientationChange(true);
+		}
 	}
 
 

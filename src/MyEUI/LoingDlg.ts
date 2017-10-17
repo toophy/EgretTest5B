@@ -31,7 +31,7 @@ namespace tui {
 			// 注册事件 : 点击登录按钮
 			this.Lgn_EnterID.addEventListener(egret.TouchEvent.TOUCH_TAP, (event: egret.TouchEvent) => {
 				this.accountEnv.ChangeState("帐号登录", {
-					"domain": "localhost",
+					"domain": "172.23.131.1",
 					"api": "echo",
 					"port": "8080",
 					"account": this.Lgn_AccountID.text,

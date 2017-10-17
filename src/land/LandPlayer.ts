@@ -82,6 +82,32 @@ namespace tgame {
         //     this._easyActorAI.push(tmpActorAI);
         // }
 
+        public OnMotion(event: egret.MotionEvent): void {
+            if (GetAccountManage().IsHorizScreen()) {
+                //y
+                if (event.accelerationIncludingGravity.y >= -0.5 && event.accelerationIncludingGravity.y <= 0.5) {
+                    this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": false });
+                    this._playerAI.moveLeft(false);
+                    this._playerAI.moveRight(false);
+                } else if (event.accelerationIncludingGravity.y < -0.5) {
+                    this._playerAI.moveLeft(true);
+                } else if (event.accelerationIncludingGravity.y > 0.5) {
+                    this._playerAI.moveRight(true);
+                }
+            } else {
+                //x
+                if (event.accelerationIncludingGravity.x >= -0.5 && event.accelerationIncludingGravity.x <= 0.5) {
+                    this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": false });
+                    this._playerAI.moveLeft(false);
+                    this._playerAI.moveRight(false);
+                } else if (event.accelerationIncludingGravity.x < -0.5) {
+                    this._playerAI.moveRight(true);
+                } else if (event.accelerationIncludingGravity.x > 0.5) {
+                    this._playerAI.moveLeft(true);
+                }
+            }
+        }
+
 
         public _keyHandler(event: KeyboardEvent): void {
 
