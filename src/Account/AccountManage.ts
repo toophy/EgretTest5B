@@ -1,13 +1,32 @@
 // TypeScript file
 namespace tgame {
+
+    export function GetAccountManage(): AccountManage {
+        if (AccountManage.instance == null) {
+            return new AccountManage();
+        }
+        return AccountManage.instance;
+    }
+
     export class AccountManage {
         public static instance: AccountManage = null;
         public accountEnvs: MapStr<tgame.AccountEnv> = new MapStr<tgame.AccountEnv>();
         public currAccountEnv: tgame.AccountEnv = null;
         private tmpAccountEnv: tgame.AccountEnv = null;
+        private rootDisplay: eui.UILayer = null;
 
         constructor() {
             AccountManage.instance = this;
+        }
+
+        // 设置根显示对象
+        public SetRootDisplay(rootDisplay: eui.UILayer) {
+            this.rootDisplay = rootDisplay;
+        }
+
+        // 获取根显示对象
+        public GetRootDisplay(): eui.UILayer {
+            return this.rootDisplay;
         }
 
         // 获取当前焦点账号环境
@@ -21,7 +40,7 @@ namespace tgame {
         }
 
         // 制作临时登录环境(登录窗口)
-        public MakeTmpAccountEnv(rootDisplay: eui.UILayer) {
+        public MakeTmpAccountEnv() {
             if (this.tmpAccountEnv != null) {
                 return;
             }
@@ -31,7 +50,7 @@ namespace tgame {
                 this.currAccountEnv.OnDisActive();
                 this.currAccountEnv = null;
             }
-            this.tmpAccountEnv = new tgame.AccountEnv(rootDisplay);
+            this.tmpAccountEnv = new tgame.AccountEnv(this.rootDisplay);
             this.currAccountEnv = this.tmpAccountEnv;
             this.currAccountEnv.OnInited();
             this.currAccountEnv.OnActive();
@@ -83,6 +102,34 @@ namespace tgame {
                 this.currAccountEnv.OnActive();
             } else {
                 console.log("[W] 账号[%s]没有登录", account);
+            }
+        }
+
+
+        // 状态机
+        public Update() {
+            for (let i in this.accountEnvs.items) {
+                this.accountEnvs.items[i].Update()
+            }
+
+            dragonBones.WorldClock.clock.advanceTime(-1);
+        }
+
+        public OnTouchMove(x: number, y: number) {
+            if (this.currAccountEnv) {
+                this.currAccountEnv.OnTouchMove(x, y);
+            }
+        }
+
+        public OnTouchHandler(event: egret.TouchEvent): void {
+            if (this.currAccountEnv) {
+                this.currAccountEnv.OnTouchHandler(event);
+            }
+        }
+
+        public OnKeyHandler(event: KeyboardEvent): void {
+            if (this.currAccountEnv) {
+                this.currAccountEnv.OnKeyHandler(event);
             }
         }
 
