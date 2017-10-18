@@ -56,24 +56,24 @@ namespace tgame {
 		}
 
 		public _touchHandler(event: egret.TouchEvent): void {
-			if (this._player != null) {
+			// if (this._player != null) {
 
-				if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
-					this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
-					this._player.aim(event.stageX, event.stageY);
+			// 	if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
+			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
+			// 		this._player.aim(event.stageX, event.stageY);
 
-					this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
-					this._player.attack(true);
-				} else {
-					this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
-					this._player.aim(event.stageX, event.stageY);
+			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+			// 		this._player.attack(true);
+			// 	} else {
+			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
+			// 		this._player.aim(event.stageX, event.stageY);
 
-					this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": false });
-					this._player.attack(false);
-				}
+			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": false });
+			// 		this._player.attack(false);
+			// 	}
 
-				//this.TouchNewActor(event.stageX, event.stageY);
-			}
+			// 	//this.TouchNewActor(event.stageX, event.stageY);
+			// }
 		}
 
 
@@ -141,6 +141,38 @@ namespace tgame {
 			this._playerAI.moveLeft(false);
 			this._playerAI.moveRight(false);
 			this._motion_on = false;
+		}
+
+		public SelfUseSkill(id: number): void {
+			if (this._player != null) {
+				switch (id) {
+					case -1:
+						this.landView._accountEnv.TipMessage("停止使用技能");
+						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						this._player.attack(false);
+						break;
+					case 0:
+						this.landView._accountEnv.TipMessage("使用技能 X");
+						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						this._player.attack(true);
+						break;
+					case 1:
+						this.landView._accountEnv.TipMessage("使用技能 A");
+						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						this._player.attack(true);
+						break;
+					case 2:
+						this.landView._accountEnv.TipMessage("使用技能 B");
+						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						this._player.attack(true);
+						break;
+					case 3:
+						this.landView._accountEnv.TipMessage("使用技能 C");
+						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						this._player.attack(true);
+						break;
+				}
+			}
 		}
 
 

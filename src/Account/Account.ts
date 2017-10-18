@@ -22,6 +22,7 @@ namespace tgame {
         // 窗口
         public loginDlg: tui.LoginDlg;// 登录窗口
         public tipMotoinDlg: tui.TipMotion;// 重力感应提示窗口
+        public skillCtrlDlg: tui.SkillCtrlDlg;// 技能控制窗口
 
         // 大陆场景
         public _lands: tgame.LandView;
@@ -142,9 +143,9 @@ namespace tgame {
         }
 
         public OnMotion(event: egret.MotionEvent): void {
-            if (this.tipMotoinDlg) {
-                this.tipMotoinDlg.setMotion(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z);
-            }
+            // if (this.tipMotoinDlg) {
+            //     this.tipMotoinDlg.setMotion(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z);
+            // }
             if (this._lands) {
                 this._lands.OnMotion(event);
             }
@@ -153,7 +154,7 @@ namespace tgame {
         public OnOrientationChange(horiz: boolean): void {
             if (this._lands) {
                 this._lands.OnOrientationChange(horiz);
-            }            
+            }
         }
 
         /**
@@ -174,6 +175,12 @@ namespace tgame {
                 this.tipMotoinDlg.visible = false;
                 this.tipMotoinDlg.InitNetworkProc();
             }
+
+            if (this.skillCtrlDlg == null) {
+                this.skillCtrlDlg = new tui.SkillCtrlDlg(this);
+                this.skillCtrlDlg.visible = false;
+                this.tipMotoinDlg.InitNetworkProc();
+            }
         }
 
         /**
@@ -191,6 +198,12 @@ namespace tgame {
             if (this.tipMotoinDlg) {
                 this.tipMotoinDlg.visible = true;
                 this.rootDisplay.addChild(this.tipMotoinDlg);
+            }
+
+            if (this.skillCtrlDlg) {
+                this.skillCtrlDlg.visible = true;
+                this.rootDisplay.addChild(this.skillCtrlDlg);
+                this.skillCtrlDlg.FirstShow();
             }
         }
 
@@ -240,5 +253,16 @@ namespace tgame {
             }
         }
 
+        public TipMessage(m: string) {
+            if (this.tipMotoinDlg) {
+                this.tipMotoinDlg.setMessage(m);
+            }
+        }
+
+        public SelfUseSkill(id: number) {
+            if (this._lands && this._lands._player) {
+                this._lands._player.SelfUseSkill(id);
+            }
+        }
     }
 }

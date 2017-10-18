@@ -4,9 +4,7 @@ namespace tui {
 
 		private accountEnv: tgame.AccountEnv;
 
-		private Tip_MotionX: eui.Label;
-		private Tip_MotionY: eui.Label;
-		private Tip_MotionZ: eui.Label;
+		private Tip_Message: eui.Label;
 
 		constructor(accountEnv: tgame.AccountEnv) {
 			super();
@@ -22,10 +20,14 @@ namespace tui {
 
 		}
 
-		public setMotion(x: number, y: number, z: number) {
-			this.Tip_MotionX.text = x ? x.toFixed(3) : "0.000";
-			this.Tip_MotionY.text = y ? y.toFixed(3) : "0.000";
-			this.Tip_MotionZ.text = z ? z.toFixed(3) : "0.000";
+		// public setMotion(x: number, y: number, z: number) {
+		// 	this.Tip_MotionX.text = x ? x.toFixed(3) : "0.000";
+		// 	this.Tip_MotionY.text = y ? y.toFixed(3) : "0.000";
+		// 	this.Tip_MotionZ.text = z ? z.toFixed(3) : "0.000";
+		// }
+
+		public setMessage(m:string){
+			this.Tip_Message.text = m;
 		}
 	}
 }

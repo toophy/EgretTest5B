@@ -29,6 +29,7 @@
 		"bin-debug/land/Actors/Bullet.js",
 		"bin-debug/land/Actors/Mecha.js",
 		"bin-debug/MyEUI/LoingDlg.js",
+		"bin-debug/MyEUI/SkillCtrlDlg.js",
 		"bin-debug/MyEUI/TipMotion.js",
 		"bin-debug/third_lib/KeyBoard.js",
 		"bin-debug/third_lib/NetWork.js",
