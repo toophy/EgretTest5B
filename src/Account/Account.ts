@@ -151,7 +151,9 @@ namespace tgame {
         }
 
         public OnOrientationChange(horiz: boolean): void {
-            
+            if (this._lands) {
+                this._lands.OnOrientationChange(horiz);
+            }            
         }
 
         /**

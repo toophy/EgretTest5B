@@ -148,6 +148,12 @@ namespace tgame {
             }
         }
 
+        public OnOrientationChange(horiz: boolean): void {
+            if (this._player) {
+                this._player.OnOrientationChange(horiz);
+            }
+        }
+
 
         /**
          * 网络消息处理
