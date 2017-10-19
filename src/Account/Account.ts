@@ -23,6 +23,7 @@ namespace tgame {
         public loginDlg: tui.LoginDlg;// 登录窗口
         public tipMotoinDlg: tui.TipMotion;// 重力感应提示窗口
         public skillCtrlDlg: tui.SkillCtrlDlg;// 技能控制窗口
+        public roleListDlg: tui.RoleListDlg;// 角色列表窗口
 
         // 大陆场景
         public _lands: tgame.LandView;
@@ -179,7 +180,13 @@ namespace tgame {
             if (this.skillCtrlDlg == null) {
                 this.skillCtrlDlg = new tui.SkillCtrlDlg(this);
                 this.skillCtrlDlg.visible = false;
-                this.tipMotoinDlg.InitNetworkProc();
+                this.skillCtrlDlg.InitNetworkProc();
+            }
+
+            if (this.roleListDlg==null){
+                this.roleListDlg = new tui.RoleListDlg(this);
+                this.roleListDlg.visible = false;
+                this.roleListDlg.InitNetworkProc();
             }
         }
 
@@ -204,6 +211,12 @@ namespace tgame {
                 this.skillCtrlDlg.visible = true;
                 this.rootDisplay.addChild(this.skillCtrlDlg);
                 this.skillCtrlDlg.FirstShow();
+            }
+
+            if(this.roleListDlg){
+                this.roleListDlg.visible = true;
+                this.rootDisplay.addChild(this.roleListDlg);
+                this.roleListDlg.FirstShow();
             }
         }
 

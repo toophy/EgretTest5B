@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="SkillCtrlDlg" width="158" height="161" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Button id="Skill_XID" label="X" x="66" y="70" width="90" height="90"/>
-	<e:Button id="Skill_AID" label="A" x="115" y="4" width="40" height="40"/>
-	<e:Button id="Skill_BID" label="Button" x="26" y="24" width="40" height="40"/>
-	<e:Button id="Skill_CID" label="C" x="6" y="120" width="40" height="40"/>
+<e:Skin class="SkillCtrlDlg" width="207" height="203" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Button id="Skill_XID" label="X" x="85" y="80" width="120" height="120"/>
+	<e:Button id="Skill_AID" label="A" x="145" y="0" width="60" height="60"/>
+	<e:Button id="Skill_BID" label="B" x="18" y="17" width="60" height="60"/>
+	<e:Button id="Skill_CID" label="C" x="6" y="140" width="60" height="60"/>
 </e:Skin>

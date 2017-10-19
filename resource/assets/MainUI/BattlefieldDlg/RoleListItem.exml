@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="RoleListItem" width="200" height="20" xmlns:e="http://ns.egret.com/eui">
+	<e:Label x="0" y="0" anchorOffsetX="0" width="30" height="20" text="{data.order}" size="15" background="true" backgroundColor="0x000000"/>
+	<e:Label x="30" y="0" anchorOffsetX="0" width="120" height="20" text="{data.name}" size="15" background="true" backgroundColor="0x000000"/>
+	<e:Label x="150" y="0" anchorOffsetX="0" width="50" height="20" text="{data.score}" size="15" background="true" backgroundColor="0x000000"/>
+</e:Skin>

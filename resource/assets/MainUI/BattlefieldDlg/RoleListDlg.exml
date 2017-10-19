@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="NewFile" width="200" height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:List id="RoleList" width="200" height="220" x="0" anchorOffsetX="0" anchorOffsetY="0" y="40" blendMode="normal" alpha="0.8" touchEnabled="false">
+	</e:List>
+	<e:Label id="Title" text="一言不合就开干" x="0" y="0" width="200" height="40" size="20" verticalAlign="middle" background="true" backgroundColor="0x000000" alpha="0.8"/>
+	<e:Label id="YourName" text="你的名字" x="0" y="260" width="200" height="40" size="20" verticalAlign="middle" backgroundColor="0x000000" background="true" alpha="0.8"/>
+</e:Skin>
