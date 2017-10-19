@@ -29,9 +29,10 @@ namespace tui {
 			this.y = this.stage.stageHeight / 2 - this.skin.height / 2;
 
 			// 注册事件 : 点击登录按钮
+			// window.location.host
 			this.Lgn_EnterID.addEventListener(egret.TouchEvent.TOUCH_TAP, (event: egret.TouchEvent) => {
 				this.accountEnv.ChangeState("帐号登录", {
-					"domain": "localhost",
+					"domain": window.location.hostname,
 					"api": "echo",
 					"port": "8080",
 					"account": this.Lgn_AccountID.text,

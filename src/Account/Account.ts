@@ -92,10 +92,12 @@ namespace tgame {
             }
         }
 
+        // 判断当前的状态
         public IsSceneState(state: string) {
             return this.state == state;
         }
 
+        // do 帐号登录
         private doAccountLogin(state: string, data: any): boolean {
             // 当前呢
             let ret: boolean = false;
@@ -125,24 +127,28 @@ namespace tgame {
             this.factory.parseTextureAtlasData(RES.getRes(texture_json), RES.getRes(textur_img));
         }
 
+        // 接触移动(鼠标或者触摸屏)
         public OnTouchMove(x: number, y: number) {
             if (this._lands) {
                 this._lands._touchMove(x, y);
             }
         }
 
+        // 接触(鼠标或者触摸屏)
         public OnTouchHandler(event: egret.TouchEvent): void {
             if (this._lands) {
                 this._lands._touchHandler(event);
             }
         }
 
+        // 键盘操作
         public OnKeyHandler(event: KeyboardEvent): void {
             if (this._lands) {
                 this._lands._keyHandler(event);
             }
         }
 
+        // 重力感应
         public OnMotion(event: egret.MotionEvent): void {
             // if (this.tipMotoinDlg) {
             //     this.tipMotoinDlg.setMotion(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z);
@@ -152,6 +158,7 @@ namespace tgame {
             }
         }
 
+        // 屏幕翻转
         public OnOrientationChange(horiz: boolean): void {
             if (this._lands) {
                 this._lands.OnOrientationChange(horiz);
@@ -183,7 +190,7 @@ namespace tgame {
                 this.skillCtrlDlg.InitNetworkProc();
             }
 
-            if (this.roleListDlg==null){
+            if (this.roleListDlg == null) {
                 this.roleListDlg = new tui.RoleListDlg(this);
                 this.roleListDlg.visible = false;
                 this.roleListDlg.InitNetworkProc();
@@ -213,7 +220,7 @@ namespace tgame {
                 this.skillCtrlDlg.FirstShow();
             }
 
-            if(this.roleListDlg){
+            if (this.roleListDlg) {
                 this.roleListDlg.visible = true;
                 this.rootDisplay.addChild(this.roleListDlg);
                 this.roleListDlg.FirstShow();

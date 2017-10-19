@@ -1,6 +1,32 @@
 // TypeScript file
 namespace tgame {
 
+    // 是不是在台式机
+    export function IsPC(): boolean {
+        var userAgentInfo: string = navigator.userAgent.toString();
+        var Agents: string[] = ["Android", "iPhone",
+            "SymbianOS", "Windows Phone",
+            "iPad", "iPod"];
+        var flag: boolean = true;
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    // function getQueryString(name) {
+    //     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    //     var r = window.location.search.substr(1).match(reg);
+    //     if (r != null) {
+    //         return unescape(r[2]);
+    //     }
+    //     return null;
+    // }
+
+    // 获取帐号管理器
     export function GetAccountManage(): AccountManage {
         if (AccountManage.instance == null) {
             return new AccountManage();
@@ -8,6 +34,7 @@ namespace tgame {
         return AccountManage.instance;
     }
 
+    // 帐号管理器
     export class AccountManage {
         public static instance: AccountManage = null;
         public accountEnvs: MapStr<tgame.AccountEnv> = new MapStr<tgame.AccountEnv>();
@@ -78,6 +105,7 @@ namespace tgame {
             }
         }
 
+        // 删除帐号
         public DelAccount(account: string): void {
             if (this.accountEnvs.has(account)) {
                 let tmpAccount = this.accountEnvs.get(account);
@@ -100,6 +128,7 @@ namespace tgame {
             }
         }
 
+        // 设置当前观察的帐号
         public SetCurrAccount(account: string): void {
             if (this.accountEnvs.has(account)) {
                 if (this.currAccountEnv) {
@@ -122,30 +151,35 @@ namespace tgame {
             dragonBones.WorldClock.clock.advanceTime(-1);
         }
 
+        // 接触移动(鼠标或者触摸屏)
         public OnTouchMove(x: number, y: number): void {
             if (this.currAccountEnv) {
                 this.currAccountEnv.OnTouchMove(x, y);
             }
         }
 
+        // 接触(鼠标或者触摸屏)
         public OnTouchHandler(event: egret.TouchEvent): void {
             if (this.currAccountEnv) {
                 this.currAccountEnv.OnTouchHandler(event);
             }
         }
 
+        // 键盘操作
         public OnKeyHandler(event: KeyboardEvent): void {
             if (this.currAccountEnv) {
                 this.currAccountEnv.OnKeyHandler(event);
             }
         }
 
+        // 重力感应
         public OnMotion(event: egret.MotionEvent): void {
             if (this.currAccountEnv) {
                 this.currAccountEnv.OnMotion(event);
             }
         }
 
+        // 屏幕翻转
         public OnOrientationChange(horiz: boolean): void {
             this.horizScreen = horiz;
             if (this.currAccountEnv) {
