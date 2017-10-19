@@ -1,42 +1,17 @@
 // TypeScript file
 namespace tgame {
 
-    // 是不是在台式机
-    export function IsPC(): boolean {
-        var userAgentInfo: string = navigator.userAgent.toString();
-        var Agents: string[] = ["Android", "iPhone",
-            "SymbianOS", "Windows Phone",
-            "iPad", "iPod"];
-        var flag: boolean = true;
-        for (var v = 0; v < Agents.length; v++) {
-            if (userAgentInfo.indexOf(Agents[v]) > 0) {
-                flag = false;
-                break;
-            }
-        }
-        return flag;
-    }
-
-    // function getQueryString(name) {
-    //     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-    //     var r = window.location.search.substr(1).match(reg);
-    //     if (r != null) {
-    //         return unescape(r[2]);
-    //     }
-    //     return null;
-    // }
-
     // 获取帐号管理器
-    export function GetAccountManage(): AccountManage {
-        if (AccountManage.instance == null) {
-            return new AccountManage();
+    export function GetMain(): Main {
+        if (Main.instance == null) {
+            return new Main();
         }
-        return AccountManage.instance;
+        return Main.instance;
     }
 
     // 帐号管理器
-    export class AccountManage {
-        public static instance: AccountManage = null;
+    export class Main {
+        public static instance: Main = null;
         public accountEnvs: MapStr<tgame.AccountEnv> = new MapStr<tgame.AccountEnv>();
         public currAccountEnv: tgame.AccountEnv = null;
         private tmpAccountEnv: tgame.AccountEnv = null;
@@ -44,7 +19,7 @@ namespace tgame {
         private horizScreen: boolean;
 
         constructor() {
-            AccountManage.instance = this;
+            Main.instance = this;
             this.horizScreen = false;
         }
 
@@ -187,4 +162,5 @@ namespace tgame {
             }
         }
     }
+
 }

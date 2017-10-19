@@ -109,8 +109,8 @@ namespace tgame {
                     // 打开登录连接 发送登录消息
                     if (this.sceneConn) {
                         this.sceneConn.send("Index", "Login", data);
-                        GetAccountManage().AddAccount(this.account, this.pwd);
-                        GetAccountManage().SetCurrAccount(this.account);
+                        GetMain().AddAccount(this.account, this.pwd);
+                        GetMain().SetCurrAccount(this.account);
                     }
                     ret = true;
                     break;

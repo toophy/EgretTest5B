@@ -104,7 +104,7 @@ namespace tgame {
 
 				if (now_time > this._motion_time + check_time) {
 					this._motion_time = now_time;
-					if (GetAccountManage().IsHorizScreen()) {
+					if (GetMain().IsHorizScreen()) {
 						let diff_y: number = event.accelerationIncludingGravity.y - this._motion_y;
 						if (diff_y >= -change_diff && diff_y <= change_diff) {
 							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": false });

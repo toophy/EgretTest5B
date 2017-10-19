@@ -46,7 +46,7 @@ class Main extends eui.UILayer {
 			let onTouchMove = egret.sys.TouchHandler.prototype.onTouchMove;
 			egret.sys.TouchHandler.prototype.onTouchMove = function (x: number, y: number, touchPointID: number): void {
 				onTouchMove.call(this, x, y, touchPointID);
-				tgame.GetAccountManage().OnTouchMove(x, y);
+				tgame.GetMain().OnTouchMove(x, y);
 			}
 
 			var motion = new egret.Motion();
@@ -64,33 +64,33 @@ class Main extends eui.UILayer {
 			window.addEventListener("orientationchange", this._orientationchange);
 
 			// 临时账号--账号登录窗口
-			tgame.GetAccountManage().SetRootDisplay(this);
-			tgame.GetAccountManage().MakeTmpAccountEnv();
+			tgame.GetMain().SetRootDisplay(this);
+			tgame.GetMain().MakeTmpAccountEnv();
 		}
 	}
 
 	private _touchHandler(event: egret.TouchEvent): void {
-		tgame.GetAccountManage().OnTouchHandler(event);
+		tgame.GetMain().OnTouchHandler(event);
 	}
 
 	private _keyHandler(event: KeyboardEvent): void {
-		tgame.GetAccountManage().OnKeyHandler(event);
+		tgame.GetMain().OnKeyHandler(event);
 	}
 
 	private onUpdateFrame(evt: egret.Event): void {
-		tgame.GetAccountManage().Update();
+		tgame.GetMain().Update();
 	}
 
 	private onMotion(e: egret.MotionEvent): void {
-		tgame.GetAccountManage().OnMotion(e);
+		tgame.GetMain().OnMotion(e);
 	}
 
 	private _orientationchange(e: Event): void {
 		if (window.orientation == 180 || window.orientation == 0) {
-			tgame.GetAccountManage().OnOrientationChange(false);
+			tgame.GetMain().OnOrientationChange(false);
 		}
 		if (window.orientation == 90 || window.orientation == -90) {
-			tgame.GetAccountManage().OnOrientationChange(true);
+			tgame.GetMain().OnOrientationChange(true);
 		}
 	}
 

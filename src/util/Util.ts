@@ -221,3 +221,29 @@ class RNG {
         return collection[this.nextInt(0, collection.length - 1)];
     }
 }
+
+
+// 是不是在台式机
+function IsPC(): boolean {
+    var userAgentInfo: string = navigator.userAgent.toString();
+    var Agents: string[] = ["Android", "iPhone",
+        "SymbianOS", "Windows Phone",
+        "iPad", "iPod"];
+    var flag: boolean = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+}
+
+    // function getQueryString(name) {
+    //     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    //     var r = window.location.search.substr(1).match(reg);
+    //     if (r != null) {
+    //         return unescape(r[2]);
+    //     }
+    //     return null;
+    // }
