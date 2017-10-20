@@ -150,9 +150,6 @@ namespace tgame {
 
         // 重力感应
         public OnMotion(event: egret.MotionEvent): void {
-            // if (this.tipMotoinDlg) {
-            //     this.tipMotoinDlg.setMotion(event.accelerationIncludingGravity.x, event.accelerationIncludingGravity.y, event.accelerationIncludingGravity.z);
-            // }
             if (this._lands) {
                 this._lands.OnMotion(event);
             }

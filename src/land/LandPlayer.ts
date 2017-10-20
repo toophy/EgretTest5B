@@ -31,23 +31,6 @@ namespace tgame {
 			this._player = ai.getActor();
 		}
 
-		// private randomPlayer() {
-		//     if (this.landView._easyActorAI.length > 0) {
-		//         if (this._playerAI != null) {
-		//             this._playerAI.enablePlayer(false);
-		//             this._player = null;
-		//             this._playerAI = null;
-		//         }
-
-		//         let nextPlayer: number = Math.floor(Math.random() * this.landView._easyActorAI.length);
-		//         if (nextPlayer < this.landView._easyActorAI.length) {
-		//             this._playerAI = this.landView._easyActorAI[nextPlayer];
-		//             this._player = this._playerAI.getActor();
-		//             this._playerAI.enablePlayer(true);
-		//         }
-		//     }
-		// }
-
 		public _touchMove(x: number, y: number) {
 			if (this._player != null) {
 				this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": x, "y": y });
@@ -56,41 +39,7 @@ namespace tgame {
 		}
 
 		public _touchHandler(event: egret.TouchEvent): void {
-			// if (this._player != null) {
-
-			// 	if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
-			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
-			// 		this._player.aim(event.stageX, event.stageY);
-
-			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
-			// 		this._player.attack(true);
-			// 	} else {
-			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": event.stageX, "y": event.stageY });
-			// 		this._player.aim(event.stageX, event.stageY);
-
-			// 		this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": false });
-			// 		this._player.attack(false);
-			// 	}
-
-			// 	//this.TouchNewActor(event.stageX, event.stageY);
-			// }
 		}
-
-
-		// private TouchNewActor(x: number, y: number) {
-		//     // 新建演员
-		//     // 属于谁?
-		//     let newPos: egret.Point = new egret.Point();
-		//     this.citySprite[2].globalToLocal(x, y, newPos)
-		//     let tmpActor: Mecha = new Mecha();
-		//     tmpActor.setParent(this, this.citySprite[2], newPos.x, 150 /*newPos.y*/);
-		//     tmpActor.setMoveRange(3 * 1136, 640);
-		//     this._actors.push(tmpActor);
-
-		//     let tmpActorAI: EasyAI = new EasyAI();
-		//     tmpActorAI.setActor(tmpActor);
-		//     this._easyActorAI.push(tmpActorAI);
-		// }
 
 		public OnMotion(event: egret.MotionEvent): void {
 			if (event.accelerationIncludingGravity.x == null) {
@@ -111,8 +60,10 @@ namespace tgame {
 							this._playerAI.moveLeft(false);
 							this._playerAI.moveRight(false);
 						} else if (diff_y < -change_diff) {
+							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": true });
 							this._playerAI.moveLeft(true);
 						} else if (diff_y > change_diff) {
+							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": true });
 							this._playerAI.moveRight(true);
 						}
 					} else {
@@ -122,8 +73,10 @@ namespace tgame {
 							this._playerAI.moveLeft(false);
 							this._playerAI.moveRight(false);
 						} else if (diff_x < -change_diff) {
+							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": true });
 							this._playerAI.moveRight(true);
 						} else if (diff_x > change_diff) {
+							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": true });
 							this._playerAI.moveLeft(true);
 						}
 					}
@@ -179,13 +132,7 @@ namespace tgame {
 		public _keyHandler(event: KeyboardEvent): void {
 
 			const isDown: boolean = event.type == "keydown";
-			// if (event.keyCode == 13) {
-			//     if (!isDown) {
-			//         this.randomPlayer();
-			//     }
-			//     return;
-			// }
-
+			
 			if (this._player == null) {
 				return;
 			}

@@ -8,7 +8,7 @@ namespace tui {
 		private Lgn_EnterID: eui.Button;
 		private Lgn_LeaveID: eui.Button;
 
-		constructor(accountEnv:tgame.AccountEnv) {
+		constructor(accountEnv: tgame.AccountEnv) {
 			super();
 			this.skinName = "resource/assets/MainUI/LoginDlg/LoginDlg.exml";
 			this.accountEnv = accountEnv;
@@ -29,22 +29,21 @@ namespace tui {
 			this.y = this.stage.stageHeight / 2 - this.skin.height / 2;
 
 			// 注册事件 : 点击登录按钮
-			// window.location.host
-			this.Lgn_EnterID.addEventListener(egret.TouchEvent.TOUCH_TAP, (event: egret.TouchEvent) => {
-				this.accountEnv.ChangeState("帐号登录", {
-					"domain": window.location.hostname,
-					"api": "echo",
-					"port": "8080",
-					"account": this.Lgn_AccountID.text,
-					"pwd": this.Lgn_AccountPwdID.text,
-					"pos_x": 0,
-					"pos_y": 0
-				})
-			}, this);
+			this.Lgn_EnterID.addEventListener(egret.TouchEvent.TOUCH_TAP,
+				(event: egret.TouchEvent) => {
+					this.accountEnv.ChangeState("帐号登录", {
+						"domain": window.location.hostname,
+						"api": "echo",
+						"port": "8080",
+						"account": this.Lgn_AccountID.text,
+						"pwd": this.Lgn_AccountPwdID.text,
+						"pos_x": 0,
+						"pos_y": 0
+					})
+				}, this);
 
 			// 注册事件 : 点击离开按钮
 			this.Lgn_LeaveID.addEventListener(egret.TouchEvent.TOUCH_TAP, (event: egret.TouchEvent) => {
-				console.log("点击离开按钮");
 			}, this);
 		}
 
@@ -52,8 +51,6 @@ namespace tui {
 		 * 网络消息处理
 		 */
 		private onLogin(data: any, ret: string, msg: string) {
-			console.log("onLogin %s:%s:%s", data["account"], data["pwd"], ret);
-
 			if (data["account"] == this.accountEnv.account) {
 				if (!this.accountEnv._lands._accountEasyAIs.has(data["account"])) {
 					let easyAI = this.accountEnv._lands._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
@@ -61,7 +58,7 @@ namespace tui {
 					this.accountEnv._lands._accountEasyAIs.add(data["account"], easyAI);
 					this.accountEnv._lands._player.setAccount(this.accountEnv.account, easyAI);
 				}
-				
+
 				this.visible = false;
 			}
 		}

@@ -43,11 +43,6 @@ namespace tgame {
             this._base.ShowLand(s);
             // 子弹层
             s.addChild(this._bulletSprite);
-
-            // let randName: Array<string> = ["lady", "gaga", "momo", "kaka", "hehe", "你妹啊", "找找找", "咚咚咚"];
-            // let t: number = new Date().getTime() + 1000;
-            // let idx: number = randomInt(t, 0, randName.length);
-            // this._netWork.AccountLogin(randName[idx], "123456");
         }
 
         public AddRole(name: string, a: Mecha) {
