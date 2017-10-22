@@ -32,6 +32,7 @@ namespace tgame {
                 this._accountEnv.sceneConn.bind("Scene.PlayerEnter", this.onPlayerEnter, this);
                 this._accountEnv.sceneConn.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
                 this._accountEnv.sceneConn.bind("Scene.Skill", this.onSkill, this);
+                this._accountEnv.sceneConn.bind("Scene.PlayerPoint", this.onPlayerPoint, this);
             }
         }
 
@@ -211,6 +212,16 @@ namespace tgame {
                             acc.getActor().attack(data["begin"]);
                             break;
                     }
+                }
+            }
+        }
+
+        private onPlayerPoint(data: any, ret: string, msg: string) {
+            let acc = this._accountEasyAIs.get(data["account"]);
+            if (acc != null) {
+                switch (data["name"]) {
+                    case "update":
+                        break;
                 }
             }
         }

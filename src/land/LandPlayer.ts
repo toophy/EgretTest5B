@@ -21,6 +21,7 @@ namespace tgame {
 			if (this._player != null) {
 				let point: egret.Point = new egret.Point();
 				this._player.getPoint(point);
+				this.landView._accountEnv.sceneConn.send("Scene", "PlayerPoint", { "account": this._account, "name": "update", "isDown": false, "x": point.x, "y": point.y });
 				this.landView._base.SetTargetViewPos(point);
 			}
 		}
