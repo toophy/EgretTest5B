@@ -17,6 +17,10 @@ namespace tgame {
         public H: number; // 最小值 1
 
         constructor() {
+            this.X = 0;
+            this.Y = 0;
+            this.W = 0;
+            this.H = 0;
         }
 
         // CrossEx 碰撞
@@ -49,11 +53,29 @@ namespace tgame {
         public ID: number;
         public Pos: Rect;
         public Cells: Array<number>; // 最后一次染色单元格
+
+        constructor() {
+            this.ID = 0;
+            this.Pos = new Rect();
+            this.Cells = new Array<number>();
+        }
+
+        public Init(id: number, x: number, y: number, w: number, h: number) {
+            this.ID = id;
+            this.Pos.X = x;
+            this.Pos.Y = y;
+            this.Pos.W = w;
+            this.Pos.H = h;
+        }
     }
 
     // Cell 地图单元格
     export class Cell {
         public Objs: MapNum<Obj>;
+
+        constructor() {
+            this.Objs = new MapNum<Obj>();
+        }
     }
 
 
@@ -69,6 +91,17 @@ namespace tgame {
         public CellCount: number;
         public Cells: Array<Cell>;
 
+        constructor() {
+            this.initOk = false;
+            this.W = 0;
+            this.H = 0;
+            this.tileW = 0;
+            this.tileH = 0;
+            this.realW = 0;
+            this.realH = 0;
+            this.CellCount = 0;
+            this.Cells = new Array<Cell>();
+        }
 
         // Init 初始化TileMap
         public Init(tileW: number, tileH: number, realW: number, realH: number): boolean {
@@ -82,12 +115,10 @@ namespace tgame {
             this.realH = realH;
             this.tileW = tileW;
             this.tileH = tileH;
-            this.W = (realW + tileW - 1) / tileW;
-            this.H = (realH + tileH - 1) / tileH;
+            this.W = Math.floor((realW + tileW - 1) / tileW);
+            this.H = Math.floor((realH + tileH - 1) / tileH);
 
             this.CellCount = this.W * this.H;
-            this.Cells = new Array<Cell>(this.CellCount);
-
             this.initOk = true;
 
             this.Clear();
@@ -176,7 +207,7 @@ namespace tgame {
         public Clear() {
             if (this.initOk) {
                 for (let i: number = 0; i < this.CellCount; i++) {
-                    this.Cells[i].Objs = new MapNum<Obj>();
+                    this.Cells[i] = new Cell();
                 }
             }
         }

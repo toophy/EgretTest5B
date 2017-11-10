@@ -42,6 +42,8 @@ namespace tgame {
         private _sayLabel: eui.Label = null;
         private _nameLabel: eui.Label = null;
 
+        public _tilemapObj: tgame.Obj = new tgame.Obj();
+
         public constructor(accountEnv: tgame.AccountEnv) {
             this._accountEnv = accountEnv;
             this._armature = this._accountEnv.factory.buildArmature("mecha_1502b");
@@ -92,6 +94,7 @@ namespace tgame {
 
             this._armatureDisplay.x = x;
             this._armatureDisplay.y = this._ground_y;
+
         }
 
         public leaveParent() {
@@ -347,12 +350,14 @@ namespace tgame {
         }
 
         private _updatePosition(): void {
+            let tmpX = this._armatureDisplay.x;
+            let tmpY = this._armatureDisplay.y;
             if (this._speedX != 0) {
-                this._armatureDisplay.x += this._speedX;
-                if (this._armatureDisplay.x < 0) {
-                    this._armatureDisplay.x = 0;
-                } else if (this._armatureDisplay.x > this._moveRangeWidth) {
-                    this._armatureDisplay.x = this._moveRangeWidth;
+                tmpX += this._speedX;
+                if (tmpX < 0) {
+                    tmpX = 0;
+                } else if (tmpX > this._moveRangeWidth) {
+                    tmpX = this._moveRangeWidth;
                 }
             }
 
@@ -363,9 +368,9 @@ namespace tgame {
 
                 this._speedY += this._accountEnv.G;
 
-                this._armatureDisplay.y += this._speedY;
-                if (this._armatureDisplay.y > this._ground_y) {
-                    this._armatureDisplay.y = this._ground_y;
+                tmpY += this._speedY;
+                if (tmpY > this._ground_y) {
+                    tmpY = this._ground_y;
                     this._isJumpingA = false;
                     this._isJumpingB = false;
                     this._speedY = 0;
@@ -374,6 +379,25 @@ namespace tgame {
                     if (this._isSquating || this._moveDir) {
                         this._updateAnimation();
                     }
+                }
+            }
+
+            if (this._parent.stage != null) {
+                let point: egret.Point = new egret.Point();
+                this._parent.stage.localToGlobal(tmpX, tmpY, point);
+
+                let newRect = new Rect();
+                newRect.X = point.x;
+                newRect.Y = point.y;
+                newRect.W = 100;
+                newRect.H = 120;
+
+                if (!this._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
+                    this.move(0);
+                } else {
+                    this._armatureDisplay.x = tmpX;
+                    this._armatureDisplay.y = tmpY;
+                    this._land._tilemap.Insert(this._tilemapObj, newRect);
                 }
             }
         }
@@ -450,6 +474,15 @@ namespace tgame {
 
             this._attackState.autoFadeOutTime = this._attackState.fadeTotalTime;
             this._attackState.addBoneMask("pelvis");
+        }
+
+        public OnShowland(): void {
+
+            let point: egret.Point = new egret.Point();
+            this.getPoint(point);
+
+            this._tilemapObj.Init(this._land._accountEnv.MakeObjID(), point.x, point.y, 100, 120);
+            this._land._tilemap.Insert(this._tilemapObj, this._tilemapObj.Pos);
         }
     }
 }

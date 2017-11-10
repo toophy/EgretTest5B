@@ -133,7 +133,7 @@ namespace tgame {
 		public _keyHandler(event: KeyboardEvent): void {
 
 			const isDown: boolean = event.type == "keydown";
-			
+
 			if (this._player == null) {
 				return;
 			}

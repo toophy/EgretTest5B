@@ -16,6 +16,8 @@ namespace tgame {
 
         public _accountEasyAIs: MapStr<EasyAI>;
 
+        public _tilemap: TileMap = new TileMap();
+
         public constructor(accountEnv: tgame.AccountEnv) {
             this._accountEnv = accountEnv;
             this._base = new LandBase(accountEnv, this);
@@ -38,12 +40,21 @@ namespace tgame {
 
         public LoadLand(jsonData: any) {
             this._base.LoadLand(jsonData);
+            this._tilemap.Init(100,100,3000,480);
         }
 
         public ShowLand(s: egret.DisplayObjectContainer) {
             this._base.ShowLand(s);
             // 子弹层
             s.addChild(this._bulletSprite);
+
+            // 显示成功
+            for (let key in this._roles.items) {
+                this._roles.items[key].OnShowland();
+            }
+            for (let i in this._actions) {
+                this._actions[i].OnShowland();
+            }
         }
 
         public AddRole(name: string, a: Mecha) {

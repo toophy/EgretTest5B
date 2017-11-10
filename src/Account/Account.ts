@@ -30,6 +30,9 @@ namespace tgame {
         //
         public G: number = 0.6;
 
+        // 临时使用
+        private _lastObjID = 0; // 对象唯一增长ID
+
 
         // 构造函数
         constructor(rootDisplay: eui.UILayer) {
@@ -280,6 +283,11 @@ namespace tgame {
             if (this._lands && this._lands._player) {
                 this._lands._player.SelfUseSkill(id);
             }
+        }
+
+        public MakeObjID(): number {
+            this._lastObjID++;
+            return this._lastObjID;
         }
     }
 }
