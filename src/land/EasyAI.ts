@@ -2,7 +2,6 @@
 
 namespace tgame {
 
-
     // easy ai
     export class EasyAI {
         public _left: boolean = false;
@@ -14,6 +13,11 @@ namespace tgame {
         private _player: boolean = false;
 
         private static _says: Array<string> = ["呵呵呵", "哈哈哈", "嘿嘿嘿", "叽叽叽叽", "O(∩_∩)O哈哈哈~", "吼吼吼"];
+
+        public _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
+        // 模拟位置(当前模拟位置---用于显示)
+        // 模拟位置用 "时间" 来计算具体位置, 时间到, 计算下一个"准确位置", 再次进行模拟
+        // 模拟位置 追随 准确位置, 追到了就设定下一个准确位置
 
         public constructor() {
         }
@@ -40,10 +44,68 @@ namespace tgame {
             }
         }
 
+        public updateNextFrame() {
+            let currX = 0;
+            let currY = 0;
+            let currSpeedX = 0;
+            let currSpeedY = 0;
+            let moveRangeWidth = 0;
+            let moveRangeHeight = 0;
+
+            let nextX = 0;
+            let nextY = 0;
+            let nextSpeedX = 0;
+            let nextSpeedY = 0;
+
+            let tmpX = currX;
+            let tmpY = currY;
+            if (currSpeedX != 0) {
+                tmpX += currSpeedX;
+                if (tmpX < 0) {
+                    tmpX = 0;
+                } else if (tmpX > moveRangeWidth) {
+                    tmpX = moveRangeWidth;
+                }
+            }
+
+            if (currSpeedY != 0) {
+                currSpeedY += this._accountEnv.G;
+                tmpY += currSpeedY;
+            }
+
+            if (this._parent.stage != null) {
+                let point: egret.Point = new egret.Point();
+                this._parent.stage.localToGlobal(tmpX, tmpY, point);
+
+                let newRect = new Rect();
+                newRect.X = point.x;
+                newRect.Y = point.y;
+                newRect.W = 100;
+                newRect.H = 120;
+
+                if (!this._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
+                    this.move(0);
+                } else {
+                    nextX = tmpX;
+                    nextY = tmpY;
+                    this._land._tilemap.Insert(this._tilemapObj, newRect);
+                }
+            }
+        }
+
         public update() {
             if (this._player) {
                 return;
             }
+
+            //      public OnShowland(): void {
+
+            //     let point: egret.Point = new egret.Point();
+            //     this.getPoint(point);
+
+            //     this._tilemapObj.Init(this._land._accountEnv.MakeObjID(), point.x, point.y, 100, 120);
+            //     this._land._tilemap.Insert(this._tilemapObj, this._tilemapObj.Pos);
+            // }
 
             let now: number = new Date().getTime();
             if (now > this._lastTime) {

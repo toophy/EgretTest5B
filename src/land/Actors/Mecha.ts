@@ -42,7 +42,7 @@ namespace tgame {
         private _sayLabel: eui.Label = null;
         private _nameLabel: eui.Label = null;
 
-        public _tilemapObj: tgame.Obj = new tgame.Obj();
+        
 
         public constructor(accountEnv: tgame.AccountEnv) {
             this._accountEnv = accountEnv;
@@ -477,12 +477,6 @@ namespace tgame {
         }
 
         public OnShowland(): void {
-
-            let point: egret.Point = new egret.Point();
-            this.getPoint(point);
-
-            this._tilemapObj.Init(this._land._accountEnv.MakeObjID(), point.x, point.y, 100, 120);
-            this._land._tilemap.Insert(this._tilemapObj, this._tilemapObj.Pos);
         }
     }
 }

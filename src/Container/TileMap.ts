@@ -52,11 +52,15 @@ namespace tgame {
     export class Obj {
         public ID: number;
         public Pos: Rect;
+        public SpeedX: number;
+        public SpeedY: number;
         public Cells: Array<number>; // 最后一次染色单元格
 
         constructor() {
             this.ID = 0;
             this.Pos = new Rect();
+            this.SpeedX = 0;
+            this.SpeedY = 0;
             this.Cells = new Array<number>();
         }
 
@@ -66,6 +70,8 @@ namespace tgame {
             this.Pos.Y = y;
             this.Pos.W = w;
             this.Pos.H = h;
+            this.SpeedX = 0;
+            this.SpeedY = 0;
         }
     }
 
@@ -227,28 +233,7 @@ namespace tgame {
             }
         }
 
-        // ObjMove 对象在TileMap上移动,step是步长
-        public ObjMove(o: Obj, dir: number, step: number): boolean {
-            if (o == null) {
-                return false;
-            }
-            let newRect: Rect = o.Pos;
-            switch (dir) {
-                case Dir.Left:
-                    newRect.X -= step;
-                    break
-                case Dir.Right:
-                    newRect.X += step;
-                    break
-                case Dir.Up:
-                    newRect.Y -= step;
-                    break
-                case Dir.Down:
-                    newRect.Y += step;
-                    break
-            }
-            return this.Insert(o, newRect);
-        }
+         
 
     }
 
