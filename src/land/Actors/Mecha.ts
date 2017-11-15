@@ -11,7 +11,7 @@ namespace tgame {
         private static WEAPON_R_LIST: Array<string> = ["weapon_1502b_r", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d", "weapon_1005e"];
         private static WEAPON_L_LIST: Array<string> = ["weapon_1502b_l", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d"];
 
-        private _accountEnv: tgame.AccountEnv;
+
         private _isJumpingA: boolean = false;
         private _isJumpingB: boolean = false;
         private _isSquating: boolean = false;
@@ -34,15 +34,17 @@ namespace tgame {
         private _attackState: dragonBones.AnimationState = null;
         private _target: egret.Point = new egret.Point();
 
-        private _parent: egret.Sprite = null;
+        public _accountEnv: tgame.AccountEnv;
+        public _parent: egret.Sprite = null;
         private _ground_y: number = 0;
         private _moveRangeWidth: number = 0;
         private _moveRangeHeight: number = 0;
-        private _land: tgame.LandView = null;
+        public _land: tgame.LandView = null;
         private _sayLabel: eui.Label = null;
         private _nameLabel: eui.Label = null;
+        public _easyAI: EasyAI = null;
 
-        
+
 
         public constructor(accountEnv: tgame.AccountEnv) {
             this._accountEnv = accountEnv;
@@ -68,6 +70,10 @@ namespace tgame {
 
             // this._accountEnv.addChild(this._armatureDisplay);
             dragonBones.WorldClock.clock.add(this._armature);
+        }
+
+        public setEasyAI(a:EasyAI){
+            this._easyAI = a;
         }
 
         public setParent(land: tgame.LandView, p: egret.Sprite, x: number, y: number) {
@@ -382,24 +388,8 @@ namespace tgame {
                 }
             }
 
-            if (this._parent.stage != null) {
-                let point: egret.Point = new egret.Point();
-                this._parent.stage.localToGlobal(tmpX, tmpY, point);
-
-                let newRect = new Rect();
-                newRect.X = point.x;
-                newRect.Y = point.y;
-                newRect.W = 100;
-                newRect.H = 120;
-
-                if (!this._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
-                    this.move(0);
-                } else {
-                    this._armatureDisplay.x = tmpX;
-                    this._armatureDisplay.y = tmpY;
-                    this._land._tilemap.Insert(this._tilemapObj, newRect);
-                }
-            }
+            this._armatureDisplay.x = tmpX;
+            this._armatureDisplay.y = tmpY;
         }
 
         private _updateAim(): void {
@@ -477,6 +467,10 @@ namespace tgame {
         }
 
         public OnShowland(): void {
+            let point: egret.Point = new egret.Point();
+            this.getPoint(point);
+
+            this._easyAI.updateActorShow(point);
         }
     }
 }

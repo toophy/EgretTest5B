@@ -100,7 +100,7 @@ namespace tgame {
         public Update() {
 
             for (let i in this._easyActorAI) {
-                this._easyActorAI[i].update();
+                this._easyActorAI[i].updateNextFrame();
             }
             for (let key in this._roles.items) {
                 this._roles.items[key].update();

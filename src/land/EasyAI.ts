@@ -24,10 +24,18 @@ namespace tgame {
 
         public setActor(a: Mecha) {
             this._actor = a;
+            this._tilemapObj.Init(this._actor._land._accountEnv.MakeObjID(), 0, 0, 100, 120);
+            a.setEasyAI(this);
         }
 
         public getActor(): Mecha {
             return this._actor;
+        }
+
+        public updateActorShow(point :egret.Point){
+            this._tilemapObj.Pos.X = point.x;
+            this._tilemapObj.Pos.Y = point.y;
+            this._actor._land._tilemap.Insert(this._tilemapObj, this._tilemapObj.Pos);
         }
 
         public enablePlayer(e: boolean) {
@@ -45,6 +53,10 @@ namespace tgame {
         }
 
         public updateNextFrame() {
+            if (this._player) {
+                return;
+            }
+
             let currX = 0;
             let currY = 0;
             let currSpeedX = 0;
@@ -69,13 +81,13 @@ namespace tgame {
             }
 
             if (currSpeedY != 0) {
-                currSpeedY += this._accountEnv.G;
+                currSpeedY += this._actor._accountEnv.G;
                 tmpY += currSpeedY;
             }
 
-            if (this._parent.stage != null) {
+            if (this._actor._parent.stage != null) {
                 let point: egret.Point = new egret.Point();
-                this._parent.stage.localToGlobal(tmpX, tmpY, point);
+                this._actor._parent.stage.localToGlobal(tmpX, tmpY, point);
 
                 let newRect = new Rect();
                 newRect.X = point.x;
@@ -83,29 +95,19 @@ namespace tgame {
                 newRect.W = 100;
                 newRect.H = 120;
 
-                if (!this._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
-                    this.move(0);
+                if (!this._actor._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
+                    this._state = 0;
+                    this._left = false;
+                    this._right = false;
+                    this._updateMove(0);
+                    this._lastTime = new Date().getTime() + 1000;
+                    return
                 } else {
                     nextX = tmpX;
                     nextY = tmpY;
-                    this._land._tilemap.Insert(this._tilemapObj, newRect);
+                    this._actor._land._tilemap.Insert(this._tilemapObj, newRect);
                 }
             }
-        }
-
-        public update() {
-            if (this._player) {
-                return;
-            }
-
-            //      public OnShowland(): void {
-
-            //     let point: egret.Point = new egret.Point();
-            //     this.getPoint(point);
-
-            //     this._tilemapObj.Init(this._land._accountEnv.MakeObjID(), point.x, point.y, 100, 120);
-            //     this._land._tilemap.Insert(this._tilemapObj, this._tilemapObj.Pos);
-            // }
 
             let now: number = new Date().getTime();
             if (now > this._lastTime) {
@@ -133,10 +135,10 @@ namespace tgame {
                             this._updateMove(1);
                             this._lastTime = new Date().getTime() + 3000;
                             break;
-                        case 3://"jump":
-                            this._actor.jump();
-                            this._lastTime = new Date().getTime() + 3000;
-                            break;
+                        // case 3://"jump":
+                        //     this._actor.jump();
+                        //     this._lastTime = new Date().getTime() + 3000;
+                        //     break;
                         case 4://
                             this._actor.switchWeaponR();
                             this._lastTime = new Date().getTime() + 500;
@@ -177,6 +179,9 @@ namespace tgame {
                         break;
                 }
             }
+        }
+
+        public update() {
         }
 
         public _updateMove(dir: number): void {
