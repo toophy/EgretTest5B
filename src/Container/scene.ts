@@ -1,4 +1,0 @@
-// TypeScript file
-
-namespace tgame {
-}
