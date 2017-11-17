@@ -5,7 +5,17 @@ namespace tgame {
 
         public _accountEnv: tgame.AccountEnv;
 
-        public _base: LandBase = null;
+        private stage_width: number = 1136;
+        private stage_height: number = 640;
+
+        private cnfs: CnfLand;
+        private citySprite: Array<egret.Sprite> = [];
+
+        public _viewPos: egret.Point = new egret.Point();
+        private _targetViewPos: egret.Point = new egret.Point();
+        private _targetViewSpeed: number = 0.1;
+        private _targetViewRun: boolean = false;
+
         public _player: LandPlayer = null;
 
         private _roles: MapStr<Mecha>;
@@ -18,9 +28,14 @@ namespace tgame {
 
         public _tilemap: TileMap = new TileMap();
 
+
+
         public constructor(accountEnv: tgame.AccountEnv) {
             this._accountEnv = accountEnv;
-            this._base = new LandBase(accountEnv, this);
+
+            this._targetViewPos.x = this.stage_width / 2;
+            this._targetViewPos.y = this.stage_height / 2;
+
             this._player = new LandPlayer(this);
             this._roles = new MapStr<Mecha>();
 
@@ -38,13 +53,123 @@ namespace tgame {
             }
         }
 
+        public AddRole(name: string, x: number, y: number): EasyAI {
+
+            let tmpActor: Mecha = new Mecha(this._accountEnv);
+            tmpActor.setName(name);
+            tmpActor.setParent(this, this.citySprite[0], x, y);
+            tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+
+            if (name.length > 0 && tmpActor) {
+                this._roles.add(name, tmpActor);
+            }
+
+            tmpActor._land = this;
+
+            let tmpActorAI: EasyAI = new EasyAI();
+            tmpActorAI.setActor(tmpActor);
+            this.AddEasyAI(tmpActorAI);
+
+            return tmpActorAI;
+        }
+
+        public SetTargetViewPos(p: egret.Point) {
+            let distance: number = egret.Point.distance(this._targetViewPos, p);
+            if (distance > 1.0) {
+                this._targetViewRun = true;
+                this._targetViewPos.x = p.x;
+                this._targetViewPos.y = p.y;
+                this._targetViewPos.y = this._viewPos.y;
+                let speed: number = 5;
+                if (distance > 30)
+                    speed = 100;
+                if (this._viewPos.x <= this._targetViewPos.x) {
+                    this._targetViewSpeed = speed;
+                } else {
+                    this._targetViewSpeed = -speed;
+                }
+            }
+        }
+
+        public ScrollLand() {
+            if (!this._targetViewRun) {
+                return;
+            }
+
+            if (egret.Point.distance(this._targetViewPos, this._viewPos) > Math.abs(this._targetViewSpeed)) {
+                let oldx: number = this._viewPos.x;
+                this._viewPos.x = oldx + this._targetViewSpeed;
+                for (let i = 0; i < this.citySprite.length; ++i) {
+                    this.citySprite[i].x += (oldx - this._viewPos.x);
+                }
+            } else {
+                this._targetViewRun = false;
+                let oldx: number = this._viewPos.x;
+                this._viewPos.x = this._targetViewPos.x;
+                for (let i = 0; i < this.citySprite.length; ++i) {
+                    this.citySprite[i].x += (oldx - this._viewPos.x);
+                }
+            }
+        }
+
         public LoadLand(jsonData: any) {
-            this._base.LoadLand(jsonData);
-            this._tilemap.Init(100,100,3000,480);
+            this.cnfs = <CnfLand>jsonData;
+
+            let cts: egret.Sprite = new egret.Sprite();
+            cts.x = 0;
+            cts.y = 0;
+            cts.width = this.stage_width;
+            cts.height = this.stage_height;
+
+            this.citySprite.push(cts);
+
+            for (let i=0;i<this.cnfs.actors.length;++i){
+                console.log(this.cnfs.actors[i].type)
+            }
+
+            for (let i in this.cnfs.actors) {
+                let lc = this.cnfs.actors[i]
+
+                if (lc.type == "shape") {
+                    let bg: egret.Shape = new egret.Shape();
+                    bg.graphics.beginFill(lc.data.color, 100);
+                    bg.graphics.drawRect(0, 0, lc.data.width, lc.data.height);
+                    bg.graphics.endFill();
+                    bg.x = lc.data.x;
+                    bg.y = lc.data.y;
+                    cts.addChild(bg);
+                } else if (lc.type == "image") {
+                    let bg4: egret.Bitmap = new egret.Bitmap(RES.getRes(lc.data.res));
+                    bg4.x = lc.data.x;
+                    bg4.y = lc.data.y;
+                    cts.addChild(bg4);
+                } else if (lc.type == "animation") {
+                    let tmpActor: Mecha = new Mecha(this._accountEnv);
+                    tmpActor.setName(lc.data.name);
+                    tmpActor.setParent(this, cts, lc.data.x, lc.data.y);
+                    tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
+
+                    if (lc.data.name.length > 0 && tmpActor) {
+                        this._roles.add(lc.data.name, tmpActor);
+                    }
+
+                    tmpActor._land = this;
+
+                    let tmpActorAI: EasyAI = new EasyAI();
+                    tmpActorAI.setActor(tmpActor);
+                    this.AddEasyAI(tmpActorAI);
+                }
+            }
+
+            this._viewPos.setTo(this.stage_width / 2, this.stage_height / 2);
+
+            this._tilemap.Init(100, 100, 3000, 480);
         }
 
         public ShowLand(s: egret.DisplayObjectContainer) {
-            this._base.ShowLand(s);
+            for (let i = 0; i < this.citySprite.length; ++i) {
+                s.addChild(this.citySprite[i]);
+            }
             // 子弹层
             s.addChild(this._bulletSprite);
 
@@ -54,12 +179,6 @@ namespace tgame {
             }
             for (let i in this._actions) {
                 this._actions[i].OnShowland();
-            }
-        }
-
-        public AddRole(name: string, a: Mecha) {
-            if (name.length > 0 && a) {
-                this._roles.add(name, a);
             }
         }
 
@@ -120,7 +239,7 @@ namespace tgame {
             this._player.update();
 
             //视口滚动
-            this._base.ScrollLand();
+            this.ScrollLand();
         }
 
         public addBullet(bullet: Bullet): void {
@@ -169,7 +288,7 @@ namespace tgame {
             if (data["account"] == this._accountEnv.account)
                 return;
             if (!this._accountEasyAIs.has(data["account"])) {
-                let easyAI = this._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
+                let easyAI = this.AddRole(data["account"], data["pos_x"], data["pos_y"]);
                 easyAI.enablePlayer(true);
                 this._accountEasyAIs.add(data["account"], easyAI);
             }

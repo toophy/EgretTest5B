@@ -57,56 +57,6 @@ namespace tgame {
         }
     }
 
-    // 行
-    export class CnfRowBlock {
-        public shape: string;
-        public color: number;
-        public res: string;
-        public width: number;
-        public height: number;
-    }
-
-    export class CnfCityRow {
-        public type: string;
-        public data: CnfRowBlock;
-    }
-
-    export class CnfCity {
-        public id: number;
-        public sort: number;
-        public master: string;
-        public up: CnfCityRow;
-        public up2: CnfCityRow;
-        public middle: CnfCityRow;
-        public down: CnfCityRow;
-    }
-
-    // 建筑
-    export class CnfBuildBlock {
-        public shape: string;
-        public color: number;
-        public res: string;
-        public x: number;
-        public y: number;
-        public width: number;
-        public height: number;
-    }
-
-    export class CnfBuildRow {
-        public type: string;
-        public data: CnfBuildBlock;
-    }
-
-    export class CnfBuild {
-        public id: number;
-        public sort: number;
-        public master: string;
-        public up: Array<CnfBuildRow>;
-        public up2: Array<CnfBuildRow>;
-        public middle: Array<CnfBuildRow>;
-        public down: Array<CnfBuildRow>;
-    }
-
     // 演员
     export class CnfActorBlock {
         public name: string;
@@ -124,20 +74,8 @@ namespace tgame {
         public data: CnfActorBlock;
     }
 
-    export class CnfActor {
-        public id: number;
-        public sort: number;
-        public master: string;
-        public up: Array<CnfActorRow>;
-        public up2: Array<CnfActorRow>;
-        public middle: Array<CnfActorRow>;
-        public down: Array<CnfActorRow>;
-    }
-
     export class CnfLand {
-        public citys: { [key: string]: CnfCity };
-        public builds: { [key: string]: CnfBuild };
-        public actors: { [key: string]: CnfActor };
+        public actors: Array<CnfActorRow>;
     }
 }
 

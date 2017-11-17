@@ -120,7 +120,8 @@ namespace tgame {
         }
 
         public getPoint(resultPoint: egret.Point) {
-            this._parent.stage.localToGlobal(this._armatureDisplay.x, this._armatureDisplay.y, resultPoint);
+            resultPoint.x = this._armatureDisplay.x;
+            resultPoint.y = this._armatureDisplay.y;
         }
 
         public move(dir: number): void {

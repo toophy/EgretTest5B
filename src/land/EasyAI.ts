@@ -53,6 +53,10 @@ namespace tgame {
         }
 
         public updateNextFrame() {
+            
+        }
+
+        public update() {
             if (this._player) {
                 return;
             }
@@ -179,9 +183,6 @@ namespace tgame {
                         break;
                 }
             }
-        }
-
-        public update() {
         }
 
         public _updateMove(dir: number): void {

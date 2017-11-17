@@ -38,7 +38,7 @@ namespace tui {
 						"account": this.Lgn_AccountID.text,
 						"pwd": this.Lgn_AccountPwdID.text,
 						"pos_x": 0,
-						"pos_y": 0
+						"pos_y": 600
 					})
 				}, this);
 
@@ -53,7 +53,7 @@ namespace tui {
 		private onLogin(data: any, ret: string, msg: string) {
 			if (data["account"] == this.accountEnv.account) {
 				if (!this.accountEnv._lands._accountEasyAIs.has(data["account"])) {
-					let easyAI = this.accountEnv._lands._base.AddRole(data["account"], data["pos_x"], data["pos_y"]);
+					let easyAI = this.accountEnv._lands.AddRole(data["account"], data["pos_x"], data["pos_y"]);
 					easyAI.enablePlayer(true);
 					this.accountEnv._lands._accountEasyAIs.add(data["account"], easyAI);
 					this.accountEnv._lands._player.setAccount(this.accountEnv.account, easyAI);
