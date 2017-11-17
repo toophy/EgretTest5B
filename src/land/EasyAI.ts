@@ -61,12 +61,14 @@ namespace tgame {
                 return;
             }
 
-            let currX = 0;
-            let currY = 0;
-            let currSpeedX = 0;
-            let currSpeedY = 0;
-            let moveRangeWidth = 0;
-            let moveRangeHeight = 0;
+            let point = new egret.Point();
+            this._actor.getPoint(point);
+            let currX = point.x;
+            let currY = point.y;
+            let currSpeedX = this._actor._speedX;
+            let currSpeedY = this._actor._speedY;
+            let moveRangeWidth = 1136;
+            let moveRangeHeight = 640;
 
             let nextX = 0;
             let nextY = 0;
@@ -90,12 +92,9 @@ namespace tgame {
             }
 
             if (this._actor._parent.stage != null) {
-                let point: egret.Point = new egret.Point();
-                this._actor._parent.stage.localToGlobal(tmpX, tmpY, point);
-
                 let newRect = new Rect();
-                newRect.X = point.x;
-                newRect.Y = point.y;
+                newRect.X = tmpX;
+                newRect.Y = tmpY;
                 newRect.W = 100;
                 newRect.H = 120;
 

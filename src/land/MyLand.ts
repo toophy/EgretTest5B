@@ -163,7 +163,7 @@ namespace tgame {
 
             this._viewPos.setTo(this.stage_width / 2, this.stage_height / 2);
 
-            this._tilemap.Init(100, 100, 3000, 480);
+            this._tilemap.Init(100, 100, 1136, 640);
         }
 
         public ShowLand(s: egret.DisplayObjectContainer) {
@@ -219,7 +219,7 @@ namespace tgame {
         public Update() {
 
             for (let i in this._easyActorAI) {
-                this._easyActorAI[i].updateNextFrame();
+                this._easyActorAI[i].update();
             }
             for (let key in this._roles.items) {
                 this._roles.items[key].update();

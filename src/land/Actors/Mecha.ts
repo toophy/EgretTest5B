@@ -23,8 +23,8 @@ namespace tgame {
         private _aimDir: number = 0;
         private _moveDir: number = 0;
         private _aimRadian: number = 0;
-        private _speedX: number = 0;
-        private _speedY: number = 0;
+        public _speedX: number = 0;
+        public _speedY: number = 0;
         private _armature: dragonBones.Armature = null;
         private _armatureDisplay: dragonBones.EgretArmatureDisplay = null;
         private _weaponR: dragonBones.Armature = null;
@@ -72,7 +72,7 @@ namespace tgame {
             dragonBones.WorldClock.clock.add(this._armature);
         }
 
-        public setEasyAI(a:EasyAI){
+        public setEasyAI(a: EasyAI) {
             this._easyAI = a;
         }
 
