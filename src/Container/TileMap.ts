@@ -97,6 +97,8 @@ namespace tgame {
         public CellCount: number;
         public Cells: Array<Cell>;
 
+        public shapebg: egret.Shape = new egret.Shape();
+
         constructor() {
             this.initOk = false;
             this.W = 0;
@@ -141,10 +143,10 @@ namespace tgame {
             }
             let x2: number = x + w;
             let y2: number = y + h;
-            let cx: number = x / this.tileW;
-            let cy: number = y / this.tileH;
-            let cx2: number = x2 / this.tileW;
-            let cy2: number = y2 / this.tileH;
+            let cx: number = Math.floor(x / this.tileW);
+            let cy: number = Math.floor(y / this.tileH);
+            let cx2: number = Math.floor(x2 / this.tileW);
+            let cy2: number = Math.floor(y2 / this.tileH);
             for (let r: number = cy; r <= cy2; r++) {
                 for (let c: number = cx; c <= cx2; c++) {
                     rets.push(r * this.W + c);
@@ -165,9 +167,9 @@ namespace tgame {
             }
 
             for (let v in newCells) {
-                for (let cv in this.Cells[v].Objs.items) {
-                    if (o.ID != this.Cells[v].Objs.items[cv].ID &&
-                        this.Cells[v].Objs.items[cv].Pos.Cross(x, y, w, h)) {
+                for (let cv in this.Cells[newCells[v]].Objs.items) {
+                    if (o.ID != this.Cells[newCells[v]].Objs.items[cv].ID &&
+                        this.Cells[newCells[v]].Objs.items[cv].Pos.Cross(x, y, w, h)) {
                         return false;
                     }
                 }
@@ -185,12 +187,12 @@ namespace tgame {
                 if (this.CanInsert(o.Pos.X, o.Pos.Y, o.Pos.W, o.Pos.H, o)) {
                     // 褪色
                     for (let v in o.Cells) {
-                        this.Cells[v].Objs.del(o.ID);
+                        this.Cells[o.Cells[v]].Objs.del(o.ID);
                     }
                     // 染色
                     let newCells = this.GetCrossCells(o.Pos.X, o.Pos.Y, o.Pos.W, o.Pos.H);
                     for (let v in newCells) {
-                        this.Cells[v].Objs.add(o.ID, o);
+                        this.Cells[newCells[v]].Objs.add(o.ID, o);
                     }
                     o.Cells = newCells
                     return true
@@ -199,12 +201,20 @@ namespace tgame {
             return false
         }
 
+        public FocusShape(newRect: Rect) {
+            this.shapebg.graphics.beginFill(3000, 100);
+            this.shapebg.graphics.drawRect(0, 0, newRect.W, newRect.H);
+            this.shapebg.graphics.endFill();
+            this.shapebg.x = newRect.X + 1136/2;
+            this.shapebg.y = newRect.Y;
+        }
+
         // // Erase 擦除一个对象
         public Erase(o: Obj) {
-            // 褪色
             if (o != null) {
-                for (let i in this.Cells) {
-                    this.Cells[i].Objs.del(o.ID);
+                // 褪色
+                for (let v in o.Cells) {
+                    this.Cells[o.Cells[v]].Objs.del(o.ID);
                 }
             }
         }
@@ -233,7 +243,7 @@ namespace tgame {
             }
         }
 
-         
+
 
     }
 

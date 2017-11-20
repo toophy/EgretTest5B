@@ -123,6 +123,8 @@ namespace tgame {
 
             this.citySprite.push(cts);
 
+            this._tilemap.Init(100, 100, 1136, 640);
+
             for (let i=0;i<this.cnfs.actors.length;++i){
                 console.log(this.cnfs.actors[i].type)
             }
@@ -135,14 +137,22 @@ namespace tgame {
                     bg.graphics.beginFill(lc.data.color, 100);
                     bg.graphics.drawRect(0, 0, lc.data.width, lc.data.height);
                     bg.graphics.endFill();
-                    bg.x = lc.data.x;
+                    bg.x = lc.data.x; 
                     bg.y = lc.data.y;
                     cts.addChild(bg);
+
+                    let _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
+                    _tilemapObj.Init(this._accountEnv.MakeObjID(),  bg.x, bg.y, lc.data.width, lc.data.height);
+                    this._tilemap.Insert(_tilemapObj,_tilemapObj.Pos);
                 } else if (lc.type == "image") {
                     let bg4: egret.Bitmap = new egret.Bitmap(RES.getRes(lc.data.res));
                     bg4.x = lc.data.x;
                     bg4.y = lc.data.y;
                     cts.addChild(bg4);
+                   
+                    let _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
+                    _tilemapObj.Init(this._accountEnv.MakeObjID(), bg4.x, bg4.y,  bg4.width, bg4.height);
+                    this._tilemap.Insert(_tilemapObj,_tilemapObj.Pos);
                 } else if (lc.type == "animation") {
                     let tmpActor: Mecha = new Mecha(this._accountEnv);
                     tmpActor.setName(lc.data.name);
@@ -163,7 +173,7 @@ namespace tgame {
 
             this._viewPos.setTo(this.stage_width / 2, this.stage_height / 2);
 
-            this._tilemap.Init(100, 100, 1136, 640);
+            
         }
 
         public ShowLand(s: egret.DisplayObjectContainer) {

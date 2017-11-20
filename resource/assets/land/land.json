@@ -1,66 +1,15 @@
 {
     "actors": [
         {
-            "type": "animation",
+            "type": "shape",
             "data": {
-                "name": "柯南",
+                "name": "地块1",
                 "shape": "rect",
                 "color": 100,
-                "res": "mecha_1502b",
                 "x": 50,
-                "y": 600,
+                "y": 300,
                 "width": 100,
-                "height": 240
-            }
-        },
-        {
-            "type": "animation",
-            "data": {
-                "name": "海贼王",
-                "shape": "rect",
-                "color": 100,
-                "res": "mecha_1502b",
-                "x": 250,
-                "y": 600,
-                "width": 100,
-                "height": 240
-            }
-        },
-        {
-            "type": "image",
-            "data": {
-                "shape": "rect",
-                "color": 100,
-                "res": "tree2_png",
-                "x": 60,
-                "y": 160,
-                "width": 100,
-                "height": 240
-            }
-        },
-        {
-            "type": "image",
-            "data": {
-                "shape": "rect",
-                "color": 100,
-                "res": "tree2_png",
-                "x": 180,
-                "y": 160,
-                "width": 100,
-                "height": 240
-            }
-        },
-        {
-            "type": "animation",
-            "data": {
-                "name": "小头萝卜",
-                "shape": "rect",
-                "color": 100,
-                "res": "mecha_1502b",
-                "x": 350,
-                "y": 600,
-                "width": 100,
-                "height": 240
+                "height": 50
             }
         },
         {
@@ -70,10 +19,35 @@
                 "shape": "rect",
                 "color": 100,
                 "res": "mecha_1502b",
-                "x": 450,
-                "y": 600,
+                "x": 200,
+                "y": 400,
                 "width": 100,
-                "height": 240
+                "height": 100
+            }
+        },
+        {
+            "type": "animation",
+            "data": {
+                "name": "孙悟空",
+                "shape": "rect",
+                "color": 100,
+                "res": "mecha_1502b",
+                "x": 400,
+                "y": 400,
+                "width": 100,
+                "height": 100
+            }
+        },
+        {
+            "type": "shape",
+            "data": {
+                "name": "地块1",
+                "shape": "rect",
+                "color": 100,
+                "x": 750,
+                "y": 300,
+                "width": 100,
+                "height": 50
             }
         }
     ]

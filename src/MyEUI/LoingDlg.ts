@@ -38,7 +38,7 @@ namespace tui {
 						"account": this.Lgn_AccountID.text,
 						"pwd": this.Lgn_AccountPwdID.text,
 						"pos_x": 0,
-						"pos_y": 600
+						"pos_y": 400
 					})
 				}, this);
 
