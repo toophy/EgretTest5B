@@ -357,6 +357,14 @@ namespace tgame {
         }
 
         private _updatePosition(): void {
+            if (this._easyAI.isStopMove()) {
+                this._isJumpingA = false;
+                this._isJumpingB = false;
+                this._speedY = 0;
+                this._speedX = 0;
+                return;
+            }
+
             let tmpX = this._armatureDisplay.x;
             let tmpY = this._armatureDisplay.y;
             if (this._speedX != 0) {

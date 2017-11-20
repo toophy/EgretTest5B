@@ -38,6 +38,10 @@ namespace tgame {
             this._actor._land._tilemap.Insert(this._tilemapObj, this._tilemapObj.Pos);
         }
 
+        public isStopMove(): boolean {
+            return !this._player && this._state == 0 ;
+        }
+
         public enablePlayer(e: boolean) {
             this._player = e;
             if (this._player) {
