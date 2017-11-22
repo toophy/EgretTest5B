@@ -1,13 +1,13 @@
 // TypeScript file
-namespace tgame {
-    export class Mecha {
+namespace xgame {
+    export class ShowRole {
         private static NORMAL_ANIMATION_GROUP: string = "normal";
         private static AIM_ANIMATION_GROUP: string = "aim";
         private static ATTACK_ANIMATION_GROUP: string = "attack";
         private static JUMP_SPEED: number = 15;
         private static NORMALIZE_MOVE_SPEED: number = 3.6;
-        private static MAX_MOVE_SPEED_FRONT: number = Mecha.NORMALIZE_MOVE_SPEED * 1.4;
-        private static MAX_MOVE_SPEED_BACK: number = Mecha.NORMALIZE_MOVE_SPEED * 1.0;
+        private static MAX_MOVE_SPEED_FRONT: number = ShowRole.NORMALIZE_MOVE_SPEED * 1.4;
+        private static MAX_MOVE_SPEED_BACK: number = ShowRole.NORMALIZE_MOVE_SPEED * 1.0;
         private static WEAPON_R_LIST: Array<string> = ["weapon_1502b_r", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d", "weapon_1005e"];
         private static WEAPON_L_LIST: Array<string> = ["weapon_1502b_l", "weapon_1005", "weapon_1005b", "weapon_1005c", "weapon_1005d"];
 
@@ -48,7 +48,7 @@ namespace tgame {
 
         public constructor(accountEnv: tgame.AccountEnv) {
             this._accountEnv = accountEnv;
-            this._armature = this._accountEnv.factory.buildArmature("mecha_1502b");
+            this._armature = this._accountEnv.factory.buildArmature("ShowRole_1502b");
             this._armatureDisplay = <dragonBones.EgretArmatureDisplay>this._armature.display;
             // this._armatureDisplay.x = this._accountEnv.rootContainer.stage.stageWidth * 0.5;
             // this._armatureDisplay.y = GameMapContainer.GROUND;
@@ -56,9 +56,9 @@ namespace tgame {
             this._armatureDisplay.addEventListener(dragonBones.EventObject.FADE_IN_COMPLETE, this._animationEventHandler, this);
             this._armatureDisplay.addEventListener(dragonBones.EventObject.FADE_OUT_COMPLETE, this._animationEventHandler, this);
 
-            // Mecha effects only controled by normalAnimation.
-            this._armature.getSlot("effects_1").displayController = Mecha.NORMAL_ANIMATION_GROUP;
-            this._armature.getSlot("effects_2").displayController = Mecha.NORMAL_ANIMATION_GROUP;
+            // ShowRole effects only controled by normalAnimation.
+            this._armature.getSlot("effects_1").displayController = ShowRole.NORMAL_ANIMATION_GROUP;
+            this._armature.getSlot("effects_2").displayController = ShowRole.NORMAL_ANIMATION_GROUP;
 
             // Get weapon childArmature.
             this._weaponR = this._armature.getSlot("weapon_r").childArmature;
@@ -139,7 +139,7 @@ namespace tgame {
             }
 
             this._isJumpingA = true;
-            this._armature.animation.fadeIn("jump_1", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+            this._armature.animation.fadeIn("jump_1", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
             this._walkState = null;
         }
 
@@ -162,13 +162,13 @@ namespace tgame {
 
         public switchWeaponR(): void {
             this._weaponRIndex++;
-            if (this._weaponRIndex >= Mecha.WEAPON_R_LIST.length) {
+            if (this._weaponRIndex >= ShowRole.WEAPON_R_LIST.length) {
                 this._weaponRIndex = 0;
             }
 
             this._weaponR.removeEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
 
-            const weaponName = Mecha.WEAPON_R_LIST[this._weaponRIndex];
+            const weaponName = ShowRole.WEAPON_R_LIST[this._weaponRIndex];
             this._weaponR = this._accountEnv.factory.buildArmature(weaponName);
             this._armature.getSlot("weapon_r").childArmature = this._weaponR;
             this._weaponR.addEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
@@ -176,13 +176,13 @@ namespace tgame {
 
         public switchWeaponL(): void {
             this._weaponLIndex++;
-            if (this._weaponLIndex >= Mecha.WEAPON_L_LIST.length) {
+            if (this._weaponLIndex >= ShowRole.WEAPON_L_LIST.length) {
                 this._weaponLIndex = 0;
             }
 
             this._weaponL.removeEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
 
-            const weaponName = Mecha.WEAPON_L_LIST[this._weaponLIndex];
+            const weaponName = ShowRole.WEAPON_L_LIST[this._weaponLIndex];
             this._weaponL = this._accountEnv.factory.buildArmature(weaponName);
             this._armature.getSlot("weapon_l").childArmature = this._weaponL;
             this._weaponL.addEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
@@ -284,8 +284,8 @@ namespace tgame {
                 case dragonBones.EventObject.FADE_IN_COMPLETE:
                     if (event.eventObject.animationState.name == "jump_1") {
                         this._isJumpingB = true;
-                        this._speedY = -Mecha.JUMP_SPEED;
-                        this._armature.animation.fadeIn("jump_2", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+                        this._speedY = -ShowRole.JUMP_SPEED;
+                        this._armature.animation.fadeIn("jump_2", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                     } else if (event.eventObject.animationState.name == "jump_4") {
                         this._updateAnimation();
                     }
@@ -304,9 +304,9 @@ namespace tgame {
         private _frameEventHandler(event: dragonBones.EgretEvent): void {
             if (event.eventObject.name == "onFire") {
                 const firePointBone = event.eventObject.armature.getBone("firePoint");
-                (<dragonBones.EgretArmatureDisplay>event.eventObject.armature.display).localToGlobal(firePointBone.global.x, firePointBone.global.y, Mecha._globalPoint);
+                (<dragonBones.EgretArmatureDisplay>event.eventObject.armature.display).localToGlobal(firePointBone.global.x, firePointBone.global.y, ShowRole._globalPoint);
 
-                this._fire(Mecha._globalPoint);
+                this._fire(ShowRole._globalPoint);
             }
         }
 
@@ -327,7 +327,7 @@ namespace tgame {
             this._speedX = 0;
             this._speedY = 0;
 
-                this._armature.animation.fadeIn("idle", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+                this._armature.animation.fadeIn("idle", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                 this._walkState = null;
         }
 
@@ -338,30 +338,30 @@ namespace tgame {
 
             if (this._isSquating) {
                 this._speedX = 0;
-                this._armature.animation.fadeIn("squat", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+                this._armature.animation.fadeIn("squat", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                 this._walkState = null;
                 return;
             }
 
             if (this._moveDir == 0) {
                 this._speedX = 0;
-                this._armature.animation.fadeIn("idle", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+                this._armature.animation.fadeIn("idle", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                 this._walkState = null;
             } else {
                 if (!this._walkState) {
-                    this._walkState = this._armature.animation.fadeIn("walk", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+                    this._walkState = this._armature.animation.fadeIn("walk", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                 }
 
                 if (this._moveDir * this._faceDir > 0) {
-                    this._walkState.timeScale = Mecha.MAX_MOVE_SPEED_FRONT / Mecha.NORMALIZE_MOVE_SPEED;
+                    this._walkState.timeScale = ShowRole.MAX_MOVE_SPEED_FRONT / ShowRole.NORMALIZE_MOVE_SPEED;
                 } else {
-                    this._walkState.timeScale = -Mecha.MAX_MOVE_SPEED_BACK / Mecha.NORMALIZE_MOVE_SPEED;
+                    this._walkState.timeScale = -ShowRole.MAX_MOVE_SPEED_BACK / ShowRole.NORMALIZE_MOVE_SPEED;
                 }
 
                 if (this._moveDir * this._faceDir > 0) {
-                    this._speedX = Mecha.MAX_MOVE_SPEED_FRONT * this._faceDir;
+                    this._speedX = ShowRole.MAX_MOVE_SPEED_FRONT * this._faceDir;
                 } else {
-                    this._speedX = -Mecha.MAX_MOVE_SPEED_BACK * this._faceDir;
+                    this._speedX = -ShowRole.MAX_MOVE_SPEED_BACK * this._faceDir;
                 }
             }
         }
@@ -388,7 +388,7 @@ namespace tgame {
 
             if (this._speedY != 0) {
                 if (this._speedY < 5 && this._speedY + this._accountEnv.G >= 5) {
-                    this._armature.animation.fadeIn("jump_3", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+                    this._armature.animation.fadeIn("jump_3", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                 }
 
                 this._speedY += this._accountEnv.G;
@@ -400,7 +400,7 @@ namespace tgame {
                     this._isJumpingB = false;
                     this._speedY = 0;
                     this._speedX = 0;
-                    this._armature.animation.fadeIn("jump_4", -1, -1, 0, Mecha.NORMAL_ANIMATION_GROUP);
+                    this._armature.animation.fadeIn("jump_4", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                     if (this._isSquating || this._moveDir) {
                         this._updateAnimation();
                     }
@@ -449,12 +449,12 @@ namespace tgame {
                 if (this._aimDir >= 0) {
                     this._aimState = this._armature.animation.fadeIn(
                         "aimUp", 0, 1,
-                        0, Mecha.AIM_ANIMATION_GROUP, dragonBones.AnimationFadeOutMode.SameGroup
+                        0, ShowRole.AIM_ANIMATION_GROUP, dragonBones.AnimationFadeOutMode.SameGroup
                     );
                 } else {
                     this._aimState = this._armature.animation.fadeIn(
                         "aimDown", 0, 1,
-                        0, Mecha.AIM_ANIMATION_GROUP, dragonBones.AnimationFadeOutMode.SameGroup
+                        0, ShowRole.AIM_ANIMATION_GROUP, dragonBones.AnimationFadeOutMode.SameGroup
                     );
                 }
 
@@ -478,7 +478,7 @@ namespace tgame {
             // Animation mixing.
             this._attackState = this._armature.animation.fadeIn(
                 "attack_01", -1, -1,
-                0, Mecha.ATTACK_ANIMATION_GROUP, dragonBones.AnimationFadeOutMode.SameGroup
+                0, ShowRole.ATTACK_ANIMATION_GROUP, dragonBones.AnimationFadeOutMode.SameGroup
             );
 
             this._attackState.autoFadeOutTime = this._attackState.fadeTotalTime;

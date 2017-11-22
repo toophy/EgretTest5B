@@ -37,7 +37,7 @@ namespace tui {
 						"port": "8080",
 						"account": this.Lgn_AccountID.text,
 						"pwd": this.Lgn_AccountPwdID.text,
-						"pos_x": 0,
+						"pos_x": 50,
 						"pos_y": 400
 					})
 				}, this);

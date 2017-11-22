@@ -24,7 +24,7 @@ namespace tgame {
 
         public setActor(a: Mecha) {
             this._actor = a;
-            this._tilemapObj.Init(this._actor._land._accountEnv.MakeObjID(), 0, 0, 100, 100);
+            this._tilemapObj.Init(this._actor._land._accountEnv.MakeObjID(), 50, 50, 100, 100);
             a.setEasyAI(this);
         }
 
@@ -39,7 +39,7 @@ namespace tgame {
         }
 
         public isStopMove(): boolean {
-            return !this._player && this._state == 0 ;
+            return !this._player && this._state == 0;
         }
 
         public enablePlayer(e: boolean) {
@@ -61,71 +61,100 @@ namespace tgame {
         }
 
         public update() {
-            if (this._player) {
-                return;
+
+            // if (this._state != 0 || this._player) {
+            let point = new egret.Point();
+            this._actor.getPoint(point);
+            let currX = point.x;
+            let currY = point.y;
+            let currSpeedX = this._actor._speedX;
+            let currSpeedY = this._actor._speedY;
+            let moveRangeWidth = 1136;
+            let moveRangeHeight = 640;
+
+            let nextX = 0;
+            let nextY = 0;
+            let nextSpeedX = 0;
+            let nextSpeedY = 0;
+
+            let tmpX = currX;
+            let tmpY = currY;
+            if (currSpeedX != 0) {
+                tmpX += currSpeedX;
+                if (tmpX < 0) {
+                    tmpX = 0;
+                } else if (tmpX > moveRangeWidth) {
+                    tmpX = moveRangeWidth;
+                }
             }
 
-            if (this._state != 0) {
-                let point = new egret.Point();
-                this._actor.getPoint(point);
-                let currX = point.x;
-                let currY = point.y;
-                let currSpeedX = this._actor._speedX;
-                let currSpeedY = this._actor._speedY;
-                let moveRangeWidth = 1136;
-                let moveRangeHeight = 640;
+            if (currSpeedY != 0) {
+                currSpeedY += this._actor._accountEnv.G;
+                tmpY += currSpeedY;
+            }
 
-                let nextX = 0;
-                let nextY = 0;
-                let nextSpeedX = 0;
-                let nextSpeedY = 0;
-
-                let tmpX = currX;
-                let tmpY = currY;
-                if (currSpeedX != 0) {
-                    tmpX += currSpeedX;
-                    if (tmpX < 0) {
-                        tmpX = 0;
-                    } else if (tmpX > moveRangeWidth) {
-                        tmpX = moveRangeWidth;
-                    }
-                }
-
-                if (currSpeedY != 0) {
-                    currSpeedY += this._actor._accountEnv.G;
-                    tmpY += currSpeedY;
-                }
-
-                if (this._actor._parent.stage != null) {
-                    let newRect = new Rect();
-                    newRect.W = this._tilemapObj.Pos.W;
-                    newRect.H = this._tilemapObj.Pos.H;
-                    newRect.X = tmpX - Math.floor(this._tilemapObj.Pos.W / 2);
-                    newRect.Y = tmpY - this._tilemapObj.Pos.H;
+            if (this._actor._parent.stage != null) {
+                let newRect = new Rect();
+                newRect.W = this._tilemapObj.Pos.W;
+                newRect.H = this._tilemapObj.Pos.H;
+                newRect.X = tmpX - Math.floor(this._tilemapObj.Pos.W / 2);
+                newRect.Y = tmpY - this._tilemapObj.Pos.H;
 
 
-                    if (!this._actor._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
+                if (!this._actor._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
+                    if (this._state == 9) {
                         this._state = 0;
                         this._left = false;
                         this._right = false;
-                        this._updateMove(0);
-                        this._lastTime = new Date().getTime() + 1000;
-                        return
+                        this._actor.toIdle();
                     } else {
-                        nextX = tmpX;
-                        nextY = tmpY;
-                        this._actor._land._tilemap.Insert(this._tilemapObj, newRect);
 
-                        // if (this._actor._land._tilemap.shapebg.parent == null) {
-                        //     this._actor._accountEnv.GetRootDisplay().addChild(this._actor._land._tilemap.shapebg);
-                        // }
-                        // if (this._tilemapObj.ID == 2) {
-                        //     this._actor._land._tilemap.FocusShape(newRect);
-                        // }
+                        let newGRect = new Rect();
+                        newGRect.W = this._tilemapObj.Pos.W;
+                        newGRect.H = this._tilemapObj.Pos.H;
+                        newGRect.X = currX - Math.floor(this._tilemapObj.Pos.W / 2);
+                        newGRect.Y = tmpY - this._tilemapObj.Pos.H;
+
+                        if (!this._actor._land._tilemap.CanInsert(newGRect.X, newGRect.Y, newGRect.W, newGRect.H, this._tilemapObj)) {
+                            if (this._state != 0) {
+                                this._state = 0;
+                                this._left = false;
+                                this._right = false;
+                                this._actor.toIdle();
+                            }
+                        } else {
+                            this._state = 9;
+                            this._left = false;
+                            this._right = false;
+                            this._actor._speedX = 0;
+
+                            nextX = tmpX;
+                            nextY = tmpY;
+                            this._actor._land._tilemap.Insert(this._tilemapObj, newGRect);
+                            return;
+                        }
                     }
+
+                    this._updateMove(0);
+                    this._lastTime = new Date().getTime() + 1000;
+                    return;
+                } else {
+                    nextX = tmpX;
+                    nextY = tmpY;
+                    this._actor._land._tilemap.Insert(this._tilemapObj, newRect);
+
+                    // if (this._actor._land._tilemap.shapebg.parent == null) {
+                    //     this._actor._accountEnv.GetRootDisplay().addChild(this._actor._land._tilemap.shapebg);
+                    // }
+                    // if (this._tilemapObj.ID == 2) {
+                    //     this._actor._land._tilemap.FocusShape(newRect);
+                    // }
                 }
             }
-
+            // }
+            if (this._player) {
+                return;
+            }
             let now: number = new Date().getTime();
             if (now > this._lastTime) {
 
@@ -137,6 +166,7 @@ namespace tgame {
                         case 0://"null":
                             this._left = false;
                             this._right = false;
+                            this._actor.toIdle();
                             this._updateMove(0);
                             this._lastTime = new Date().getTime() + 1000;
                             break;

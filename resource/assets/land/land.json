@@ -6,23 +6,10 @@
                 "name": "地块1",
                 "shape": "rect",
                 "color": 100,
-                "x": 150,
+                "x": 250,
                 "y": 300,
                 "width": 100,
                 "height": 50
-            }
-        },
-        {
-            "type": "animation",
-            "data": {
-                "name": "毛利小五郎",
-                "shape": "rect",
-                "color": 100,
-                "res": "mecha_1502b",
-                "x": 310,
-                "y": 400,
-                "width": 100,
-                "height": 100
             }
         },
         {
