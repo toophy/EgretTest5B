@@ -3,7 +3,7 @@
 namespace xgame {
 
     // easy ai
-    export class LgcRole {
+    export class LgcRole extends Obj {
         public _left: boolean = false;
         public _right: boolean = false;
         
@@ -23,25 +23,23 @@ namespace xgame {
 
         private _state: number = 0;
 
-        public _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
-
-        public _accountEnv: tgame.AccountEnv;
         private _ground_y: number = 0;
         private _moveRangeWidth: number = 0;
         private _moveRangeHeight: number = 0;
-        public _land: tgame.LandView = null;
+        public _land: LgcMap = null;
 
         public constructor() {
+            super();
         }
 
-        public setActor(a: Mecha) {
-            this._tilemapObj.Init(this._land._accountEnv.MakeObjID(), 50, 50, 100, 100);
+        public setActor() {
+            this.Init(GetMain().MakeObjID(), 50, 50, 100, 100);
         }
 
         public updateActorShow(point: egret.Point) {
-            this._tilemapObj.Pos.X = point.x - Math.floor(this._tilemapObj.Pos.W / 2);
-            this._tilemapObj.Pos.Y = point.y - this._tilemapObj.Pos.H;
-            this._land._tilemap.Insert(this._tilemapObj, this._tilemapObj.Pos);
+            this.Pos.X = point.x - Math.floor(this.Pos.W / 2);
+            this.Pos.Y = point.y - this.Pos.H;
+            this._land.Insert(this, this.Pos);
         }
 
         public isStopMove(): boolean {
@@ -77,16 +75,16 @@ namespace xgame {
             }
 
             if (currSpeedY != 0) {
-                currSpeedY += this._accountEnv.G;
+                currSpeedY += GetMain().G;
                 tmpY += currSpeedY;
             }
 
             if (this._actor._parent.stage != null) {
                 let newRect = new Rect();
-                newRect.W = this._tilemapObj.Pos.W;
-                newRect.H = this._tilemapObj.Pos.H;
-                newRect.X = tmpX - Math.floor(this._tilemapObj.Pos.W / 2);
-                newRect.Y = tmpY - this._tilemapObj.Pos.H;
+                newRect.W = this.Pos.W;
+                newRect.H = this.Pos.H;
+                newRect.X = tmpX - Math.floor(this.Pos.W / 2);
+                newRect.Y = tmpY - this.Pos.H;
 
 
                 if (!this._land._tilemap.CanInsert(newRect.X, newRect.Y, newRect.W, newRect.H, this._tilemapObj)) {
@@ -98,10 +96,10 @@ namespace xgame {
                     } else {
 
                         let newGRect = new Rect();
-                        newGRect.W = this._tilemapObj.Pos.W;
-                        newGRect.H = this._tilemapObj.Pos.H;
-                        newGRect.X = currX - Math.floor(this._tilemapObj.Pos.W / 2);
-                        newGRect.Y = tmpY - this._tilemapObj.Pos.H;
+                        newGRect.W = this.Pos.W;
+                        newGRect.H = this.Pos.H;
+                        newGRect.X = currX - Math.floor(this.Pos.W / 2);
+                        newGRect.Y = tmpY - this.Pos.H;
 
                         if (!this._land._tilemap.CanInsert(newGRect.X, newGRect.Y, newGRect.W, newGRect.H, this._tilemapObj)) {
                             if (this._state != 0) {

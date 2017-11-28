@@ -13,12 +13,11 @@
 		"promise/bin/promise.js"
 	],
 	"game": [
-		"bin-debug/land/Actors/Mecha.js",
-		"bin-debug/AssetAdapter.js",
+		"bin-debug/land/LogicSys/LgcMapCell.js",
+		"bin-debug/util/Util.js",
 		"bin-debug/Main.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/Account/Account.js",
-		"bin-debug/Account/TGameMain.js",
 		"bin-debug/Container/readme.js",
 		"bin-debug/Container/TileMap.js",
 		"bin-debug/land/EasyAI.js",
@@ -26,19 +25,19 @@
 		"bin-debug/land/LandPlayer.js",
 		"bin-debug/land/MyLand.js",
 		"bin-debug/land/Actors/Bullet.js",
-		"bin-debug/LoadingUI.js",
+		"bin-debug/land/Actors/Mecha.js",
 		"bin-debug/land/LogicSys/Account.js",
 		"bin-debug/land/LogicSys/LgcMap.js",
+		"bin-debug/AssetAdapter.js",
 		"bin-debug/land/LogicSys/LgcRole.js",
 		"bin-debug/land/LogicSys/ShowMap.js",
 		"bin-debug/land/LogicSys/ShowRole.js",
-		"bin-debug/land/LogicSys/TGameMain.js",
 		"bin-debug/MyEUI/LoingDlg.js",
 		"bin-debug/MyEUI/RoleListDlg.js",
 		"bin-debug/MyEUI/SkillCtrlDlg.js",
 		"bin-debug/MyEUI/TipMotion.js",
 		"bin-debug/third_lib/KeyBoard.js",
 		"bin-debug/third_lib/NetWork.js",
-		"bin-debug/util/Util.js"
+		"bin-debug/LoadingUI.js"
 	]
 }

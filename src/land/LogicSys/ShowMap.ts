@@ -3,7 +3,7 @@
 namespace xgame {
     export class ShowMap {
 
-        public _accountEnv: tgame.AccountEnv;
+        private _accountEnv: tgame.AccountEnv;
 
         private stage_width: number = 1136;
         private stage_height: number = 640;
@@ -11,27 +11,26 @@ namespace xgame {
         private cnfs: CnfLand;
         private citySprite: Array<egret.Sprite> = [];
 
-        public _viewPos: egret.Point = new egret.Point();
+        private _viewPos: egret.Point = new egret.Point();
         private _targetViewPos: egret.Point = new egret.Point();
         private _targetViewSpeed: number = 0.1;
         private _targetViewRun: boolean = false;
 
-        public _player: LandPlayer = null;
+        private _player: LandPlayer = null;
 
         private _roles: MapStr<Mecha>;
         private _actions: Array<Mecha> = [];
         private _bullets: Array<Bullet> = [];
-        public _easyActorAI: Array<EasyAI> = [];
+        private _easyActorAI: Array<EasyAI> = [];
         private _bulletSprite: egret.Sprite = null;
 
-        public _accountEasyAIs: MapStr<EasyAI>;
+        private _accountEasyAIs: MapStr<EasyAI>;
 
-        public _tilemap: TileMap = new TileMap();
+        private _tilemap: TileMap = new TileMap();
 
 
 
-        public constructor(accountEnv: tgame.AccountEnv) {
-            this._accountEnv = accountEnv;
+        public constructor() {
 
             this._targetViewPos.x = this.stage_width / 2;
             this._targetViewPos.y = this.stage_height / 2;
@@ -45,17 +44,17 @@ namespace xgame {
         }
 
         public InitNetWorkProc() {
-            if (this._accountEnv && this._accountEnv.sceneConn) {
-                this._accountEnv.sceneConn.bind("Scene.PlayerEnter", this.onPlayerEnter, this);
-                this._accountEnv.sceneConn.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
-                this._accountEnv.sceneConn.bind("Scene.Skill", this.onSkill, this);
-                this._accountEnv.sceneConn.bind("Scene.PlayerPoint", this.onPlayerPoint, this);
+            if (GetMain().sceneConn) {
+                GetMain().sceneConn.bind("Scene.PlayerEnter", this.onPlayerEnter, this);
+                GetMain().sceneConn.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
+                GetMain().sceneConn.bind("Scene.Skill", this.onSkill, this);
+                GetMain().sceneConn.bind("Scene.PlayerPoint", this.onPlayerPoint, this);
             }
         }
 
         public AddRole(name: string, x: number, y: number): EasyAI {
 
-            let tmpActor: Mecha = new Mecha(this._accountEnv);
+            let tmpActor: Mecha = new Mecha(GetMain());
             tmpActor.setName(name);
             tmpActor.setParent(this, this.citySprite[0], x, y);
             tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
@@ -142,7 +141,7 @@ namespace xgame {
                     cts.addChild(bg);
 
                     let _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
-                    _tilemapObj.Init(this._accountEnv.MakeObjID(),  bg.x, bg.y, lc.data.width, lc.data.height);
+                    _tilemapObj.Init(GetMain().MakeObjID(),  bg.x, bg.y, lc.data.width, lc.data.height);
                     this._tilemap.Insert(_tilemapObj,_tilemapObj.Pos);
                 } else if (lc.type == "image") {
                     let bg4: egret.Bitmap = new egret.Bitmap(RES.getRes(lc.data.res));
@@ -151,10 +150,10 @@ namespace xgame {
                     cts.addChild(bg4);
                    
                     let _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
-                    _tilemapObj.Init(this._accountEnv.MakeObjID(), bg4.x, bg4.y,  bg4.width, bg4.height);
+                    _tilemapObj.Init(GetMain().MakeObjID(), bg4.x, bg4.y,  bg4.width, bg4.height);
                     this._tilemap.Insert(_tilemapObj,_tilemapObj.Pos);
                 } else if (lc.type == "animation") {
-                    let tmpActor: Mecha = new Mecha(this._accountEnv);
+                    let tmpActor: Mecha = new Mecha(GetMain());
                     tmpActor.setName(lc.data.name);
                     tmpActor.setParent(this, cts, lc.data.x, lc.data.y);
                     tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
@@ -295,7 +294,7 @@ namespace xgame {
          * 网络消息处理
          */
         private onPlayerEnter(data: any, ret: string, msg: string) {
-            if (data["account"] == this._accountEnv.account)
+            if (data["account"] == GetMain().account)
                 return;
             if (!this._accountEasyAIs.has(data["account"])) {
                 let easyAI = this.AddRole(data["account"], data["pos_x"], data["pos_y"]);
@@ -315,7 +314,7 @@ namespace xgame {
         }
 
         private onSkill(data: any, ret: string, msg: string) {
-            if (data["account"] == this._accountEnv.account)
+            if (data["account"] == GetMain().account)
                 return;
 
             if (this._accountEasyAIs.has(data["account"])) {

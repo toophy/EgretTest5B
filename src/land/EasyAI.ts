@@ -24,7 +24,7 @@ namespace tgame {
 
         public setActor(a: Mecha) {
             this._actor = a;
-            this._tilemapObj.Init(this._actor._land._accountEnv.MakeObjID(), 50, 50, 100, 100);
+            this._tilemapObj.Init(GetMain().MakeObjID(), 50, 50, 100, 100);
             a.setEasyAI(this);
         }
 
@@ -89,7 +89,7 @@ namespace tgame {
             }
 
             if (currSpeedY != 0) {
-                currSpeedY += this._actor._accountEnv.G;
+                currSpeedY += GetMain().G;
                 tmpY += currSpeedY;
             }
 
@@ -142,16 +142,8 @@ namespace tgame {
                     nextX = tmpX;
                     nextY = tmpY;
                     this._actor._land._tilemap.Insert(this._tilemapObj, newRect);
-
-                    // if (this._actor._land._tilemap.shapebg.parent == null) {
-                    //     this._actor._accountEnv.GetRootDisplay().addChild(this._actor._land._tilemap.shapebg);
-                    // }
-                    // if (this._tilemapObj.ID == 2) {
-                    //     this._actor._land._tilemap.FocusShape(newRect);
-                    // }
                 }
             }
-            // }
             if (this._player) {
                 return;
             }

@@ -1,17 +1,15 @@
 namespace tui {
 
 	export class SkillCtrlDlg extends eui.Component {
-		private accountEnv: tgame.AccountEnv;
 
 		private Skill_XID: eui.Button;
 		private Skill_CID: eui.Button;
 		private Skill_BID: eui.Button;
 		private Skill_AID: eui.Button;
 
-		constructor(accountEnv: tgame.AccountEnv) {
+		constructor() {
 			super();
 			this.skinName = "resource/assets/MainUI/BattlefieldDlg/SkillCtrlDlg.exml";
-			this.accountEnv = accountEnv;
 			this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
 		}
 
@@ -64,7 +62,7 @@ namespace tui {
 		}
 
 		public UseSkill(id: number) {
-			this.accountEnv.SelfUseSkill(id);
+			tgame.GetMain().SelfUseSkill(id);
 		}
 	}
 }

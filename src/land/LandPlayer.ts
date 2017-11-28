@@ -21,7 +21,7 @@ namespace tgame {
 			if (this._player != null) {
 				let point: egret.Point = new egret.Point();
 				this._player.getPoint(point);
-				this.landView._accountEnv.sceneConn.send("Scene", "PlayerPoint", { "account": this._account, "name": "update", "isDown": false, "x": point.x, "y": point.y });
+				GetMain().sceneConn.send("Scene", "PlayerPoint", { "account": this._account, "name": "update", "isDown": false, "x": point.x, "y": point.y });
 				this.landView.SetTargetViewPos(point);
 			}
 		}
@@ -34,7 +34,7 @@ namespace tgame {
 
 		public _touchMove(x: number, y: number) {
 			if (this._player != null) {
-				this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": x, "y": y });
+				GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "aim", "isDown": false, "x": x, "y": y });
 				this._player.aim(x, y);
 			}
 		}
@@ -57,27 +57,27 @@ namespace tgame {
 					if (GetMain().IsHorizScreen()) {
 						let diff_y: number = event.accelerationIncludingGravity.y - this._motion_y;
 						if (diff_y >= -change_diff && diff_y <= change_diff) {
-							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": false });
+							GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": false });
 							this._playerAI.moveLeft(false);
 							this._playerAI.moveRight(false);
 						} else if (diff_y < -change_diff) {
-							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": true });
+							GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": true });
 							this._playerAI.moveLeft(true);
 						} else if (diff_y > change_diff) {
-							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": true });
+							GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": true });
 							this._playerAI.moveRight(true);
 						}
 					} else {
 						let diff_x: number = event.accelerationIncludingGravity.x - this._motion_x;
 						if (diff_x >= -change_diff && diff_x <= change_diff) {
-							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": false });
+							GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": false });
 							this._playerAI.moveLeft(false);
 							this._playerAI.moveRight(false);
 						} else if (diff_x < -change_diff) {
-							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": true });
+							GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": true });
 							this._playerAI.moveRight(true);
 						} else if (diff_x > change_diff) {
-							this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": true });
+							GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": true });
 							this._playerAI.moveLeft(true);
 						}
 					}
@@ -101,28 +101,28 @@ namespace tgame {
 			if (this._player != null) {
 				switch (id) {
 					case -1:
-						this.landView._accountEnv.TipMessage("停止使用技能");
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						GetMain().TipMessage("停止使用技能");
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
 						this._player.attack(false);
 						break;
 					case 0:
-						this.landView._accountEnv.TipMessage("使用技能 X");
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						GetMain().TipMessage("使用技能 X");
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
 						this._player.attack(true);
 						break;
 					case 1:
-						this.landView._accountEnv.TipMessage("使用技能 A");
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						GetMain().TipMessage("使用技能 A");
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
 						this._player.attack(true);
 						break;
 					case 2:
-						this.landView._accountEnv.TipMessage("使用技能 B");
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						GetMain().TipMessage("使用技能 B");
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
 						this._player.attack(true);
 						break;
 					case 3:
-						this.landView._accountEnv.TipMessage("使用技能 C");
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
+						GetMain().TipMessage("使用技能 C");
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "attack", "isDown": false, "begin": true });
 						this._player.attack(true);
 						break;
 				}
@@ -141,20 +141,20 @@ namespace tgame {
 			switch (event.keyCode) {
 				case 37:
 				case 65:
-					this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": isDown });
+					GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_left", "isDown": isDown });
 					this._playerAI.moveLeft(isDown);
 					break;
 
 				case 39:
 				case 68:
-					this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": isDown });
+					GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "move_right", "isDown": isDown });
 					this._playerAI.moveRight(isDown);
 					break;
 
 				case 38:
 				case 87:
 					if (isDown) {
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "jump", "isDown": isDown });
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "jump", "isDown": isDown });
 						this._playerAI.jump(isDown);
 					}
 					break;
@@ -162,29 +162,29 @@ namespace tgame {
 				case 83:
 				case 40:
 					{
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "squat", "isDown": isDown });
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "squat", "isDown": isDown });
 						this._playerAI.squat(isDown);
 					}
 					break;
 
 				case 81:
 					if (isDown) {
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
 						this._playerAI.switchWeaponR(isDown);
 					}
 					break;
 
 				case 69:
 					if (isDown) {
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
 						this._playerAI.switchWeaponL(isDown);
 					}
 					break;
 
 				case 32:
 					if (isDown) {
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
-						this.landView._accountEnv.sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponR", "isDown": isDown });
+						GetMain().sceneConn.send("Scene", "Skill", { "account": this._account, "name": "switchWeaponL", "isDown": isDown });
 						this._playerAI.switchWeaponR(isDown);
 						this._playerAI.switchWeaponL(isDown);
 					}

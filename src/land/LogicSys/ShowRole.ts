@@ -34,7 +34,6 @@ namespace xgame {
         private _attackState: dragonBones.AnimationState = null;
         private _target: egret.Point = new egret.Point();
 
-        public _accountEnv: tgame.AccountEnv;
         public _parent: egret.Sprite = null;
         private _ground_y: number = 0;
         private _moveRangeWidth: number = 0;
@@ -46,11 +45,9 @@ namespace xgame {
 
 
 
-        public constructor(accountEnv: tgame.AccountEnv) {
-            this._accountEnv = accountEnv;
-            this._armature = this._accountEnv.factory.buildArmature("ShowRole_1502b");
+        public constructor() {
+            this._armature = GetMain().factory.buildArmature("ShowRole_1502b");
             this._armatureDisplay = <dragonBones.EgretArmatureDisplay>this._armature.display;
-            // this._armatureDisplay.x = this._accountEnv.rootContainer.stage.stageWidth * 0.5;
             // this._armatureDisplay.y = GameMapContainer.GROUND;
             this._armatureDisplay.scaleX = this._armatureDisplay.scaleY = 0.4;
             this._armatureDisplay.addEventListener(dragonBones.EventObject.FADE_IN_COMPLETE, this._animationEventHandler, this);
@@ -68,7 +65,6 @@ namespace xgame {
 
             this._updateAnimation();
 
-            // this._accountEnv.addChild(this._armatureDisplay);
             dragonBones.WorldClock.clock.add(this._armature);
         }
 
@@ -169,7 +165,7 @@ namespace xgame {
             this._weaponR.removeEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
 
             const weaponName = ShowRole.WEAPON_R_LIST[this._weaponRIndex];
-            this._weaponR = this._accountEnv.factory.buildArmature(weaponName);
+            this._weaponR = GetMain().factory.buildArmature(weaponName);
             this._armature.getSlot("weapon_r").childArmature = this._weaponR;
             this._weaponR.addEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
         }
@@ -183,7 +179,7 @@ namespace xgame {
             this._weaponL.removeEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
 
             const weaponName = ShowRole.WEAPON_L_LIST[this._weaponLIndex];
-            this._weaponL = this._accountEnv.factory.buildArmature(weaponName);
+            this._weaponL = GetMain().factory.buildArmature(weaponName);
             this._armature.getSlot("weapon_l").childArmature = this._weaponL;
             this._weaponL.addEventListener(dragonBones.EventObject.FRAME_EVENT, this._frameEventHandler, this);
         }
@@ -315,7 +311,7 @@ namespace xgame {
             firePoint.y += Math.random() * 2 - 1;
 
             const radian = this._faceDir < 0 ? Math.PI - this._aimRadian : this._aimRadian;
-            const bullet = new Bullet(this._accountEnv, this._land.getBulletLayer(), "bullet_01", "fireEffect_01", radian + Math.random() * 0.02 - 0.01, 40, firePoint);
+            const bullet = new Bullet(this._land.getBulletLayer(), "bullet_01", "fireEffect_01", radian + Math.random() * 0.02 - 0.01, 40, firePoint);
             bullet.setMaxRange(this._moveRangeWidth, this._moveRangeHeight);
 
             this._land.addBullet(bullet);
@@ -387,11 +383,11 @@ namespace xgame {
             }
 
             if (this._speedY != 0) {
-                if (this._speedY < 5 && this._speedY + this._accountEnv.G >= 5) {
+                if (this._speedY < 5 && this._speedY + GetMain().G >= 5) {
                     this._armature.animation.fadeIn("jump_3", -1, -1, 0, ShowRole.NORMAL_ANIMATION_GROUP);
                 }
 
-                this._speedY += this._accountEnv.G;
+                this._speedY += GetMain().G;
 
                 tmpY += this._speedY;
                 if (tmpY > this._ground_y) {

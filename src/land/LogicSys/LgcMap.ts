@@ -2,6 +2,28 @@
 
 namespace xgame {
 
+    // 演员
+    export class CnfActorBlock {
+        public name: string;
+        public shape: string;
+        public color: number;
+        public res: string;
+        public x: number;
+        public y: number;
+        public width: number;
+        public height: number;
+    }
+    // 演员类型配置
+    export class CnfActorRow {
+        public type: string;
+        public data: CnfActorBlock;
+    }
+    // 陆地配置
+    export class CnfLand {
+        public actors: Array<CnfActorRow>;
+    }
+
+    // 逻辑地图
     export class LgcMap {
         protected initOk: boolean;
         public W: number;
@@ -16,9 +38,7 @@ namespace xgame {
         private stage_width: number = 1136;
         private stage_height: number = 640;
         private cnfs: CnfLand;
-        public roles: MapNum<LgcRole>;
-
-        public _accountEnv: tgame.AccountEnv;
+        public _roles: MapNum<LgcRole>;
 
 
         constructor(accountEnv: tgame.AccountEnv) {
@@ -32,8 +52,7 @@ namespace xgame {
             this.CellCount = 0;
             this.Cells = new Array<Cell>();
 
-            this._accountEnv = accountEnv;
-            this.roles = new MapNum<LgcRole>();
+            this._roles = new MapNum<LgcRole>();
         }
 
         // Init 初始化TileMap
@@ -161,17 +180,17 @@ namespace xgame {
         }
 
         public InitNetWorkProc() {
-            if (this._accountEnv && this._accountEnv.sceneConn) {
-                this._accountEnv.sceneConn.bind("Scene.PlayerEnter", this.onPlayerEnter, this);
-                this._accountEnv.sceneConn.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
-                this._accountEnv.sceneConn.bind("Scene.Skill", this.onSkill, this);
-                this._accountEnv.sceneConn.bind("Scene.PlayerPoint", this.onPlayerPoint, this);
+            if (GetMain().sceneConn) {
+                GetMain().sceneConn.bind("Scene.PlayerEnter", this.onPlayerEnter, this);
+                GetMain().sceneConn.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
+                GetMain().sceneConn.bind("Scene.Skill", this.onSkill, this);
+                GetMain().sceneConn.bind("Scene.PlayerPoint", this.onPlayerPoint, this);
             }
         }
 
         public AddRole(name: string, x: number, y: number): EasyAI {
 
-            let tmpActor: Mecha = new Mecha(this._accountEnv);
+            let tmpActor: LgcRole = new LgcRole();
             tmpActor.setName(name);
             tmpActor.setParent(this, this.citySprite[0], x, y);
             tmpActor.setMoveRange(3 * this.stage_width, this.stage_height);
@@ -207,13 +226,14 @@ namespace xgame {
 
                 if (lc.type == "shape") {
                     let _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
-                    _tilemapObj.Init(this._accountEnv.MakeObjID(), bg.x, bg.y, lc.data.width, lc.data.height);
-                    this._tilemap.Insert(_tilemapObj, _tilemapObj.Pos);
+                    _tilemapObj.Init(GetMain().MakeObjID(), bg.x, bg.y, lc.data.width, lc.data.height);
+                    this.Insert(_tilemapObj, _tilemapObj.Pos);
                 } else if (lc.type == "image") {
                     let _tilemapObj: tgame.Obj = new tgame.Obj(); // 准确位置
-                    _tilemapObj.Init(this._accountEnv.MakeObjID(), bg4.x, bg4.y, bg4.width, bg4.height);
-                    this._tilemap.Insert(_tilemapObj, _tilemapObj.Pos);
+                    _tilemapObj.Init(GetMain().MakeObjID(), bg4.x, bg4.y, bg4.width, bg4.height);
+                    this.Insert(_tilemapObj, _tilemapObj.Pos);
                 } else if (lc.type == "animation") {
+                    let tmpActor: LgcRole = new LgcRole();
                     if (lc.data.name.length > 0 && tmpActor) {
                         this._roles.add(lc.data.name, tmpActor);
                     }
@@ -266,7 +286,7 @@ namespace xgame {
          * 网络消息处理
          */
         private onPlayerEnter(data: any, ret: string, msg: string) {
-            if (data["account"] == this._accountEnv.account)
+            if (data["account"] == GetMain().account)
                 return;
             if (!this._accountEasyAIs.has(data["account"])) {
                 let easyAI = this.AddRole(data["account"], data["pos_x"], data["pos_y"]);
@@ -286,7 +306,7 @@ namespace xgame {
         }
 
         private onSkill(data: any, ret: string, msg: string) {
-            if (data["account"] == this._accountEnv.account)
+            if (data["account"] == GetMain().account)
                 return;
 
             if (this._accountEasyAIs.has(data["account"])) {

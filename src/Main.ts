@@ -65,7 +65,8 @@ class Main extends eui.UILayer {
 
 			// 临时账号--账号登录窗口
 			tgame.GetMain().SetRootDisplay(this);
-			tgame.GetMain().MakeTmpAccountEnv();
+			tgame.GetMain().OnInited();
+			tgame.GetMain().OnActive();
 		}
 	}
 

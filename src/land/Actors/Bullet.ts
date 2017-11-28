@@ -1,8 +1,6 @@
 // TypeScript file
 namespace tgame {
     export class Bullet {
-        private _accountEnv: tgame.AccountEnv;
-
         private _speedX: number = 0;
         private _speedY: number = 0;
 
@@ -13,14 +11,13 @@ namespace tgame {
         private _maxWidth: number = 0;
         private _maxHeight: number = 0;
 
-        public constructor(accountEnv: tgame.AccountEnv,cts: egret.Sprite, armatureName: string, effectArmatureName: string, radian: number, speed: number, position: egret.Point) {
-            this._accountEnv = accountEnv;
+        public constructor(cts: egret.Sprite, armatureName: string, effectArmatureName: string, radian: number, speed: number, position: egret.Point) {
             this._master = cts;
 
             this._speedX = Math.cos(radian) * speed;
             this._speedY = Math.sin(radian) * speed;
 
-            this._armature = this._accountEnv.factory.buildArmature(armatureName);
+            this._armature = GetMain().factory.buildArmature(armatureName);
             this._armatureDisplay = <dragonBones.EgretArmatureDisplay>this._armature.display;
             this._armatureDisplay.x = position.x;
             this._armatureDisplay.y = position.y;
@@ -28,7 +25,7 @@ namespace tgame {
             this._armature.animation.play("idle");
 
             if (effectArmatureName) {
-                this._effect = this._accountEnv.factory.buildArmature(effectArmatureName);
+                this._effect = GetMain().factory.buildArmature(effectArmatureName);
                 const effectDisplay = <dragonBones.EgretArmatureDisplay>this._effect.display;
                 effectDisplay.rotation = radian * 180 / Math.PI;// dragonBones.DragonBones.RADIAN_TO_ANGLE;
                 effectDisplay.x = position.x;

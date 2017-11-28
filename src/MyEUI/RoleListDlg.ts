@@ -2,16 +2,13 @@ namespace tui {
 
 	export class RoleListDlg extends eui.Component {
 
-		private accountEnv: tgame.AccountEnv;
-
 		private RoleList: eui.List;
 		private Title: eui.Label;
 		private YourName: eui.Label;
 
-		constructor(accountEnv: tgame.AccountEnv) {
+		constructor() {
 			super();
 			this.skinName = "resource/assets/MainUI/BattlefieldDlg/RoleListDlg.exml";
-			this.accountEnv = accountEnv;
 			this.addEventListener(eui.UIEvent.COMPLETE, this.uiCompHandler, this);
 		}
 

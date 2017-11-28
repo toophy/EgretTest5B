@@ -1,15 +1,11 @@
 
 namespace tui {
 	export class TipMotion extends eui.Component {
-
-		private accountEnv: tgame.AccountEnv;
-
 		private Tip_Message: eui.Label;
 
-		constructor(accountEnv: tgame.AccountEnv) {
+		constructor() {
 			super();
 			this.skinName = "resource/assets/MainUI/BattlefieldDlg/TipMotion.exml";
-			this.accountEnv = accountEnv;
 		}
 
 		protected childrenCreated(): void {

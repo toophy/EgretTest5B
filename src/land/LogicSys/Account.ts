@@ -1,10 +1,24 @@
 // TypeScript file
 
 namespace xgame {
+
+    // 获取帐号管理器
+    export function GetMain(): AccountEnv {
+        if (AccountEnv.instance == null) {
+            var accEnv = new AccountEnv();
+            return accEnv;
+
+        }
+        return AccountEnv.instance;
+    }
+
     // AccountEnv 帐号环境
     export class AccountEnv {
+        public static instance: AccountEnv = null;
+
         // 上层显示对象
         private rootDisplay: eui.UILayer;
+        private horizScreen: boolean;
 
         // 基本配置
         public account: string; // 名称
@@ -27,7 +41,7 @@ namespace xgame {
 
         // 大陆场景
         public _lands: tgame.LandView;
-        //
+        // 重力加速度(垂直)
         public G: number = 0.6;
 
         // 临时使用
@@ -35,14 +49,26 @@ namespace xgame {
 
 
         // 构造函数
-        constructor(rootDisplay: eui.UILayer) {
-            this.rootDisplay = rootDisplay;
+        constructor() {
+            AccountEnv.instance = this;
+            this.horizScreen = false;
             this.state = "初始化";
 
             this.sceneConn = new Network();
             this.sceneConn.setConnectHandler(this.onSceneNetConnected, this);
             this.sceneConn.setCloseHandler(this.onSceneNetClose, this);
             this.sceneConn.setErrorHandler(this.onSceneNetError, this);
+        }
+
+
+        // 是否横屏
+        public IsHorizScreen(): boolean {
+            return this.horizScreen;
+        }
+
+        // 设置根显示对象
+        public SetRootDisplay(rootDisplay: eui.UILayer) {
+            this.rootDisplay = rootDisplay;
         }
 
         // 获取主显示对象
@@ -55,6 +81,8 @@ namespace xgame {
             if (this._lands) {
                 this._lands.Update();
             }
+
+            dragonBones.WorldClock.clock.advanceTime(-1);
         }
 
         /**
@@ -112,8 +140,8 @@ namespace xgame {
                     // 打开登录连接 发送登录消息
                     if (this.sceneConn) {
                         this.sceneConn.send("Index", "Login", data);
-                        GetMain().AddAccount(this.account, this.pwd);
-                        GetMain().SetCurrAccount(this.account);
+                        this.ChangeState("进入大厅", {});
+                        this.OnActive();
                     }
                     ret = true;
                     break;
@@ -171,13 +199,13 @@ namespace xgame {
         public OnInited() {
             // 显示登录窗口
             if (this.loginDlg == null) {
-                this.loginDlg = new tui.LoginDlg(this);
+                this.loginDlg = new tui.LoginDlg();
                 this.loginDlg.InitNetworkProc();
                 this.rootDisplay.addChild(this.loginDlg);
             }
 
             if (this.tipMotoinDlg == null) {
-                this.tipMotoinDlg = new tui.TipMotion(this);
+                this.tipMotoinDlg = new tui.TipMotion();
                 this.tipMotoinDlg.x = 0;
                 this.tipMotoinDlg.y = 0;
                 this.tipMotoinDlg.visible = false;
@@ -185,13 +213,13 @@ namespace xgame {
             }
 
             if (this.skillCtrlDlg == null) {
-                this.skillCtrlDlg = new tui.SkillCtrlDlg(this);
+                this.skillCtrlDlg = new tui.SkillCtrlDlg();
                 this.skillCtrlDlg.visible = false;
                 this.skillCtrlDlg.InitNetworkProc();
             }
 
             if (this.roleListDlg == null) {
-                this.roleListDlg = new tui.RoleListDlg(this);
+                this.roleListDlg = new tui.RoleListDlg();
                 this.roleListDlg.visible = false;
                 this.roleListDlg.InitNetworkProc();
             }
@@ -204,7 +232,7 @@ namespace xgame {
             this.loadDragon("CoreElement_json", "CoreElement_texture_1_json", "CoreElement_texture_1_png")
 
             let data = RES.getRes("land_json");
-            this._lands = new tgame.LandView(this);
+            this._lands = new LandView();
             this._lands.InitNetWorkProc();
             this._lands.LoadLand(data);
             this._lands.ShowLand(this.rootDisplay);
