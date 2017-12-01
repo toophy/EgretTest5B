@@ -41,7 +41,7 @@ namespace xgame {
         public _roles: MapNum<LgcRole>;
 
 
-        constructor(accountEnv: tgame.AccountEnv) {
+        constructor() {
             this.initOk = false;
             this.W = 0;
             this.H = 0;
@@ -185,6 +185,7 @@ namespace xgame {
                 GetMain().sceneConn.bind("Scene.PlayerLeave", this.onPlayerLeave, this);
                 GetMain().sceneConn.bind("Scene.Skill", this.onSkill, this);
                 GetMain().sceneConn.bind("Scene.PlayerPoint", this.onPlayerPoint, this);
+                GetMain().sceneConn.bind("Scene.UpdateFrame", this.onUpdateFrame, this);
             }
         }
 
@@ -202,11 +203,11 @@ namespace xgame {
             tmpActor._land = this;
 
             let tmpActorAI: EasyAI = new EasyAI();
-            tmpActorAI.setActor(tmpActor);
+            tmpActorAI.setActor(tmpActor); 
             this.AddEasyAI(tmpActorAI);
 
             return tmpActorAI;
-        }
+        } 
 
         public DelRole(name: string) {
             if (name.length > 0 && this._roles.has(name)) {
@@ -350,6 +351,10 @@ namespace xgame {
                         break;
                 }
             }
+        }
+
+        private onUpdateFrame(data:any,ret:string,msg:string){
+            // 逻辑帧刷新
         }
     }
 }

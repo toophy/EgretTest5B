@@ -40,7 +40,8 @@ namespace xgame {
         public roleListDlg: tui.RoleListDlg;// 角色列表窗口
 
         // 大陆场景
-        public _lands: tgame.LandView;
+        public lgcMap: LgcMap;
+        public showMap: ShowMap;
         // 重力加速度(垂直)
         public G: number = 0.6;
 
@@ -78,8 +79,8 @@ namespace xgame {
 
         // 状态机
         public Update() {
-            if (this._lands) {
-                this._lands.Update();
+            if(this.showMap){
+                this.showMap.Update();
             }
 
             dragonBones.WorldClock.clock.advanceTime(-1);
@@ -118,7 +119,7 @@ namespace xgame {
                     this.ChangeState("游戏场景登录", data);
                     break;
                 case "游戏场景登录":
-                    this.OnCreated();
+                    this.OnCreated(data);
                     break;
             }
         }
@@ -160,36 +161,36 @@ namespace xgame {
 
         // 接触移动(鼠标或者触摸屏)
         public OnTouchMove(x: number, y: number) {
-            if (this._lands) {
-                this._lands._touchMove(x, y);
+            if (this.lgcMap) {
+                this.lgcMap._touchMove(x, y);
             }
         }
 
         // 接触(鼠标或者触摸屏)
         public OnTouchHandler(event: egret.TouchEvent): void {
-            if (this._lands) {
-                this._lands._touchHandler(event);
+            if (this.lgcMap) {
+                this.lgcMap._touchHandler(event);
             }
         }
 
         // 键盘操作
         public OnKeyHandler(event: KeyboardEvent): void {
-            if (this._lands) {
-                this._lands._keyHandler(event);
+            if (this.lgcMap) {
+                this.lgcMap._keyHandler(event);
             }
         }
 
         // 重力感应
         public OnMotion(event: egret.MotionEvent): void {
-            if (this._lands) {
-                this._lands.OnMotion(event);
+            if (this.lgcMap) {
+                this.lgcMap.OnMotion(event);
             }
         }
 
         // 屏幕翻转
         public OnOrientationChange(horiz: boolean): void {
-            if (this._lands) {
-                this._lands.OnOrientationChange(horiz);
+            if (this.lgcMap) {
+                this.lgcMap.OnOrientationChange(horiz);
             }
         }
 
@@ -228,14 +229,17 @@ namespace xgame {
         /**
          * 正式账号创建完成
          */
-        public OnCreated() {
+        public OnCreated(data:any) {
             this.loadDragon("CoreElement_json", "CoreElement_texture_1_json", "CoreElement_texture_1_png")
 
-            let data = RES.getRes("land_json");
-            this._lands = new LandView();
-            this._lands.InitNetWorkProc();
-            this._lands.LoadLand(data);
-            this._lands.ShowLand(this.rootDisplay);
+            let res = RES.getRes("land_json");
+            this.lgcMap = new LgcMap();
+            this.lgcMap.InitNetWorkProc();
+            this.lgcMap.LoadLand(res);
+
+            this.showMap = new ShowMap();
+            this.showMap.LoadLand(res);
+            this.showMap.ShowLand(this.rootDisplay);
 
             if (this.tipMotoinDlg) {
                 this.tipMotoinDlg.visible = true;
@@ -308,8 +312,8 @@ namespace xgame {
         }
 
         public SelfUseSkill(id: number) {
-            if (this._lands && this._lands._player) {
-                this._lands._player.SelfUseSkill(id);
+            if (this.lgcMap && this.lgcMap._player) {
+                this.lgcMap._player.SelfUseSkill(id);
             }
         }
 
